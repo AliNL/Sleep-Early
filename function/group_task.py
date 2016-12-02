@@ -20,7 +20,7 @@ class Group(Task):
 
     @log("开始组队战斗")
     def start_group_fight(self):
-        if self.in_group:
+        if not self.in_group:
             self.stop_reason = 'energy not enough'
             return False
         for t in range(3):
