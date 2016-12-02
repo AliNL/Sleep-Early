@@ -1,7 +1,7 @@
 # coding=utf-8
 import functools
 import time
-from get_log import log
+from support import log
 
 
 def sure(func):
@@ -27,6 +27,14 @@ def logged_in(d):
 @sure
 def in_explore_map(d):
     if d.exists('JueXing.1334x750.png'):
+        return True
+    return False
+
+
+@log("是否在副本内")
+@sure
+def is_exploring(d):
+    if d.exists('exploring.1334x750.png'):
         return True
     return False
 
@@ -69,4 +77,3 @@ def is_shiju_found(d):
     if d.exists('shi_ju.1334x750.png'):
         return True
     return False
-

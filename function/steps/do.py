@@ -2,7 +2,7 @@
 import time
 
 from find import *
-from get_log import log
+from support import log
 
 
 @log("查找章节")

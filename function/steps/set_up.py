@@ -1,6 +1,6 @@
 # coding=utf-8
 from find import *
-from get_log import log
+from support import log
 
 
 class PointsList(dict):
