@@ -18,6 +18,7 @@ def launch():
         driver = atx.connect('http://localhost:8100')
         driver._session = wda.Session('http://localhost:8100', sid)
     driver.image_path = ['.', 'images']
+    return driver
 
 
 def easy_explore(chapter_number):

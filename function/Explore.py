@@ -1,16 +1,16 @@
 # coding=utf-8
 from steps import *
+from task import *
 
 
-class Explore(object):
-    def __init__(self, chapter, driver):
-        super(Explore, self).__init__()
-        self.d = driver
-        self.chapter = chapter
+class Explore(Task):
+    def __init__(self, driver):
+        super(Explore, self).__init__(driver)
+        self.chapter = 0
         self.monster_killed = 0
         self.small_box = 0
         self.big_box = 0
-        self.position = Position(driver)
+        self.shi_ju = False
 
     def __scroll_to_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
@@ -31,8 +31,9 @@ class Explore(object):
         return False
 
     @log("选择探索章节")
-    def choose_chapter(self):
-        if 0 < self.chapter < 19:
+    def choose_chapter(self, chapter):
+        if 0 < chapter < 19:
+            self.chapter = chapter
             return self.__scroll_to_chapter()
         else:
             raise IOError("Invalid chapter number!!!")
@@ -44,7 +45,9 @@ class Explore(object):
                 time.sleep(3)
                 if self.d.exists('exploring.1334x750.png'):
                     return False
-                return fighting(self.d)
+                if fighting(self.d):
+                    self.monster_killed += 1
+                    return True
             else:
                 direction = 'right' if i > 0 else 'left'
                 self.d.click(*self.position[direction])
@@ -58,17 +61,18 @@ class Explore(object):
                 time.sleep(3)
                 if self.d.exists('exploring.1334x750.png'):
                     return False
-                return fighting(self.d)
+                if fighting(self.d):
+                    self.times += 1
+                    return True
         return False
 
     @log("捡小宝箱")
     def get_small_box(self):
-        if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
-            time.sleep(1)
-            continue_(self, 1)
-            return True
-        else:
-            return False
+        while not in_explore_map(self.d):
+            if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
+                time.sleep(1)
+                continue_(self, 1)
+                self.small_box += 1
 
     @log("捡大宝箱")
     def get_big_box(self):
@@ -86,5 +90,13 @@ class Explore(object):
     @sure
     def find_shi_ju(self):
         if self.d.exists('shi_ju.1334x750.png'):
+            self.shi_ju = True
             return True
         return False
+
+    def analysis(self):
+        super(Explore, self).analysis()
+        print 'monster killed:\t%s' % self.monster_killed
+        print 'small box:\t%s' % self.small_box
+        print 'big box:\t%s' % self.big_box
+        print 'stop reason:\t%s' % 'shi ju found' if self.shi_ju else 'task completed'
