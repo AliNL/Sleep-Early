@@ -43,3 +43,10 @@ def sure(func):
                 return result
 
     return make_sure
+
+
+def click_button(d, *args, **kw):
+    while d.click_image(*args, **kw) is None:
+        pass
+    while d.click_image(*args, **kw) is not None:
+        pass

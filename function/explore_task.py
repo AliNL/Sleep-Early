@@ -1,5 +1,4 @@
 # coding=utf-8
-from steps import *
 from task import *
 
 
@@ -13,6 +12,13 @@ class Explore(Task):
         self.small_box = 0
         self.big_box = 0
         self.stop_reason = 'task completed'
+
+    @log("是否在探索地图")
+    @sure
+    def in_explore_map(self):
+        if self.d.exists('JueXing.1334x750.png'):
+            return True
+        return False
 
     @log2("选择探索章节")
     def choose_chapter(self):
@@ -69,7 +75,7 @@ class Explore(Task):
 
     @log2("捡小宝箱")
     def get_small_box(self):
-        while not in_explore_map(self.d):
+        while not self.in_explore_map():
             if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
                 time.sleep(1)
                 continue_(self, 1)
@@ -107,4 +113,3 @@ class Explore(Task):
         print 'monster killed:   %s' % self.monster_killed
         print 'small box:        %s' % self.small_box
         print 'big box:          %s' % self.big_box
-        print 'stop reason:      %s' % self.stop_reason

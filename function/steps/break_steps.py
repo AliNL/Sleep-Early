@@ -1,29 +1,7 @@
 # coding=utf-8
 import time
-
-from find import *
 from support import log
 
-
-@log("组队战斗开始")
-def start_fighting(d):
-    while d.click_image('start_fighting.1334x750.png', timeout=1.0, delay=3.0) is None:
-        time.sleep(1)
-    return True
-
-
-@log("继续邀请组员")
-def invite(d):
-    while d.click_image('ok.1334x750.png', timeout=1.0) is None:
-        time.sleep(1)
-    return True
-
-
-@log("接受战斗邀请")
-def get_invited(d):
-    while d.click_image('ok.1334x750.png', timeout=1.0) is None:
-        time.sleep(1)
-    return True
 
 
 @log("切换目标阴阳寮")
