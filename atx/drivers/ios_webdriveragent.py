@@ -129,13 +129,7 @@ class IOSDevice(DeviceMixin):
         Args:
             x, y(int): position
         """
-        sx, sy = x, y
-        if self.rotation == 1:
-            x = self.display[0] - sy
-            y = sx
-        elif self.rotation == 2:
-            x = sy
-            y = self.display[1] - sx
+
         rx, ry = x / self.scale, y / self.scale
         self._session.tap(rx, ry)
 
@@ -146,17 +140,6 @@ class IOSDevice(DeviceMixin):
             x2, y2(int): to position
             duration(float): swipe duration, unit seconds
         """
-        sx1, sy1, sx2, sy2 = x1, y1, x2, y2
-        if self.rotation == 1:
-            x1 = self.display[0] - sy1
-            y1 = sx1
-            x2 = self.display[0] - sy2
-            y2 = sx2
-        elif self.rotation == 2:
-            x1 = sy1
-            y1 = self.display[1] - sx1
-            x2 = sy2
-            y2 = self.display[1] - sx2
 
         scale = self.scale
         x1, y1, x2, y2 = x1 / scale, y1 / scale, x2 / scale, y2 / scale
