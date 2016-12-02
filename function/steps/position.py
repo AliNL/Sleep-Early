@@ -8,6 +8,7 @@ class Position(dict):
         super(Position, self).__init__(**kwargs)
         self.d = driver
         self.w, self.l = sorted(driver.display)
+        self['screen_bottom'] = (self.l / 2, self.w * 0.8)
 
     def get(self, k, d=None):
         if k not in self:
@@ -20,7 +21,6 @@ class Position(dict):
             x, y = self.d.match('chapter_list.1334x750.png', offset=(0, 1))[0]
             self['chapter_top'] = (x, y)
             self['chapter_bottom'] = (x, y + 4 * (self.l - x))
-            self['screen_bottom'] = (self.l / 2, self.w * 0.9)
             return True
         elif is_exploring(self.d):
             x, y = self.d.match('exploring.1334x750.png', offset=(0.8, -1))[0]

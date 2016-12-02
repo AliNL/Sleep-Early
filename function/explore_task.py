@@ -4,69 +4,70 @@ from task import *
 
 
 class Explore(Task):
-    def __init__(self, driver):
-        super(Explore, self).__init__(driver)
-        self.chapter = 0
+    def __init__(self, chapter):
+        if not 0 < chapter < 19:
+            raise IOError("Invalid chapter number!!!")
+        super(Explore, self).__init__()
+        self.chapter = chapter
         self.monster_killed = 0
         self.small_box = 0
         self.big_box = 0
-        self.shi_ju = False
+        self.stop_reason = 'task completed'
 
-    def __scroll_to_chapter(self):
+    @log2("选择探索章节")
+    def choose_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
-        for t in range(5, -5):
-            if self.d.click_image(image_name, threshold=0.85, timeout=2.0) is not None:
+        for t in range(-5, 5):
+            if self.d.click_image(image_name, threshold=0.9, timeout=1.0) is not None:
                 time.sleep(1)
                 self.d.click_image('explore_icon.1334x750.png')
                 time.sleep(3)
                 return True
             else:
-                x1, y1 = self.position['chapter_top']
-                x2, y2 = self.position['chapter_bottom']
+                x1, y1 = self.position.get('chapter_top')
+                x2, y2 = self.position.get('chapter_bottom')
                 if t > 0:
-                    self.d.swipe(x1, y1, x2, y2)
-                else:
                     self.d.swipe(x2, y2, x1, y1)
+                else:
+                    self.d.swipe(x1, y1, x2, y2)
             time.sleep(1)
         return False
 
-    @log("选择探索章节")
-    def choose_chapter(self, chapter):
-        if 0 < chapter < 19:
-            self.chapter = chapter
-            return self.__scroll_to_chapter()
-        else:
-            raise IOError("Invalid chapter number!!!")
-
-    @log("打小怪")
-    def fight_monster(self):
-        for i in range(8, -8):
+    @log2("打小怪")
+    def __fight_monster(self):
+        for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', timeout=1.0) is not None:
                 time.sleep(3)
                 if self.d.exists('exploring.1334x750.png'):
                     return False
-                if fighting(self.d):
+                if fighting(self):
                     self.monster_killed += 1
                     return True
             else:
-                direction = 'right' if i > 0 else 'left'
-                self.d.click(*self.position[direction])
+                direction = 'left' if i > 0 else 'right'
+                self.d.click(*self.position.get(direction))
                 time.sleep(2)
         return False
 
-    @log("打boss")
-    def fight_boss(self):
+    @log2("打boss")
+    def __fight_boss(self):
         for t in range(3):
             if self.d.click_image('boss_icon.1334x750.png', timeout=1.0) is not None:
                 time.sleep(3)
                 if self.d.exists('exploring.1334x750.png'):
                     return False
-                if fighting(self.d):
+                if fighting(self):
                     self.times += 1
                     return True
         return False
 
-    @log("捡小宝箱")
+    def exploring_fight(self):
+        while not self.__fight_boss():
+            self.__fight_monster()
+        while self.__fight_boss():
+            pass
+
+    @log2("捡小宝箱")
     def get_small_box(self):
         while not in_explore_map(self.d):
             if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
@@ -88,15 +89,22 @@ class Explore(Task):
 
     @log("查找石距")
     @sure
-    def find_shi_ju(self):
+    def found_shi_ju(self):
         if self.d.exists('shi_ju.1334x750.png'):
-            self.shi_ju = True
+            self.stop_reason = 'shi ju found'
+            return True
+        return False
+
+    @log("是否体力充足")
+    def is_pl_not_enough(self):
+        if self.d.exists('no_enough_pl.1334x750.png'):
+            self.stop_reason = 'energy not enough'
             return True
         return False
 
     def analysis(self):
         super(Explore, self).analysis()
-        print 'monster killed:\t%s' % self.monster_killed
-        print 'small box:\t%s' % self.small_box
-        print 'big box:\t%s' % self.big_box
-        print 'stop reason:\t%s' % 'shi ju found' if self.shi_ju else 'task completed'
+        print 'monster killed:   %s' % self.monster_killed
+        print 'small box:        %s' % self.small_box
+        print 'big box:          %s' % self.big_box
+        print 'stop reason:      %s' % self.stop_reason
