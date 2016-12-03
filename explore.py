@@ -20,4 +20,3 @@ for num in range(int(times)):
         os.system('say -v Ting-Ting "体力不足"')
         break
     task.analysis()
-task.analysis()

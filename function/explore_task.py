@@ -94,6 +94,7 @@ class Explore(Task):
     def found_shi_ju(self):
         if self.d.exists('shi_ju.1334x750.png'):
             self.stop_reason = 'shi ju found'
+            self.analysis()
             return True
         return False
 
@@ -101,6 +102,7 @@ class Explore(Task):
     def is_pl_not_enough(self):
         if self.d.exists('no_enough_pl.1334x750.png', threshold=0.95):
             self.stop_reason = 'energy not enough'
+            self.analysis()
             return True
         return False
 
