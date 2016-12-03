@@ -26,7 +26,7 @@ class Task(object):
 
     def analysis(self):
         print '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'
-        print '┃%-50s┃' % (str(self.__class__)[25:-2] + ' finished!!!')
+        print '┃ %-49s┃' % (str(self.__class__)[25:-2] + ' finished!!!')
         print '┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫'
         print '┃%25s%-25s┃' % ('start time: ', self.start_time)
         print '┃%25s%-25s┃' % ('finish time: ', now())
