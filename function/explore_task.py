@@ -1,5 +1,6 @@
 # coding=utf-8
 from task import *
+from steps import *
 
 
 class Explore(Task):
@@ -12,13 +13,6 @@ class Explore(Task):
         self.small_box = 0
         self.big_box = 0
         self.stop_reason = 'task completed'
-
-    @log("是否在探索地图")
-    @sure
-    def in_explore_map(self):
-        if self.d.exists('JueXing.1334x750.png'):
-            return True
-        return False
 
     @log2("选择探索章节")
     def choose_chapter(self):
@@ -43,9 +37,9 @@ class Explore(Task):
     def __fight_monster(self):
         for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', timeout=1.0) is not None:
-                time.sleep(3)
-                if self.d.exists('exploring.1334x750.png'):
-                    return False
+                time.sleep(2)
+                if is_exploring(self.d):
+                    continue
                 if fighting(self):
                     self.monster_killed += 1
                     return True
@@ -59,8 +53,8 @@ class Explore(Task):
     def __fight_boss(self):
         for t in range(3):
             if self.d.click_image('boss_icon.1334x750.png', timeout=1.0) is not None:
-                time.sleep(3)
-                if self.d.exists('exploring.1334x750.png'):
+                time.sleep(2)
+                if is_exploring(self.d):
                     return False
                 if fighting(self):
                     self.times += 1
@@ -68,6 +62,8 @@ class Explore(Task):
         return False
 
     def exploring_fight(self):
+        for t in range(3):
+            self.__fight_monster()
         while not self.__fight_boss():
             self.__fight_monster()
         while self.__fight_boss():
@@ -75,7 +71,7 @@ class Explore(Task):
 
     @log2("捡小宝箱")
     def get_small_box(self):
-        while not self.in_explore_map():
+        while not in_explore_map(self.d):
             if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
                 time.sleep(1)
                 continue_(self, 1)
@@ -101,15 +97,16 @@ class Explore(Task):
             return True
         return False
 
-    @log("是否体力充足")
+    @log("是否体力不足")
     def is_pl_not_enough(self):
-        if self.d.exists('no_enough_pl.1334x750.png'):
+        if self.d.exists('no_enough_pl.1334x750.png', threshold=0.95):
             self.stop_reason = 'energy not enough'
             return True
         return False
 
     def analysis(self):
         super(Explore, self).analysis()
-        print 'monster killed:   %s' % self.monster_killed
-        print 'small box:        %s' % self.small_box
-        print 'big box:          %s' % self.big_box
+        print '┃%25s%-25s┃' % ('monster killed: ', self.monster_killed)
+        print '┃%25s%-25s┃' % ('small box: ', self.small_box)
+        print '┃%25s%-25s┃' % ('big box: ', self.big_box)
+        print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'

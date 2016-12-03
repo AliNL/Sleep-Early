@@ -6,21 +6,9 @@ class Group(Task):
     def __init__(self):
         super(Group, self).__init__()
 
-    @sure
-    def in_group(self):
-        if self.d.exists('in_group.1334x750.png'):
-            return True
-        return False
-
-    @sure
-    def in_yard(self):
-        if self.d.exists('mail.1334x750.png'):
-            return True
-        return False
-
     @log("开始组队战斗")
     def start_group_fight(self):
-        if not self.in_group:
+        if not in_group(self.d):
             self.stop_reason = 'energy not enough'
             return False
         for t in range(3):
@@ -41,9 +29,9 @@ class Group(Task):
 
     @log("等待战斗开始")
     def wait_in_group(self):
-        while self.in_group:
+        while in_group(self.d):
             pass
-        if self.in_yard:
+        if in_yard(self.d):
             self.stop_reason = 'energy not enough'
             return False
         return True

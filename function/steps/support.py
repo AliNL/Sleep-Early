@@ -3,6 +3,8 @@ import time
 
 import functools
 
+import sys
+
 
 def now():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -14,6 +16,7 @@ def log2(text):
             print '%s -> 开始%s: Call %s()' % (now(), text, func.__name__)
             result = func(*args, **kw)
             print '%s -> 完成%s: Call %s() return %s' % (now(), text, func.__name__, result)
+            print '-------------------------------------------------------------------------------------------------'
             return result
 
         return wrapper
@@ -26,6 +29,22 @@ def log(text):
         def wrapper(*args, **kw):
             result = func(*args, **kw)
             print '%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result)
+            return result
+
+        return wrapper
+
+    return decorator
+
+
+def log_refresh(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            result = func(*args, **kw)
+            sys.stdout.write('\r')
+            sys.stdout.write('%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result))
+            sys.stdout.flush()
+            if not result:
+                print '\n'
             return result
 
         return wrapper

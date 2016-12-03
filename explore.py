@@ -15,5 +15,5 @@ for num in range(int(times)):
         break
     if task.is_pl_not_enough():
         break
-
+    task.analysis()
 task.analysis()
