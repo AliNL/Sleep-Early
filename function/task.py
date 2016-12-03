@@ -25,8 +25,10 @@ class Task(object):
         self.stop_reason = 'task completed'
 
     def analysis(self):
-        print 'task "%s" finished' % str(self.__class__)[25:-2]
-        print 'start time:       %s' % self.start_time
-        print 'finish time:      %s' % now()
-        print 'times:            %s' % self.times
-        print 'stop reason:      %s' % self.stop_reason
+        print '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'
+        print '┃%-50s┃' % str(self.__class__)[25:-2] + 'finished!!!'
+        print '┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫'
+        print '┃%25s%-25s┃' % ('start time: ', self.start_time)
+        print '┃%25s%-25s┃' % ('finish time: ', now())
+        print '┃%25s%-25s┃' % ('times: ', self.times)
+        print '┃%25s%-25s┃' % ('stop reason: ', self.stop_reason)
