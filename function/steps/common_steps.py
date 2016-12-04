@@ -4,16 +4,16 @@ from support import *
 
 @log("是否在组队中")
 @sure
-def in_group(self):
-    if self.d.exists('in_group.1334x750.png'):
+def in_group(d):
+    if d.exists('in_group.1334x750.png'):
         return True
     return False
 
 
 @log("是否在庭院内")
 @sure
-def in_yard(self):
-    if self.d.exists('mail.1334x750.png'):
+def in_yard(d):
+    if d.exists('mail.1334x750.png'):
         return True
     return False
 
