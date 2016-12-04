@@ -12,8 +12,12 @@ class Position(dict):
 
     def get(self, k, d=None):
         if k not in self:
-            self.set_up()
-        return self[k]
+            if self.set_up():
+                return self[k]
+            else:
+                raise IOError("Unable to get position!!!")
+        else:
+            return self[k]
 
     @log("获取屏幕坐标")
     def set_up(self):
@@ -27,3 +31,10 @@ class Position(dict):
             self['right'] = (x, y)
             self['left'] = (self.l - x, y)
             return True
+        elif is_breaking(self.d):
+            x, y = self.d.match('breaking.1334x750.png', offset=(0.8, 2.5))[0]
+            self['first_target'] = (x, y * 0.25)
+            self['break_top'] = (self.l - x, y * 0.25)
+            self['break_bottom'] = (self.l - x, y * 0.75)
+            return True
+        return False
