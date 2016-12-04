@@ -37,7 +37,7 @@ class Explore(Task):
     @log2("打小怪")
     def __fight_monster(self):
         for i in range(-8, 8):
-            if self.d.click_image('monster_icon.1334x750.png', timeout=1.0) is not None:
+            if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
                 time.sleep(2)
                 if is_exploring(self.d):
                     continue
@@ -53,7 +53,7 @@ class Explore(Task):
     @log2("打boss")
     def __fight_boss(self):
         for t in range(3):
-            if self.d.click_image('boss_icon.1334x750.png', timeout=1.0) is not None:
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
                 time.sleep(2)
                 if is_exploring(self.d):
                     return False
