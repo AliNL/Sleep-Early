@@ -47,7 +47,7 @@ class Break(Task):
     def breaking(self):
         while 0 in self.broken:
             self.__choose_group()
-            if self.__find_under_level():
+            if self.__find_under_level_scroll():
                 time.sleep(2)
                 if not self.d.exists('level_6.1334x750.png'):
                     fighting(self, 3)
@@ -58,10 +58,11 @@ class Break(Task):
             else:
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
+            self.analysis()
             self.d.delay(180)
 
     def analysis(self):
         super(Break, self).analysis()
-        print '┃%25s%-24s0┃' % ('level: under ', self.level)
+        print '┃%31s%-19s┃' % ('level: under ', self.level * 10)
         print '┃%25s%-25s┃' % ('broken: ', self.broken)
         print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
