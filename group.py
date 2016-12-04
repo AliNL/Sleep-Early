@@ -7,7 +7,7 @@ is_lead = raw_input('is_lead=')
 task = Group()
 
 for num in range(int(times)):
-    if is_lead:
+    if is_lead == '1':
         if not task.start_group_fight():
             break
         task.group_fight()
