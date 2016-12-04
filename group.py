@@ -17,5 +17,4 @@ for num in range(int(times)):
             break
         task.group_fight()
         task.click_ok()
-
-task.analysis()
+    task.analysis()

@@ -10,6 +10,7 @@ class Group(Task):
     def start_group_fight(self):
         if not in_group(self.d):
             self.stop_reason = 'energy not enough'
+            self.analysis()
             return False
         for t in range(3):
             if self.d.click_image('start_fighting.1334x750.png', timeout=1.0) is not None:
@@ -33,5 +34,10 @@ class Group(Task):
             pass
         if in_yard(self.d):
             self.stop_reason = 'energy not enough'
+            self.analysis()
             return False
         return True
+
+    def analysis(self):
+        super(Group, self).analysis()
+        print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
