@@ -38,7 +38,7 @@ class Explore(Task):
     def __fight_monster(self):
         for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
-                time.sleep(2)
+                time.sleep(3)
                 if is_exploring(self.d):
                     continue
                 if fighting(self):
@@ -54,7 +54,7 @@ class Explore(Task):
     def __fight_boss(self):
         for t in range(3):
             if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
-                time.sleep(2)
+                time.sleep(3)
                 if is_exploring(self.d):
                     return False
                 if fighting(self):

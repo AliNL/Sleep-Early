@@ -8,7 +8,7 @@ class Position(dict):
         super(Position, self).__init__(**kwargs)
         self.d = driver
         self.w, self.l = sorted(driver.display)
-        self['screen_bottom'] = (self.l / 2, self.w * 0.85)
+        self['screen_bottom'] = (self.l * 0.3, self.w * 0.8)
 
     def get(self, k, d=None):
         if k not in self:

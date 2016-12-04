@@ -48,9 +48,9 @@ class Break(Task):
         while 0 in self.broken:
             self.__choose_group()
             if self.__find_under_level_scroll():
-                time.sleep(2)
+                time.sleep(3)
                 if not self.d.exists('level_6.1334x750.png'):
-                    fighting(self, 3)
+                    fighting(self)
                     self.times += 1
                 else:
                     self.d.click_image('black_icon.1334x750.png')

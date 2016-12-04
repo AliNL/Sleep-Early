@@ -51,7 +51,6 @@ def continue_(task, times=4):
 
 
 @log_refresh("是否在战斗中")
-@sure
 def is_fighting(d):
     if d.exists('fighting.1334x750.png'):
         return True
