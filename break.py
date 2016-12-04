@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-import function
+from function import *
 
-function.launch()
 level = raw_input('level/10=')
 
-function.easy_public_breaking(int(level))
+
+task = Break(int(level))
+
+task.breaking()
