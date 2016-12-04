@@ -5,6 +5,7 @@ from task import *
 class Group(Task):
     def __init__(self):
         super(Group, self).__init__()
+        self.name = 'Group fighting'
 
     @log("开始组队战斗")
     def start_group_fight(self):
@@ -22,6 +23,7 @@ class Group(Task):
     @log("完成组队战斗")
     def group_fight(self):
         fighting(self)
+        self.times += 1
 
     @log("点击确定")
     def click_ok(self):

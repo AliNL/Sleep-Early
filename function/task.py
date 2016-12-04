@@ -19,6 +19,7 @@ class Task(object):
 
     def __init__(self):
         self.d = self.launch()
+        self.name = 'task'
         self.times = 0
         self.position = Position(self.d)
         self.start_time = now()
@@ -26,7 +27,7 @@ class Task(object):
 
     def analysis(self):
         print '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'
-        print '┃ %-49s┃' % (str(self.__class__)[25:-2] + ' finished!!!')
+        print '┃ %-49s┃' % (self.name + ' finished!!!')
         print '┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫'
         print '┃%25s%-25s┃' % ('start time: ', self.start_time)
         print '┃%25s%-25s┃' % ('finish time: ', now())

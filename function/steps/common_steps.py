@@ -2,7 +2,7 @@
 from support import *
 
 
-@log("是否在组队中")
+@log_refresh("是否在组队中")
 @sure
 def in_group(d):
     if d.exists('in_group.1334x750.png'):

@@ -8,6 +8,7 @@ class Explore(Task):
         if not 0 < chapter < 19:
             raise IOError("Invalid chapter number!!!")
         super(Explore, self).__init__()
+        self.name = 'Explore'
         self.chapter = chapter
         self.monster_killed = 0
         self.small_box = 0
