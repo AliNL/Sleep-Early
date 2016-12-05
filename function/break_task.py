@@ -48,13 +48,13 @@ class Break(Task):
         while 0 in self.broken:
             self.__choose_group()
             if self.__find_under_level_scroll():
-                time.sleep(3)
+                time.sleep(5)
                 if not self.d.exists('level_6.1334x750.png'):
                     fighting(self)
                     self.times += 1
                 else:
                     self.d.click_image('black_icon.1334x750.png')
-                    self.d.delay(20)
+                    self.d.delay(18)
             else:
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
