@@ -54,12 +54,13 @@ class Break(Task):
                     self.times += 1
                 else:
                     self.d.click_image('black_icon.1334x750.png')
-                    self.d.delay(18)
+                    self.d.delay(20)
             else:
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
+                self.d.delay(20)
             self.analysis()
-            self.d.delay(180)
+            self.d.delay(175)
 
     def analysis(self):
         super(Break, self).analysis()
