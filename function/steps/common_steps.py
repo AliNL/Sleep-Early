@@ -44,9 +44,12 @@ def is_breaking(d):
 
 @log("继续")
 def continue_(task, times=4):
+    task.d.click_image('ok.1334x750.png', timeout=1.0)
     for t in range(times):
         task.d.click(*task.position.get('screen_bottom'))
         time.sleep(1.5)
+    while not task.end_fighting():
+        task.d.click(*task.position.get('screen_bottom'))
     return True
 
 

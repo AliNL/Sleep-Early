@@ -13,6 +13,9 @@ class Break(Task):
         self.target = 0
         self.broken = [0, 0, 0]
 
+    def end_fighting(self):
+        return is_breaking(self.d)
+
     @log("切换目标阴阳寮")
     def __choose_group(self):
         navigate_to_public_breaking(self.d)

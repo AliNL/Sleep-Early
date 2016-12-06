@@ -7,6 +7,9 @@ class Group(Task):
         super(Group, self).__init__()
         self.name = 'Group fighting'
 
+    def end_fighting(self):
+        return in_yard(self.d)
+
     @log("开始组队战斗")
     def start_group_fight(self):
         if not in_group(self.d):

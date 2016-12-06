@@ -15,6 +15,9 @@ class Explore(Task):
         self.big_box = 0
         self.stop_reason = 'task completed'
 
+    def end_fighting(self):
+        return is_exploring(self.d)
+
     @log2("选择探索章节")
     def choose_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
