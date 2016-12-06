@@ -18,12 +18,13 @@ class Explore(Task):
     @log2("选择探索章节")
     def choose_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
+        navigate_to_explore_map(self.d)
         for t in range(-5, 5):
             if self.d.click_image(image_name, threshold=0.9, timeout=1.0) is not None:
                 time.sleep(1)
-                self.d.click_image('explore_icon.1334x750.png')
-                time.sleep(3)
-                return True
+                if self.d.click_image('explore_icon.1334x750.png') is not None:
+                    time.sleep(3)
+                    return True
             else:
                 x1, y1 = self.position.get('chapter_top')
                 x2, y2 = self.position.get('chapter_bottom')
@@ -32,7 +33,6 @@ class Explore(Task):
                 else:
                     self.d.swipe(x1, y1, x2, y2)
             time.sleep(1)
-        return False
 
     @log2("打小怪")
     def __fight_monster(self):
