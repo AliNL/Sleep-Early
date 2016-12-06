@@ -59,28 +59,17 @@ def is_fighting(d):
     return False
 
 
-@log_refresh("是否在选择式神")
-@sure
-def is_switching(d):
-    if d.exists('switching.1334x750.png'):
-        return True
-    return False
-
-
 @log("等待准备")
+@sure
 def is_not_ready(d):
     if d.exists('not_ready.1334x750.png'):
         return True
     return False
 
 
-@log("战斗准备完毕")
 def get_ready(d):
-    while is_switching(d):
-        pass
     if is_not_ready(d):
         d.click_image('ready_icon.1334x750.png', offset=(0, -1.5))
-    return True
 
 
 def fighting(task, times=4):
