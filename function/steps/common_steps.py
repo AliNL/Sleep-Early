@@ -47,6 +47,12 @@ def continue_(task, times=4):
     for t in range(times):
         task.d.click(*task.position.get('screen_bottom'))
         time.sleep(1.5)
+    return True
+
+
+@log("继续")
+def continue_fighting(task, times=4):
+    continue_(task, times)
     task.d.click_image('ok.1334x750.png', timeout=1.0)
     while not task.end_fighting():
         task.d.click(*task.position.get('screen_bottom'))
@@ -77,7 +83,6 @@ def is_not_ready(d):
     return False
 
 
-@log("战斗准备完毕")
 def get_ready(d):
     if is_not_ready(d):
         d.click_image('ready_icon.1334x750.png', offset=(0, -1.5))
@@ -94,5 +99,5 @@ def fighting(task, times=4):
     task.d.click_image('ok.1334x750.png', timeout=1.0)
     while is_fighting(task.d):
         pass
-    continue_(task, times)
+    continue_fighting(task, times)
     return True
