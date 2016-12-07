@@ -50,15 +50,6 @@ def continue_(task, times=4):
     return True
 
 
-@log("继续")
-def continue_fighting(task, times=4):
-    continue_(task, times)
-    task.d.click_image('ok.1334x750.png', timeout=1.0)
-    while not task.end_fighting():
-        task.d.click(*task.position.get('screen_bottom'))
-    return True
-
-
 @log_refresh("是否在战斗中")
 def is_fighting(d):
     if d.exists('fighting.1334x750.png'):
@@ -68,12 +59,12 @@ def is_fighting(d):
     return False
 
 
-@log_refresh("是否在选择式神")
-@sure
-def is_switching(d):
-    if d.exists('switching.1334x750.png'):
-        return True
-    return False
+# @log_refresh("是否在选择式神")
+# @sure
+# def is_switching(d):
+#     if d.exists('switching.1334x750.png'):
+#         return True
+#     return False
 
 
 @log("等待准备")
@@ -99,5 +90,5 @@ def fighting(task, times=4):
     task.d.click_image('ok.1334x750.png', timeout=1.0)
     while is_fighting(task.d):
         pass
-    continue_fighting(task, times)
+    continue_(task, times)
     return True
