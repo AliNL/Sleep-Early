@@ -84,7 +84,8 @@ def get_ready(d):
 
 def fighting(task, times=4):
     while not is_fighting(task.d):
-        get_ready(task.d)
+        if get_ready(task.d):
+            break
     while is_fighting(task.d):
         pass
     get_bonus_task(task.d)
