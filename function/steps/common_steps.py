@@ -52,6 +52,8 @@ def continue_(task, times=4):
 
 @log_refresh("是否在战斗中")
 def is_fighting(d):
+    if is_not_ready(d):
+        return False
     if d.exists('fighting.1334x750.png'):
         return True
     if d.exists('ready.1334x750.png'):
@@ -59,17 +61,25 @@ def is_fighting(d):
     return False
 
 
-@log("等待准备")
-@sure
+# @log_refresh("是否在选择式神")
+# @sure
+# def is_switching(d):
+#     if d.exists('switching.1334x750.png'):
+#         return True
+#     return False
+
+
 def is_not_ready(d):
     if d.exists('not_ready.1334x750.png'):
         return True
     return False
 
 
+@log("自动准备")
 def get_ready(d):
-    if is_not_ready(d):
-        d.click_image('ready_icon.1334x750.png', offset=(0, -1.5))
+    if d.click_image('ready_icon.1334x750.png', offset=(0, -1.5)) is not None:
+        return True
+    return False
 
 
 def fighting(task, times=4):
@@ -77,5 +87,12 @@ def fighting(task, times=4):
         get_ready(task.d)
     while is_fighting(task.d):
         pass
+    get_bonus_task(task.d)
+    while is_fighting(task.d):
+        pass
     continue_(task, times)
     return True
+
+
+def get_bonus_task(d):
+    d.click_image('bonus_task.1334x750.png', offset=(1, 6.5))
