@@ -4,18 +4,19 @@ from steps import *
 
 
 class Break(Task):
-    def __init__(self, level):
+    def __init__(self, times, level):
         if not 0 < level < 8:
             raise IOError("Invalid level!!!")
         super(Break, self).__init__()
         self.name = 'Public breaking'
+        self.set_times = times
         self.level = level
         self.target = 0
         self.broken = [0, 0, 0]
         self.last = 0
 
     def wait(self):
-        begin = self.last + 200
+        begin = self.last + 195
         while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
             get_bonus_task(self.d)
@@ -57,7 +58,7 @@ class Break(Task):
         return False
 
     def breaking(self):
-        while 0 in self.broken:
+        while 0 in self.broken and self.times < self.set_times:
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(5)

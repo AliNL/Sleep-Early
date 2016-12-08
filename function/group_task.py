@@ -1,4 +1,6 @@
 # coding=utf-8
+import os
+
 from task import *
 
 
@@ -9,10 +11,10 @@ class Group(Task):
 
     @log("开始组队战斗")
     def start_group_fight(self):
-        if not in_group(self.d):
-            self.stop_reason = 'energy not enough'
+        if self.d.exists('buying_energy.1334x750.png'):
+            os.system('say -v Ting-Ting "体力不足"')
             self.analysis()
-            return False
+            raise Exception("体力不足")
         for t in range(3):
             if self.d.click_image('start_fighting.1334x750.png', timeout=1.0):
                 time.sleep(3)
@@ -34,10 +36,10 @@ class Group(Task):
     def wait_in_group(self):
         while in_group(self.d):
             pass
-        if in_yard(self.d):
-            self.stop_reason = 'energy not enough'
+        if self.d.exists('buying_energy.1334x750.png'):
+            os.system('say -v Ting-Ting "体力不足"')
             self.analysis()
-            return False
+            raise Exception("体力不足")
         return True
 
     def analysis(self):
