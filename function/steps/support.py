@@ -65,7 +65,7 @@ def sure(func):
 
 
 def click_button(d, *args, **kw):
-    while d.click_image(*args, **kw) is None:
+    while not d.click_image(*args, **kw):
         pass
-    while d.click_image(*args, **kw) is not None:
+    while d.click_image(*args, **kw):
         pass

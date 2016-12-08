@@ -36,7 +36,7 @@ class Break(Task):
     def __find_under_level(self):
         for i in range(self.level):
             img = 'level_' + str(i) + '.1334x750.png'
-            if self.d.click_image(img, threshold=0.9, timeout=1.0) is not None:
+            if self.d.click_image(img, threshold=0.9, timeout=1.0):
                 time.sleep(1)
                 self.d.click_image('attack.1334x750.png', timeout=1.0)
                 return True

@@ -20,9 +20,9 @@ class Explore(Task):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
         navigate_to_explore_map(self.d)
         for t in range(-5, 5):
-            if self.d.click_image(image_name, threshold=0.9, timeout=1.0) is not None:
+            if self.d.click_image(image_name, threshold=0.9, timeout=1.0):
                 time.sleep(1)
-                if self.d.click_image('explore_icon.1334x750.png') is not None:
+                if self.d.click_image('explore_icon.1334x750.png'):
                     time.sleep(3)
                     return True
             else:
@@ -37,7 +37,7 @@ class Explore(Task):
     @log2("打小怪")
     def __fight_monster(self):
         for i in range(-8, 8):
-            if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
+            if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(3)
                 if is_exploring(self.d):
                     continue
@@ -53,7 +53,7 @@ class Explore(Task):
     @log2("打boss")
     def __fight_boss(self):
         for t in range(3):
-            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0) is not None:
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(3)
                 if is_exploring(self.d):
                     return False
@@ -73,7 +73,7 @@ class Explore(Task):
     @log2("捡小宝箱")
     def get_small_box(self):
         while not in_explore_map(self.d):
-            if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0) is not None:
+            if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0):
                 time.sleep(1)
                 continue_(self, 1)
                 self.small_box += 1
@@ -81,7 +81,7 @@ class Explore(Task):
     @log("捡大宝箱")
     def get_big_box(self):
         for i in range(2):
-            if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0) is not None:
+            if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
                 time.sleep(1)
                 continue_(self, 2)
                 self.big_box += 1

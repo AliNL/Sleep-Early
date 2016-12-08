@@ -14,7 +14,7 @@ class Group(Task):
             self.analysis()
             return False
         for t in range(3):
-            if self.d.click_image('start_fighting.1334x750.png', timeout=1.0) is not None:
+            if self.d.click_image('start_fighting.1334x750.png', timeout=1.0):
                 time.sleep(3)
                 if not self.d.exists('in_group.1334x750.png'):
                     return True
