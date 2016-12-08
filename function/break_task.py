@@ -18,7 +18,7 @@ class Break(Task):
         begin = self.last + 200
         while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
-            self.d.click_image('ok.1334x750.png', timeout=1.0)
+            get_bonus_task(self.d)
             sys.stdout.write('\r')
             sys.stdout.write('%s -> wait until %s' % (now(), now(begin)))
             sys.stdout.flush()
