@@ -66,7 +66,7 @@ class Break(Task):
                     fighting(self)
                     self.times += 1
                 else:
-                    self.d.click_image('black_icon.1334x750.png')
+                    self.d.click_image('black_icon.1334x750.png', timeout=1.0)
             else:
                 self.last = int(time.time())
                 self.broken[self.target - 1] = 1
