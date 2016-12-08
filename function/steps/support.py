@@ -6,8 +6,8 @@ import functools
 import sys
 
 
-def now():
-    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+def now(seconds=None):
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(seconds))
 
 
 def log2(text):
@@ -44,7 +44,7 @@ def log_refresh(text):
             sys.stdout.write('%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result))
             sys.stdout.flush()
             if not result:
-                print '\n'
+                sys.stdout.write('\n')
             return result
 
         return wrapper

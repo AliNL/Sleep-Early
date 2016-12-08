@@ -16,12 +16,13 @@ class Break(Task):
 
     def wait(self):
         begin = self.last + 200
-        while time.localtime() < begin:
+        while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
             self.d.click_image('ok.1334x750.png', timeout=1.0)
             sys.stdout.write('\r')
-            sys.stdout.write('wait until %s, now is %s' % (time.strftime("%H:%M:%S", begin), now()[-8:]))
+            sys.stdout.write('%s -> wait until %s' % (now(), now(begin)))
             sys.stdout.flush()
+        sys.stdout.write('\n')
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
@@ -60,13 +61,14 @@ class Break(Task):
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(5)
+                self.last = int(time.time())
                 if not self.d.exists('level_6.1334x750.png'):
-                    self.last = time.localtime()
                     fighting(self)
                     self.times += 1
                 else:
                     self.d.click_image('black_icon.1334x750.png')
             else:
+                self.last = int(time.time())
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
             self.analysis()
