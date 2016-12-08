@@ -77,9 +77,9 @@ def is_not_ready(d):
 
 @log("自动准备")
 def get_ready(d):
-    d.click_image('ok.1334x750.png', timeout=1.0)
-    d.click_image('ready_icon.1334x750.png', offset=(0, -1.5))
-    return True
+    if d.click_image('ready_icon.1334x750.png', offset=(0, -1.5)) is not None:
+        return True
+    return False
 
 
 def fighting(task, times=4):
@@ -87,8 +87,12 @@ def fighting(task, times=4):
         get_ready(task.d)
     while is_fighting(task.d):
         pass
-    task.d.click_image('ok.1334x750.png', timeout=1.0)
+    get_bonus_task(task.d)
     while is_fighting(task.d):
         pass
     continue_(task, times)
     return True
+
+
+def get_bonus_task(d):
+    d.click_image('bonus_task.1334x750.png', offset=(1, 6.5))
