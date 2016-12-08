@@ -77,7 +77,7 @@ def is_not_ready(d):
 
 @log("自动准备")
 def get_ready(d):
-    if d.click_image('ready_icon.1334x750.png', timeout=1.0, offset=(0.3, -1.5)) is not None:
+    if d.click_image('ready_icon.1334x750.png', timeout=1.0, offset=(0.4, -1.5)) is not None:
         return True
     return False
 
