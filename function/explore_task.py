@@ -21,7 +21,7 @@ class Explore(Task):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
         navigate_to_explore_map(self.d)
         for t in range(-5, 5):
-            if self.d.click_image(image_name, threshold=0.9, timeout=1.0):
+            if self.d.click_image(image_name, threshold=0.85, timeout=1.0):
                 time.sleep(1)
                 if self.d.click_image('explore_icon.1334x750.png'):
                     time.sleep(3)

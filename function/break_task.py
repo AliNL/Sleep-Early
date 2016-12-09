@@ -77,6 +77,6 @@ class Break(Task):
 
     def analysis(self):
         super(Break, self).analysis()
-        print '┃%31s%-19s┃' % ('level: under ', self.level * 10)
+        print '┃%31s%-19s┃' % ('target level: under ', self.level * 10)
         print '┃%25s%-25s┃' % ('broken: ', self.broken)
         print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
