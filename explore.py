@@ -14,12 +14,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "ht:c:d:", ["times=", "chapter=", "device="])
     except getopt.GetoptError:
-        print 'Error: explore.py -t <times(int)> -c <chapter(0<int<19)> -d <device(android or ios)>'
+        print 'Please input: python explore.py -t <times>(int) -c <chapter>(0<int<19) -d <device>(android or ios)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Error: explore.py -t <times>(int) -c <chapter>(0<int<19) -d <device>(android or ios)'
+            print 'Please input: python explore.py -t <times>(int) -c <chapter>(0<int<19) -d <device>(android or ios)'
             sys.exit()
         elif opt in ("-t", "--times"):
             times = int(arg)

@@ -12,17 +12,17 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:", ["times=", "level=", "device="])
     except getopt.GetoptError:
-        print 'Error: explore.py -t <times>(int) -l <level/10>(0<int<8) -d <device>(android or ios)'
+        print 'Please input: python break.py -t <times>(int) -l <level/10>(0<int<8) -d <device>(android or ios)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Error: explore.py -t <times>(int) -l <level/10>(0<int<8) -d <device>(android or ios)'
+            print 'Please input: python break.py -t <times>(int) -l <level/10>(0<int<8) -d <device>(android or ios)'
             sys.exit()
         elif opt in ("-t", "--times"):
             times = int(arg)
         elif opt in ("-l", "--level"):
-            chapter = int(arg)
+            level = int(arg)
         elif opt in ("-d", "--device"):
             device = arg
 

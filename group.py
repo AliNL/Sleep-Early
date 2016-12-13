@@ -12,12 +12,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:", ["times=", "is_lead=", "device="])
     except getopt.GetoptError:
-        print 'Error: explore.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
+        print 'Please input: python group.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Error: explore.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
+            print 'Please input: python group.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
             sys.exit()
         elif opt in ("-t", "--times"):
             times = int(arg)
