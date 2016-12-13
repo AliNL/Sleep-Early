@@ -619,7 +619,7 @@ class DeviceMixin(object):
 
             found = True
             break
-        sys.stdout.write('\n')
+        # sys.stdout.write('\n')
 
         if not found:
             if safe:
