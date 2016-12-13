@@ -127,16 +127,16 @@ class Watcher(object):
 
     def on(self, pattern):
         w = dict(
-                conditions=[_Condition(pattern, True)],
-                actions=[],
+            conditions=[_Condition(pattern, True)],
+            actions=[],
         )
         self._watches.append(w)
         return WatcherItem(self, w)
 
     def on_ui(self, text):
         w = dict(
-                conditions=[_Condition(self._dev(text=text), True)],
-                actions=[],
+            conditions=[_Condition(self._dev(text=text), True)],
+            actions=[],
         )
         self._watches.append(w)
         return WatcherItem(self, w)
@@ -164,7 +164,7 @@ class Watcher(object):
             if ok:
                 for fn in actions:
                     fn(self.Event(None, last_pos))
-                break  # FIXME(ssx): maybe need fallthrough, but for now, just simplfy it
+                break # FIXME(ssx): maybe need fallthrough, but for now, just simplfy it
 
     def run(self):
         # self._run = True
@@ -178,8 +178,7 @@ class Watcher(object):
                     if self.raise_errors:
                         raise errors.WatchTimeoutError("[%s] watch timeout %s" % (self.name, self.timeout,))
                     break
-                sys.stdout.write("[%s] watching %4.1fs left: %4.1fs\r" % (
-                    self.name, self.timeout, self.timeout - time.time() + start_time))
+                sys.stdout.write("[%s] watching %4.1fs left: %4.1fs\r" %(self.name, self.timeout, self.timeout-time.time()+start_time))
                 sys.stdout.flush()
         sys.stdout.write('\n')
 
@@ -254,7 +253,7 @@ class DeviceMixin(object):
         self._resolution = None
         self._bounds = None
         self._listeners = []
-        self._depth = 0  # used for hook_wrap
+        self._depth = 0 # used for hook_wrap
         self.image_path = ['.']
         self.__last_screen = None
         self.__keep_screen = False
@@ -305,7 +304,7 @@ class DeviceMixin(object):
         secs = int(secs)
         for i in reversed(range(secs)):
             sys.stdout.write('\r')
-            sys.stdout.write("sleep %ds, left %2ds" % (secs, i + 1))
+            sys.stdout.write("sleep %ds, left %2ds" % (secs, i+1))
             sys.stdout.flush()
             time.sleep(1)
         sys.stdout.write("\n")
@@ -346,7 +345,7 @@ class DeviceMixin(object):
         if resolution is not None:
             ow, oh = sorted(resolution)
             dw, dh = sorted(self.display)
-            fw, fh = 1.0 * dw / ow, 1.0 * dh / oh
+            fw, fh = 1.0*dw/ow, 1.0*dh/oh
             # For horizontal screen, scale by Y (width)
             # For vertical screen, scale by X (height)
             scale = fw if self.rotation in (1, 3) else fh
@@ -372,7 +371,7 @@ class DeviceMixin(object):
             return None
 
         matches, total = ret['confidence']
-        if 1.0 * matches / total > 0.5:  # FIXME(ssx): sift just write here
+        if 1.0*matches/total > 0.5: # FIXME(ssx): sift just write here
             return FindPoint(ret['result'], ret['confidence'], consts.IMAGE_MATCH_METHOD_SIFT, matched=True)
         return None
 
@@ -401,25 +400,25 @@ class DeviceMixin(object):
         pattern_scale = self._cal_scale(pattern)
         if pattern_scale != 1.0:
             search_img = cv2.resize(search_img, (0, 0),
-                                    fx=pattern_scale, fy=pattern_scale,
-                                    interpolation=cv2.INTER_CUBIC)
+                fx=pattern_scale, fy=pattern_scale,
+                interpolation=cv2.INTER_CUBIC)
 
         screen = screen or self.region_screenshot()
         threshold = threshold or pattern.threshold or self.image_match_threshold
 
         # handle offset if percent, ex (0.2, 0.8)
         dx, dy = offset or pattern.offset or (0, 0)
-        dx = pattern.image.shape[1] * dx  # opencv object width
-        dy = pattern.image.shape[0] * dy  # opencv object height
-        dx, dy = int(dx * pattern_scale), int(dy * pattern_scale)
+        dx = pattern.image.shape[1] * dx # opencv object width
+        dy = pattern.image.shape[0] * dy # opencv object height
+        dx, dy = int(dx*pattern_scale), int(dy*pattern_scale)
 
         # image match
-        screen = imutils.from_pillow(screen)  # convert to opencv image
+        screen = imutils.from_pillow(screen) # convert to opencv image
         if rect and isinstance(rect, tuple) and len(rect) == 4:
-            (x0, y0, x1, y1) = [v * pattern_scale for v in rect]
-            (dx, dy) = dx + x0, dy + y0
+            (x0, y0, x1, y1) = [v*pattern_scale for v in rect]
+            (dx, dy) = dx+x0, dy+y0
             screen = imutils.crop(screen, x0, y0, x1, y1)
-            # cv2.imwrite('cc.png', screen)
+            #cv2.imwrite('cc.png', screen)
 
         match_method = method or self.image_match_method
 
@@ -427,7 +426,7 @@ class DeviceMixin(object):
         confidence = None
         matched = False
         position = None
-        if match_method == consts.IMAGE_MATCH_METHOD_TMPL:  # IMG_METHOD_TMPL
+        if match_method == consts.IMAGE_MATCH_METHOD_TMPL: #IMG_METHOD_TMPL
             ret = ac.find_template(screen, search_img)
             if ret is None:
                 return None
@@ -435,32 +434,32 @@ class DeviceMixin(object):
             if confidence > threshold:
                 matched = True
             (x, y) = ret['result']
-            position = (x + dx, y + dy)  # fix by offset
+            position = (x+dx, y+dy) # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_SIFT:
             ret = ac.find_sift(screen, search_img, min_match_count=10)
             if ret is None:
                 return None
             confidence = ret['confidence']
             matches, total = confidence
-            if 1.0 * matches / total > 0.5:  # FIXME(ssx): sift just write here
+            if 1.0*matches/total > 0.5: # FIXME(ssx): sift just write here
                 matched = True
             (x, y) = ret['result']
-            position = (x + dx, y + dy)  # fix by offset
+            position = (x+dx, y+dy) # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_AUTO:
             fp = self._match_auto(screen, search_img, threshold)
             if fp is None:
                 return None
             (x, y) = fp.pos
-            position = (x + dx, y + dy)
+            position = (x+dx, y+dy)
             return FindPoint(position, fp.confidence, fp.method, fp.matched)
         else:
-            raise TypeError("Invalid image match method: %s" % (match_method,))
+            raise TypeError("Invalid image match method: %s" %(match_method,))
 
         (x, y) = ret['result']
-        position = (x + dx, y + dy)  # fix by offset
+        position = (x+dx, y+dy) # fix by offset
         if self.bounds:
             x, y = position
-            position = (x + self.bounds.left, y + self.bounds.top)
+            position = (x+self.bounds.left, y+self.bounds.top)
 
         return FindPoint(position, confidence, match_method, matched=matched)
 
@@ -577,7 +576,7 @@ class DeviceMixin(object):
         return point
 
     @hook_wrap(consts.EVENT_CLICK_IMAGE)
-    def click_image(self, pattern, timeout=20.0, action='click', safe=True, desc=None, delay=None, **match_kwargs):
+    def click_image(self, pattern, timeout=20.0, action='click', safe=False, desc=None, delay=None, **match_kwargs):
         """Simulate click according image position
 
         Args:
@@ -595,20 +594,20 @@ class DeviceMixin(object):
             ImageNotFoundError: An error occured when img not found in current screen.
         """
         pattern = self.pattern_open(pattern)
-        # log.info('click image:%s %s', desc or '', pattern)
+        log.info('click image:%s %s', desc or '', pattern)
         start_time = time.time()
         found = False
         point = None
         while time.time() - start_time < timeout:
             point = self.match(pattern, **match_kwargs)
             if point is None:
-                # sys.stdout.write('.')
-                # sys.stdout.flush()
+                sys.stdout.write('.')
+                sys.stdout.flush()
                 continue
 
-            # log.debug('confidence: %s', point.confidence)
+            log.debug('confidence: %s', point.confidence)
             if not point.matched:
-                # log.info('Ignore confidence: %s', point.confidence)
+                log.info('Ignore confidence: %s', point.confidence)
                 continue
 
             # wait for program ready
@@ -620,16 +619,16 @@ class DeviceMixin(object):
 
             found = True
             break
-        # sys.stdout.write('\n')
+        sys.stdout.write('\n')
 
         if not found:
             if safe:
-            # log.info("Image(%s) not found, safe=True, skip", pattern)
+                log.info("Image(%s) not found, safe=True, skip", pattern)
                 return None
             raise errors.ImageNotFoundError('Not found image %s' % pattern, point)
 
         # FIXME(ssx): maybe this function is too complex
-        return point  # collections.namedtuple('X', ['pattern', 'point'])(pattern, point)
+        return point #collections.namedtuple('X', ['pattern', 'point'])(pattern, point)
 
     def watch(self, name='', timeout=None, raise_errors=True):
         """Return a new watcher

@@ -6,8 +6,8 @@ This is a real machine automation project to help you sleep early.
 
 ## Environment Setup
 1. brew install pillow
-2. brew tap homebrew/homebrew-science
-3. brew install opencv
+   1. brew install homebrew/science/opencv
+   1. pip install --pre --upgrade atx
 
 ## For IOS
 1. This can only run on **Mac**
