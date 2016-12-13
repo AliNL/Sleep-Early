@@ -576,7 +576,7 @@ class DeviceMixin(object):
         return point
 
     @hook_wrap(consts.EVENT_CLICK_IMAGE)
-    def click_image(self, pattern, timeout=20.0, action='click', safe=False, desc=None, delay=None, **match_kwargs):
+    def click_image(self, pattern, timeout=20.0, action='click', safe=True, desc=None, delay=None, **match_kwargs):
         """Simulate click according image position
 
         Args:
@@ -594,7 +594,7 @@ class DeviceMixin(object):
             ImageNotFoundError: An error occured when img not found in current screen.
         """
         pattern = self.pattern_open(pattern)
-        log.info('click image:%s %s', desc or '', pattern)
+        # log.info('click image:%s %s', desc or '', pattern)
         start_time = time.time()
         found = False
         point = None
@@ -623,7 +623,7 @@ class DeviceMixin(object):
 
         if not found:
             if safe:
-                log.info("Image(%s) not found, safe=True, skip", pattern)
+                # log.info("Image(%s) not found, safe=True, skip", pattern)
                 return None
             raise errors.ImageNotFoundError('Not found image %s' % pattern, point)
 
