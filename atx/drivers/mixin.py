@@ -601,8 +601,8 @@ class DeviceMixin(object):
         while time.time() - start_time < timeout:
             point = self.match(pattern, **match_kwargs)
             if point is None:
-                sys.stdout.write('.')
-                sys.stdout.flush()
+                # sys.stdout.write('.')
+                # sys.stdout.flush()
                 continue
 
             log.debug('confidence: %s', point.confidence)
