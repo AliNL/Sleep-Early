@@ -4,10 +4,10 @@ from steps import *
 
 
 class Break(Task):
-    def __init__(self, times, level):
+    def __init__(self, times, level, device):
         if not 0 < level < 8:
             raise IOError("Invalid level!!!")
-        super(Break, self).__init__()
+        super(Break, self).__init__(device)
         self.name = 'Public breaking'
         self.set_times = times
         self.level = level

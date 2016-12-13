@@ -5,8 +5,8 @@ from task import *
 
 
 class Group(Task):
-    def __init__(self):
-        super(Group, self).__init__()
+    def __init__(self, device):
+        super(Group, self).__init__(device)
         self.name = 'Group fighting'
 
     @log("开始组队战斗")

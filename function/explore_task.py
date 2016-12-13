@@ -5,10 +5,10 @@ from steps import *
 
 
 class Explore(Task):
-    def __init__(self, chapter):
+    def __init__(self, chapter, device):
         if not 0 < chapter < 19:
             raise IOError("Invalid chapter number!!!")
-        super(Explore, self).__init__()
+        super(Explore, self).__init__(device)
         self.name = 'Explore'
         self.chapter = chapter
         self.monster_killed = 0
@@ -92,7 +92,7 @@ class Explore(Task):
         for i in range(2):
             if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
                 time.sleep(1)
-                continue_(self, 2)
+                continue_(self, 3)
                 self.big_box += 1
                 return True
             else:

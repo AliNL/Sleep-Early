@@ -5,20 +5,22 @@ from steps import *
 
 
 class Task(object):
-    def launch(self):
-        try:
+    def launch(self, device):
+        if device == 'android':
             driver = atx.connect()
-        except Exception:
+        elif device == 'ios':
             fl = open('session_id_ios')
             sid = fl.read()
             fl.close()
             driver = atx.connect('http://localhost:8100')
             driver._session = wda.Session('http://localhost:8100', sid)
+        else:
+            raise IOError('Invalid device type!!!')
         driver.image_path = ['.', 'images']
         return driver
 
-    def __init__(self):
-        self.d = self.launch()
+    def __init__(self, device):
+        self.d = self.launch(device)
         self.name = 'task'
         self.times = 0
         self.position = Position(self.d)
