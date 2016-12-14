@@ -89,8 +89,6 @@ def fighting(task, times=4):
     while is_fighting(task.d):
         pass
     get_bonus_task(task.d)
-    while is_fighting(task.d):
-        pass
     continue_(task, times)
     return True
 
