@@ -607,7 +607,7 @@ class DeviceMixin(object):
 
             log.debug('confidence: %s', point.confidence)
             if not point.matched:
-                log.info('Ignore confidence: %s', point.confidence)
+                # log.info('Ignore confidence: %s', point.confidence)
                 continue
 
             # wait for program ready
