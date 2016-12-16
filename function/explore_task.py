@@ -60,7 +60,7 @@ class Explore(Task):
 
     @log2("打boss")
     def __fight_boss(self):
-        for t in range(3):
+        for t in range(2):
             if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(3)
                 if is_exploring(self.d):
@@ -75,8 +75,6 @@ class Explore(Task):
         return False
 
     def exploring_fight(self):
-        for t in range(3):
-            self.__fight_monster()
         while not self.__fight_boss():
             self.__fight_monster()
         while self.__fight_boss():
@@ -103,7 +101,6 @@ class Explore(Task):
         return False
 
     @log("查找石距")
-    @sure
     def found_shi_ju(self):
         if self.d.exists('shi_ju.1334x750.png'):
             self.stop_reason = 'shi ju found'

@@ -10,6 +10,17 @@ def now(seconds=None):
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(seconds))
 
 
+def log1(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            print '%s -> %s: Call %s()' % (now(), text, func.__name__)
+            return func(*args, **kw)
+
+        return wrapper
+
+    return decorator
+
+
 def log2(text):
     def decorator(func):
         def wrapper(*args, **kw):

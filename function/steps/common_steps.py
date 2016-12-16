@@ -42,7 +42,7 @@ def is_breaking(d):
     return False
 
 
-@log("继续")
+@log1("继续")
 def continue_(task, times=4):
     for t in range(times):
         task.d.click(*task.position.get('screen_bottom'))
