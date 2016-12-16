@@ -19,7 +19,10 @@ class Explore(Task):
     @log2("选择探索章节")
     def choose_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
-        navigate_to_explore_map(self.d)
+        if not is_exploring(self.d):
+            navigate_to_explore_map(self.d)
+        else:
+            return True
         for t in range(-5, 5):
             if self.d.click_image(image_name, threshold=0.85, timeout=1.0):
                 time.sleep(1)
