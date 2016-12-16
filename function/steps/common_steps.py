@@ -75,8 +75,9 @@ def is_not_ready(d):
 
 @log("自动准备")
 def get_ready(d):
-    time.sleep(3)
-    if d.click_image('ready_icon.1334x750.png', method='color', threshold=0.9, timeout=1.0, offset=(0.3, 0)):
+    time.sleep(2)
+    if d.exists('not_ready.1334x750.png'):
+        d.click_image('ready_icon.1334x750.png', timeout=1.0)
         time.sleep(1)
         return True
     return False
