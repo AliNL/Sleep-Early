@@ -58,7 +58,7 @@ class Break(Task):
         return False
 
     def breaking(self):
-        while 0 in self.broken and self.last - self.start_time < self.time:
+        while 0 in self.broken and time.time() - self.start_time < self.time:
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(5)
