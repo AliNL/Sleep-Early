@@ -5,22 +5,19 @@ import getopt
 
 
 def main(argv):
-    times = 0
     is_lead = ''
     device = ''
 
     try:
-        opts, args = getopt.getopt(argv, "ht:l:d:", ["times=", "is_lead=", "device="])
+        opts, args = getopt.getopt(argv, "hl:d:", ["is_lead=", "device="])
     except getopt.GetoptError:
-        print 'Please input: python group.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
+        print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python group.py -t <times>(int) -l <is_lead>(y or n) -d <device>(android or ios)'
+            print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
             sys.exit()
-        elif opt in ("-t", "--times"):
-            times = int(arg)
         elif opt in ("-l", "--is_lead"):
             is_lead = arg
         elif opt in ("-d", "--device"):
@@ -28,7 +25,7 @@ def main(argv):
 
     task = Group(device)
 
-    for num in range(int(times)):
+    while True:
         if is_lead == 'y':
             if not task.start_group_fight():
                 break
