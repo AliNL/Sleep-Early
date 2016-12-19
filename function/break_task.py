@@ -4,12 +4,12 @@ from steps import *
 
 
 class Break(Task):
-    def __init__(self, times, level, device):
+    def __init__(self, time_, level, device):
         if not 0 < level < 8:
             raise IOError("Invalid level!!!")
         super(Break, self).__init__(device)
         self.name = 'Public breaking'
-        self.set_times = times
+        self.time = time_ * 3600
         self.level = level
         self.target = 0
         self.broken = [0, 0, 0]
@@ -37,7 +37,7 @@ class Break(Task):
     def __find_under_level(self):
         for i in range(self.level):
             img = 'level_' + str(i) + '.1334x750.png'
-            if self.d.click_image(img, method='color', timeout=1.0):
+            if self.d.click_image(img, method='color', threshold=0.9, timeout=1.0):
                 time.sleep(1)
                 self.d.click_image('attack.1334x750.png', timeout=1.0)
                 return True
@@ -58,7 +58,7 @@ class Break(Task):
         return False
 
     def breaking(self):
-        while 0 in self.broken and self.times < self.set_times:
+        while 0 in self.broken and self.last - self.start_time < self.time:
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(5)
