@@ -51,6 +51,7 @@ def continue_(task, times=4):
 
 
 @log_refresh("是否在战斗中")
+@sure
 def is_fighting(d):
     if d.exists('fighting.1334x750.png'):
         return True
@@ -75,7 +76,7 @@ def is_not_ready(d):
 
 @log("自动准备")
 def get_ready(d):
-    time.sleep(2)
+    # time.sleep(2)
     if d.exists('not_ready.1334x750.png'):
         d.click_image('ready_icon.1334x750.png', timeout=1.0)
         time.sleep(1)

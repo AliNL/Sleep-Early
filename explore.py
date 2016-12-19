@@ -14,12 +14,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "ht:c:d:", ["times=", "chapter=", "device="])
     except getopt.GetoptError:
-        print 'Please input: python explore.py -t <times>(int) -c <chapter>(0<int<19) -d <device>(android or ios)'
+        print 'Please input: python explore.py -d <device>(android or ios) -t <times>(int) -c <chapter>(0<int<19)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python explore.py -t <times>(int) -c <chapter>(0<int<19) -d <device>(android or ios)'
+            print 'Please input: python explore.py -d <device>(android or ios) -t <times>(int) -c <chapter>(0<int<19)'
             sys.exit()
         elif opt in ("-t", "--times"):
             times = int(arg)
@@ -31,6 +31,20 @@ def main(argv):
     task = Explore(chapter, device)
 
     for num in range(times):
+        if num == 0:
+            if is_exploring(task.d):
+                task.exploring_fight()
+                task.get_small_box()
+                task.get_big_box()
+                if task.found_shi_ju():
+                    os.system('say -v Ting-Ting "找到石距啦"')
+                    break
+                if task.is_pl_not_enough():
+                    os.system('say -v Ting-Ting "体力不足"')
+                    break
+                task.analysis()
+            else:
+                navigate_to_explore_map(task.d)
         task.choose_chapter()
         task.exploring_fight()
         task.get_small_box()
