@@ -45,9 +45,9 @@ class Explore(Task):
                         self.analysis()
                         raise Exception("体力不足")
                     continue
-                if fighting(self):
-                    self.monster_killed += 1
-                    return True
+                fighting(self)
+                self.monster_killed += 1
+                return True
             else:
                 direction = 'left' if i > 0 else 'right'
                 self.d.click(*self.position.get(direction))
@@ -65,9 +65,9 @@ class Explore(Task):
                         self.analysis()
                         raise Exception("体力不足")
                     continue
-                if fighting(self):
-                    self.times += 1
-                    return True
+                fighting(self)
+                self.times += 1
+                return True
         return False
 
     def exploring_fight(self):

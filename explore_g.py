@@ -31,6 +31,7 @@ def main(argv):
             #     break
             task.exploring_fight()
             task.get_small_box()
+            time.sleep(10)
             task.ok()
         else:
             # if not task.wait_in_group():

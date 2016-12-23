@@ -60,16 +60,11 @@ def is_fighting(d):
     return False
 
 
-@sure
+@log("发现boss")
 def find_boss(d):
-    if d.exists('boss_icon.1334x750.png', threshold=0.9):
-        return True
-    if d.exists('boss_icon.1334x750.png', threshold=0.9):
-        return True
-    if d.exists('boss_icon.1334x750.png', threshold=0.9):
-        return True
-    if d.exists('boss_icon.1334x750.png', threshold=0.9):
-        return True
+    for i in range(5):
+        if d.exists('boss_icon.1334x750.png', threshold=0.9):
+            return True
     return False
 
 
@@ -121,5 +116,5 @@ def click_ok(d):
 @log("接受组队邀请")
 def click_get(d):
     click_once(d, 'invitation.1334x750.png', timeout=1.0)
-    d.click_image('get.1334x750.png', timeout=1.0)
+    d.click_onwait('get.1334x750.png')
     time.sleep(3)

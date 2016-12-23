@@ -60,10 +60,11 @@ class ExploreG(Task):
             while is_exploring(self.d):
                 pass
             fighting(self)
-            self.times += 1
+            self.monster_killed += 1
         while is_exploring(self.d):
             pass
         fighting(self)
+        self.times += 1
 
     @log2("捡小宝箱")
     def get_small_box(self):

@@ -76,13 +76,13 @@ def sure(func):
 
 
 def click_button(d, *args, **kw):
-    while not d.click_image(*args, **kw):
+    while not d.click_nowait(*args, **kw):
         pass
-    while d.click_image(*args, **kw):
+    while d.click_nowait(*args, **kw):
         pass
 
 
 def click_once(d, *args, **kw):
-    while not d.click_image(*args, **kw):
+    while not d.click_nowait(*args, **kw):
         pass
-    d.click_image(*args, **kw)
+    d.click_nowait(*args, **kw)
