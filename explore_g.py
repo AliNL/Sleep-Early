@@ -23,18 +23,20 @@ def main(argv):
         elif opt in ("-d", "--device"):
             device = arg
 
-    task = Group(device)
+    task = ExploreG(device)
 
     while True:
         if is_lead == 'y':
-            if not task.start_group_fight():
-                break
-            task.group_fight()
+            # if not task.start_group_fight():
+            #     break
+            task.exploring_fight()
+            task.get_small_box()
             task.ok()
         else:
-            if not task.wait_in_group():
-                break
-            task.group_fight()
+            # if not task.wait_in_group():
+            #     break
+            task.exploring_wait()
+            task.get_small_box()
             task.get_invitation()
         task.analysis()
 

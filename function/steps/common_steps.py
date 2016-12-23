@@ -29,7 +29,7 @@ def in_explore_map(d):
 @log("是否在副本中")
 @sure
 def is_exploring(d):
-    if d.exists('exploring.1334x750.png'):
+    if d.exists('in_exploring.1334x750.png'):
         return True
     return False
 
@@ -56,6 +56,19 @@ def is_fighting(d):
     if d.exists('fighting.1334x750.png'):
         return True
     if d.exists('ready.1334x750.png'):
+        return True
+    return False
+
+
+@sure
+def find_boss(d):
+    if d.exists('boss_icon.1334x750.png', threshold=0.9):
+        return True
+    if d.exists('boss_icon.1334x750.png', threshold=0.9):
+        return True
+    if d.exists('boss_icon.1334x750.png', threshold=0.9):
+        return True
+    if d.exists('boss_icon.1334x750.png', threshold=0.9):
         return True
     return False
 
@@ -97,3 +110,16 @@ def fighting(task, times=4):
 
 def get_bonus_task(d):
     d.click_image('bonus_task.1334x750.png', timeout=1.0, offset=(1, 6.5))
+
+
+@log("点击确定")
+def click_ok(d):
+    click_button(d, 'ok.1334x750.png', timeout=1.0)
+    time.sleep(3)
+
+
+@log("接受组队邀请")
+def click_get(d):
+    click_once(d, 'invitation.1334x750.png', timeout=1.0)
+    d.click_image('get.1334x750.png', timeout=1.0)
+    time.sleep(3)

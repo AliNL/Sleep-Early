@@ -9,6 +9,8 @@ class Position(dict):
         self.d = driver
         self.w, self.l = sorted(driver.display)
         self['screen_bottom'] = (self.l * 0.25, self.w * 0.8)
+        self['right'] = (self.l * 0.9, self.w * 0.8)
+        self['left'] = (self.l * 0.1, self.w * 0.8)
 
     def get(self, k, d=None):
         if k not in self:
@@ -25,11 +27,6 @@ class Position(dict):
             x, y = self.d.match('chapter_list.1334x750.png', offset=(0, 1))[0]
             self['chapter_top'] = (x, y)
             self['chapter_bottom'] = (x, y + 4 * (self.l - x))
-            return True
-        elif is_exploring(self.d):
-            x, y = self.d.match('exploring.1334x750.png', offset=(0.8, -1))[0]
-            self['right'] = (x, y)
-            self['left'] = (self.l - x, y)
             return True
         elif is_breaking(self.d):
             x, y = self.d.match('breaking.1334x750.png', offset=(0.8, 2.5))[0]

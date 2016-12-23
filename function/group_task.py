@@ -28,9 +28,12 @@ class Group(Task):
         self.times += 1
 
     @log("点击确定")
-    def click_ok(self):
-        click_button(self.d, 'ok.1334x750.png', timeout=1.0)
-        time.sleep(3)
+    def ok(self):
+        click_ok(self.d)
+
+    @log("接受组队邀请")
+    def get_invitation(self):
+        click_get(self.d)
 
     @log("等待战斗开始")
     def wait_in_group(self):
