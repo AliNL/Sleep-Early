@@ -74,6 +74,18 @@ class ExploreG(Task):
                 continue_(self, 1)
                 self.small_box += 1
 
+    @log("捡大宝箱")
+    def get_big_box(self):
+        for i in range(2):
+            if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
+                time.sleep(0.5 + DELAY)
+                continue_(self, 3)
+                self.big_box += 1
+                return True
+            else:
+                time.sleep(DELAY)
+        return False
+
     @log("是否体力不足")
     def is_pl_not_enough(self):
         if self.d.exists('no_enough_pl.1334x750.png', threshold=0.95):

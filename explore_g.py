@@ -11,12 +11,12 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hl:d:", ["is_lead=", "device="])
     except getopt.GetoptError:
-        print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
+        print 'Please input: python explore_g.py -d <device>(android or ios) -l <is_lead>(y or n)'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
+            print 'Please input: python explore_g.py -d <device>(android or ios) -l <is_lead>(y or n)'
             sys.exit()
         elif opt in ("-l", "--is_lead"):
             is_lead = arg
@@ -38,6 +38,7 @@ def main(argv):
             #     break
             task.exploring_wait()
             task.get_small_box()
+            task.get_big_box()
             task.get_invitation()
         task.analysis()
 
