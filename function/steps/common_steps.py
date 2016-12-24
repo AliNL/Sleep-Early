@@ -46,7 +46,7 @@ def is_breaking(d):
 def continue_(task, times=4):
     for t in range(times):
         task.d.click(*task.position.get('screen_bottom'))
-        time.sleep(1.5)
+        time.sleep(1 + DELAY)
     return True
 
 
@@ -115,6 +115,6 @@ def click_ok(d):
 
 @log("接受组队邀请")
 def click_get(d):
-    click_once(d, 'invitation.1334x750.png')
-    d.click_onwait('get.1334x750.png')
+    # click_once(d, 'invitation.1334x750.png')
+    click_once(d,'get.1334x750.png')
     time.sleep(3)

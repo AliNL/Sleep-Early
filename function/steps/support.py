@@ -5,6 +5,8 @@ import functools
 
 import sys
 
+DELAY = 0
+
 
 def now(seconds=None):
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(seconds))
@@ -68,7 +70,7 @@ def sure(func):
     def make_sure(*args, **kw):
         for i in range(0, 5):
             result = func(*args, **kw)
-            time.sleep(1)
+            time.sleep(0.5 + DELAY)
             if func(*args, **kw) == result:
                 return result
 
