@@ -29,9 +29,8 @@ class Position(dict):
             self['chapter_bottom'] = (x, y + 4 * (self.l - x))
             return True
         elif is_breaking(self.d):
-            x, y = self.d.match('breaking.1334x750.png', offset=(0.8, 2.5))[0]
-            self['first_target'] = (x, y * 0.25)
-            self['break_top'] = (self.l - x, y * 0.25)
-            self['break_bottom'] = (self.l - x, y * 0.75)
+            self['first_target'] = (self.l * 0.25, self.w * 0.25)
+            self['break_top'] = (self.l * 0.75, self.w * 0.25)
+            self['break_bottom'] = (self.l * 0.75, self.w * 0.75)
             return True
         return False
