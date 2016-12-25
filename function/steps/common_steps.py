@@ -29,6 +29,14 @@ def in_explore_map(d):
 @log("是否在副本中")
 @sure
 def is_exploring(d):
+    if d.exists('exploring.1334x750.png'):
+        return True
+    return False
+
+
+@log("是否在副本中")
+@sure
+def is_exploring_g(d):
     if d.exists('in_exploring.1334x750.png'):
         return True
     return False
@@ -116,5 +124,5 @@ def click_ok(d):
 @log("接受组队邀请")
 def click_get(d):
     # click_once(d, 'invitation.1334x750.png')
-    click_once(d,'get.1334x750.png')
+    click_once(d, 'get.1334x750.png')
     time.sleep(3)

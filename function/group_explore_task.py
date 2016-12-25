@@ -18,7 +18,7 @@ class ExploreG(Task):
         for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(2.5 + DELAY)
-                if is_exploring(self.d):
+                if is_exploring_g(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
                         self.analysis()
@@ -38,7 +38,7 @@ class ExploreG(Task):
         for t in range(3):
             if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=3.0):
                 time.sleep(2.5 + DELAY)
-                if is_exploring(self.d):
+                if is_exploring_g(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
                         self.analysis()
@@ -57,11 +57,11 @@ class ExploreG(Task):
 
     def exploring_wait(self):
         while not find_boss(self.d):
-            while is_exploring(self.d):
+            while is_exploring_g(self.d):
                 pass
             fighting(self)
             self.monster_killed += 1
-        while is_exploring(self.d):
+        while is_exploring_g(self.d):
             pass
         fighting(self)
         self.times += 1
