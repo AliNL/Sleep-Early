@@ -54,7 +54,7 @@ def is_breaking(d):
 def continue_(task, times=4):
     for t in range(times):
         task.d.click(*task.position.get('screen_bottom'))
-        time.sleep(1 + device_delay)
+        time.sleep(1 + get_delay())
     return True
 
 

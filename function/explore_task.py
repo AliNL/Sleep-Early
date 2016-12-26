@@ -80,7 +80,7 @@ class Explore(Task):
     def get_small_box(self):
         while not in_explore_map(self.d):
             if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + device_delay)
+                time.sleep(0.5 + get_delay())
                 continue_(self, 1)
                 self.small_box += 1
 
@@ -88,12 +88,12 @@ class Explore(Task):
     def get_big_box(self):
         for i in range(2):
             if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + device_delay)
+                time.sleep(0.5 + get_delay())
                 continue_(self, 3)
                 self.big_box += 1
                 return True
             else:
-                time.sleep(device_delay)
+                time.sleep(get_delay())
         return False
 
     @log("查找石距")
