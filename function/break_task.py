@@ -17,7 +17,7 @@ class Break(Task):
         self.last = 0
 
     def wait(self):
-        begin = self.last + 190
+        begin = self.last + 200
         while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
             get_bonus_task(self.d)
@@ -39,7 +39,7 @@ class Break(Task):
         for i in range(self.level):
             img = 'level_' + str(i) + '.1334x750.png'
             if self.d.click_image(img, method='color', threshold=0.9, timeout=1.0):
-                time.sleep(1)
+                time.sleep(0.5 + get_delay())
                 click_once(self.d, 'attack.1334x750.png')
                 return True
         return False
@@ -55,7 +55,7 @@ class Break(Task):
                 x1, y1 = self.position.get('break_top')
                 x2, y2 = self.position.get('break_bottom')
                 self.d.swipe(x2, y2, x1, y1)
-                time.sleep(1)
+                time.sleep(0.5 + get_delay())
         return False
 
     def breaking(self):
@@ -63,8 +63,8 @@ class Break(Task):
             self.last = int(time.time())
             self.__choose_group()
             if self.__find_under_level_scroll():
-                self.last = (self.last + int(time.time()) - 10) / 2
-                time.sleep(5)
+                self.last = (self.last + int(time.time()) - 20) / 2
+                time.sleep(4.5 + get_delay())
                 if not self.d.exists('level_6.1334x750.png', method='color'):
                     fighting(self)
                     self.times += 1
