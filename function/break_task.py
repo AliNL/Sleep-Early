@@ -59,6 +59,21 @@ class Break(Task):
         return False
 
     def breaking(self):
+        for i in range(3):
+            self.last = int(time.time())
+            self.__choose_group()
+            if self.__find_under_level_scroll():
+                time.sleep(4.5 + get_delay())
+                if not self.d.exists('level_6.1334x750.png', method='color'):
+                    fighting(self)
+                    self.times += 1
+                else:
+                    self.d.click_image('breaking.1334x750.png', timeout=1.0)
+            else:
+                self.broken[self.target - 1] = 1
+                print '第%d个阴阳寮刷完了' % self.target
+            self.analysis()
+            self.wait()
         while 0 in self.broken and time.time() - self.start < self.time_:
             self.last = int(time.time())
             self.__choose_group()
