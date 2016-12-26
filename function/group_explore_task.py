@@ -17,7 +17,7 @@ class ExploreG(Task):
     def __fight_monster(self):
         for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0):
-                time.sleep(2.5 + DELAY)
+                time.sleep(2.5 + device_delay)
                 if is_exploring_g(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
@@ -30,14 +30,14 @@ class ExploreG(Task):
             else:
                 direction = 'left' if i > 0 else 'right'
                 self.d.click(*self.position.get(direction))
-                time.sleep(1.5 + DELAY)
+                time.sleep(1.5 + device_delay)
         return False
 
     @log2("打boss")
     def __fight_boss(self):
         for t in range(3):
             if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=3.0):
-                time.sleep(2.5 + DELAY)
+                time.sleep(2.5 + device_delay)
                 if is_exploring_g(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
@@ -70,7 +70,7 @@ class ExploreG(Task):
     def get_small_box(self):
         while not in_explore_map(self.d):
             if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + DELAY)
+                time.sleep(0.5 + device_delay)
                 continue_(self, 1)
                 self.small_box += 1
 
@@ -78,12 +78,12 @@ class ExploreG(Task):
     def get_big_box(self):
         for i in range(2):
             if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + DELAY)
+                time.sleep(0.5 + device_delay)
                 continue_(self, 3)
                 self.big_box += 1
                 return True
             else:
-                time.sleep(DELAY)
+                time.sleep(device_delay)
         return False
 
     @log("是否体力不足")

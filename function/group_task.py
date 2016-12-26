@@ -17,7 +17,7 @@ class Group(Task):
             raise Exception("体力不足")
         for t in range(3):
             if self.d.click_image('start_fighting.1334x750.png', timeout=1.0):
-                time.sleep(2.5 + DELAY)
+                time.sleep(2.5 + device_delay)
                 if not self.d.exists('in_group.1334x750.png'):
                     return True
         return False

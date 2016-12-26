@@ -8,8 +8,8 @@ class Task(object):
     def launch(self, device):
         if device == 'android':
             driver = atx.connect()
-            global DELAY
-            DELAY = 0.5
+            global device_delay
+            device_delay = 0.5
         elif device == 'ios':
             fl = open('session_id_ios')
             sid = fl.read()

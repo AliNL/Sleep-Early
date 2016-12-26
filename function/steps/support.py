@@ -5,7 +5,8 @@ import functools
 
 import sys
 
-DELAY = 0
+global device_delay
+device_delay = 0
 
 
 def now(seconds=None):
@@ -70,7 +71,7 @@ def sure(func):
     def make_sure(*args, **kw):
         for i in range(0, 5):
             result = func(*args, **kw)
-            time.sleep(0.5 + DELAY)
+            time.sleep(0.5 + device_delay)
             if func(*args, **kw) == result:
                 return result
 
