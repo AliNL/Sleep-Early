@@ -4,7 +4,7 @@ from steps import *
 
 
 class Break(Task):
-    def __init__(self, time_, level, device):
+    def __init__(self, time_, level, target, device):
         if not 0 < level < 8:
             raise IOError("Invalid level!!!")
         super(Break, self).__init__(device)
@@ -12,12 +12,12 @@ class Break(Task):
         self.start = time.time()
         self.time_ = time_ * 3600
         self.level = level
-        self.target = 0
+        self.target = target - 1
         self.broken = [0, 0, 0]
         self.last = 0
 
     def wait(self):
-        begin = self.last + 195
+        begin = self.last + 190
         while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
             get_bonus_task(self.d)
@@ -40,7 +40,7 @@ class Break(Task):
             img = 'level_' + str(i) + '.1334x750.png'
             if self.d.click_image(img, method='color', threshold=0.9, timeout=1.0):
                 time.sleep(1)
-                self.d.click_image('attack.1334x750.png', timeout=1.0)
+                click_once(self.d, 'attack.1334x750.png')
                 return True
         return False
 
@@ -60,17 +60,16 @@ class Break(Task):
 
     def breaking(self):
         while 0 in self.broken and time.time() - self.start < self.time_:
+            self.last = int(time.time())
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(5)
-                self.last = int(time.time())
                 if not self.d.exists('level_6.1334x750.png', method='color'):
                     fighting(self)
                     self.times += 1
                 else:
                     self.d.click_image('breaking.1334x750.png', timeout=1.0)
             else:
-                self.last = int(time.time())
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
             self.analysis()
