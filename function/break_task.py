@@ -63,6 +63,7 @@ class Break(Task):
             self.last = int(time.time())
             self.__choose_group()
             if self.__find_under_level_scroll():
+                self.last = (self.last + int(time.time()) - 5) / 2
                 time.sleep(5)
                 if not self.d.exists('level_6.1334x750.png', method='color'):
                     fighting(self)
