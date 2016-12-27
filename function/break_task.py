@@ -28,7 +28,6 @@ class Break(Task):
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
-        navigate_to_public_breaking(self.d)
         x, y = self.position.get('first_target')
         self.target = 1 if self.target == 3 else (self.target + 1)
         self.d.click(x, y * self.target)
@@ -59,6 +58,7 @@ class Break(Task):
         return False
 
     def breaking(self):
+        navigate_to_public_breaking(self.d)
         for i in range(3):
             self.last = int(time.time())
             self.__choose_group()
