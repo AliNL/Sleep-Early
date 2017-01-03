@@ -63,7 +63,7 @@ class Break(Task):
         return False
 
     def breaking(self):
-        navigate_to_public_breaking(self.d)
+        navigate_to_explore_map(self.d)
         for i in range(3):
             self.last = int(time.time())
             self.reopen_breaking()
