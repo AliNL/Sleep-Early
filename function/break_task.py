@@ -30,6 +30,7 @@ class Break(Task):
         self.d.click_image('close.1334x750.png', timeout=1.0)
         self.d.click_image('break_icon.1334x750.png', timeout=1.0)
         self.d.click_image('public_tab.1334x750.png', timeout=1.0)
+        time.sleep(2)
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
