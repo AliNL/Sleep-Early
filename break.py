@@ -7,7 +7,7 @@ import getopt
 def main(argv):
     time_ = 0
     level = 0
-    target = 0
+    target = 1
     device = ''
 
     try:
