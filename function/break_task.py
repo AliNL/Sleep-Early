@@ -17,7 +17,7 @@ class Break(Task):
         self.last = 0
 
     def wait(self):
-        begin = self.last + 200
+        begin = self.last + 195
         while time.time() < begin:
             self.d.click_image('busy.1334x750.png', timeout=1.0)
             get_bonus_task(self.d)
@@ -25,6 +25,11 @@ class Break(Task):
             sys.stdout.write('%s -> wait until %s' % (now(), now(begin)))
             sys.stdout.flush()
         sys.stdout.write('\n')
+
+    def reopen_breaking(self):
+        self.d.click_image('close.1334x750.png', timeout=1.0)
+        self.d.click_image('break_icon.1334x750.png', timeout=1.0)
+        self.d.click_image('public_tab.1334x750.png', timeout=1.0)
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
@@ -61,6 +66,7 @@ class Break(Task):
         navigate_to_public_breaking(self.d)
         for i in range(3):
             self.last = int(time.time())
+            self.reopen_breaking()
             self.__choose_group()
             if self.__find_under_level_scroll():
                 time.sleep(4.5 + get_delay())
@@ -76,6 +82,7 @@ class Break(Task):
             self.wait()
         while 0 in self.broken and time.time() - self.start < self.time_:
             self.last = int(time.time())
+            self.reopen_breaking()
             self.__choose_group()
             if self.__find_under_level_scroll():
                 self.last = (self.last + int(time.time()) - 15) / 2
