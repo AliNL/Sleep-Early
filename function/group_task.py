@@ -16,7 +16,7 @@ class Group(Task):
             self.analysis()
             raise Exception("体力不足")
         for t in range(3):
-            if self.d.click_image('start_fighting.1334x750.png', timeout=1.0):
+            if self.d.click_image('start_fighting.1334x750.png', method='color', timeout=1.0):
                 time.sleep(2.5 + get_delay())
                 if not self.d.exists('in_group.1334x750.png'):
                     return True
@@ -27,11 +27,9 @@ class Group(Task):
         fighting(self)
         self.times += 1
 
-    @log("点击确定")
     def ok(self):
         click_ok(self.d)
 
-    @log("接受组队邀请")
     def get_invitation(self):
         click_get(self.d)
 
