@@ -13,13 +13,11 @@ class Group(Task):
     def start_group_fight(self):
         if self.d.exists('buying_energy.1334x750.png'):
             os.system('say -v Ting-Ting "体力不足"')
-            self.analysis()
-            raise Exception("体力不足")
-        for t in range(3):
-            if self.d.click_image('start_fighting.1334x750.png', method='color', timeout=1.0):
-                time.sleep(2.5 + get_delay())
-                if not self.d.exists('in_group.1334x750.png'):
-                    return True
+            return False
+        if self.d.click_image('start_fighting.1334x750.png', method='color', timeout=30.0):
+            time.sleep(2.5 + get_delay())
+            if not self.d.exists('in_group.1334x750.png'):
+                return True
         return False
 
     @log("完成组队战斗")
