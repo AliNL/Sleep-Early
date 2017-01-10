@@ -447,7 +447,7 @@ class DeviceMixin(object):
             position = (x + dx, y + dy)  # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_TMPL_COLOR:  # IMG_METHOD_TMPL_COLOR
             ret_all = ac.find_all_template(screen, search_img, maxcnt=10)
-            if ret_all is None:
+            if not ret_all:
                 return None
             for ret in ret_all:
                 confidence = ret['confidence']
