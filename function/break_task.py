@@ -27,9 +27,9 @@ class Break(Task):
         sys.stdout.write('\n')
 
     def reopen_breaking(self):
-        self.d.click_image('close.1334x750.png', timeout=1.0)
-        self.d.click_image('break_icon.1334x750.png', timeout=1.0)
-        self.d.click_image('public_tab.1334x750.png', timeout=1.0)
+        self.d.click_image('close.1334x750.png', timeout=5.0)
+        self.d.click_image('break_icon.1334x750.png', timeout=5.0)
+        self.d.click_image('public_tab.1334x750.png', timeout=5.0)
         time.sleep(2)
 
     @log("切换目标阴阳寮")
