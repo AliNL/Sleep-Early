@@ -27,13 +27,13 @@ from atx import logutils
 from atx.base import nameddict
 from atx.drivers import Pattern, Bounds, FindPoint
 
-
 warnings.simplefilter('default')
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 log = logutils.getLogger(__name__)
 
 _Condition = collections.namedtuple('WatchCondition', ['pattern', 'exists'])
+
 
 class WatcherItem(object):
     """
@@ -57,6 +57,7 @@ class WatcherItem(object):
     - hooks
         functions
     """
+
     def __init__(self, watcher, rule):
         self._w = watcher
         self._r = rule
@@ -98,10 +99,12 @@ class WatcherItem(object):
                 self._w._dev.click(*args, **kwargs)
             else:
                 self._w._dev.click(*event.pos)
+
         return self.do(_inner)
 
     def click_image(self, *args, **kwargs):
         """ async trigger click_image """
+
         def _inner(event):
             return self._w._dev.click_image(*args, **kwargs)
 
@@ -110,7 +113,9 @@ class WatcherItem(object):
     def quit(self):
         def _inner(event):
             self._w._done = True
+
         return self.do(_inner)
+
 
 class Watcher(object):
     Handler = collections.namedtuple('Handler', ['selector', 'action'])
@@ -215,6 +220,7 @@ class Watcher(object):
 Traceback = collections.namedtuple('Traceback', ['stack', 'exception'])
 HookEvent = nameddict('HookEvent', ['flag', 'args', 'kwargs', 'retval', 'traceback', 'depth', 'is_before'])
 
+
 def hook_wrap(event_type):
     def wrap(fn):
         @functools.wraps(fn)
@@ -244,8 +250,11 @@ def hook_wrap(event_type):
             finally:
                 trigger(HookEvent(is_before=False, retval=_retval, traceback=_traceback))
                 self._depth -= 1
+
         return _inner
+
     return wrap
+
 
 class DeviceMixin(object):
     def __init__(self):
@@ -334,7 +343,7 @@ class DeviceMixin(object):
                 return ret
             time.sleep(0.2)
         if not safe:
-            raise errors.ImageNotFoundError('Not found image %s' %(pattern,))
+            raise errors.ImageNotFoundError('Not found image %s' % (pattern,))
 
     def touch(self, x, y):
         """ Alias for click """
@@ -434,6 +443,21 @@ class DeviceMixin(object):
             confidence = ret['confidence']
             if confidence > threshold:
                 matched = True
+            (x, y) = ret['result']
+            position = (x + dx, y + dy)  # fix by offset
+        elif match_method == consts.IMAGE_MATCH_METHOD_TMPL_COLOR:  # IMG_METHOD_TMPL_COLOR
+            ret_all = ac.find_all_template(screen, search_img, maxcnt=10)
+            if not ret_all:
+                return None
+            for ret in ret_all:
+                confidence = ret['confidence']
+                if confidence > threshold:
+                    (x, y) = ret['rectangle'][0]
+                    color_screen = screen[y, x, 2]
+                    color_img = search_img[0, 0, 2]
+                    if -10 < int(color_img) - int(color_screen) < 10:
+                        matched = True
+                        break
             (x, y) = ret['result']
             position = (x + dx, y + dy)  # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_SIFT:
@@ -555,7 +579,7 @@ class DeviceMixin(object):
             return point
         else:
             sys.stdout.write('\n')
-            raise errors.AssertExistsError('image not found %s' %(pattern,))
+            raise errors.AssertExistsError('image not found %s' % (pattern,))
 
     @hook_wrap(consts.EVENT_CLICK_IMAGE)
     def click_nowait(self, pattern, action='click', desc=None, **match_kwargs):
@@ -602,11 +626,11 @@ class DeviceMixin(object):
         while time.time() - start_time < timeout:
             point = self.match(pattern, **match_kwargs)
             if point is None:
-                sys.stdout.write('.')
-                sys.stdout.flush()
+                # sys.stdout.write('.')
+                # sys.stdout.flush()
                 continue
 
-            # log.debug('confidence: %s', point.confidence)
+            log.debug('confidence: %s', point.confidence)
             if not point.matched:
                 # log.info('Ignore confidence: %s', point.confidence)
                 continue
@@ -620,11 +644,11 @@ class DeviceMixin(object):
 
             found = True
             break
-        sys.stdout.write('\n')
+        # sys.stdout.write('\n')
 
         if not found:
             if safe:
-            # log.info("Image(%s) not found, safe=True, skip", pattern)
+                # log.info("Image(%s) not found, safe=True, skip", pattern)
                 return None
             raise errors.ImageNotFoundError('Not found image %s' % pattern, point)
 

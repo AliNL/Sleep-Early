@@ -1,3 +1,4 @@
-from find import *
-from do import *
-from get_log import *
+from common_steps import *
+from support import *
+from position import *
+from navigation import *

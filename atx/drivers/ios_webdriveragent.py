@@ -33,28 +33,28 @@ class IOSDevice(DeviceMixin):
         if bundle_id:
             self.start_app(bundle_id)
 
-            # ioskit.Device.__init__(self, udid)
+        # ioskit.Device.__init__(self, udid)
 
-            # # xcodebuild -project  -scheme WebDriverAgentRunner -destination "id=1002c0174e481a651d71e3d9a89bd6f90d253446" test
-            # # Test Case '-[UITestingUITests testRunner]' started.
-            # xproj_dir = os.getenv('WEBDRIVERAGENT_DIR')
-            # if not xproj_dir:
-            #     raise RuntimeError("env-var WEBDRIVERAGENT_DIR need to be set")
+        # # xcodebuild -project  -scheme WebDriverAgentRunner -destination "id=1002c0174e481a651d71e3d9a89bd6f90d253446" test
+        # # Test Case '-[UITestingUITests testRunner]' started.
+        # xproj_dir = os.getenv('WEBDRIVERAGENT_DIR')
+        # if not xproj_dir:
+        #     raise RuntimeError("env-var WEBDRIVERAGENT_DIR need to be set")
 
-            # proc = self._xcproc = subprocess.Popen(['/usr/bin/xcodebuild',
-            #     '-project', 'WebDriverAgent.xcodeproj',
-            #     '-scheme', 'WebDriverAgentRunner',
-            #     '-destination', 'id='+self.udid, 'test'],
-            #     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=xproj_dir, bufsize=1, universal_newlines=True)
-            # for line in iter(proc.stdout.readline, b""):
-            #     print 'STDOUT:', line.strip()
-            #     if 'TEST FAILED' in line:
-            #         raise RuntimeError("webdriver start test failed, maybe need to unlock the keychain, try\n" +
-            #             '$ security unlock-keychain ~/Library/Keychains/login.keychain')
-            #     elif "Successfully wrote Manifest cache" in line:
-            #         print 'GOOD ^_^, wait 5s'
-            #         time.sleep(5.0)
-            #         break
+        # proc = self._xcproc = subprocess.Popen(['/usr/bin/xcodebuild',
+        #     '-project', 'WebDriverAgent.xcodeproj',
+        #     '-scheme', 'WebDriverAgentRunner',
+        #     '-destination', 'id='+self.udid, 'test'],
+        #     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=xproj_dir, bufsize=1, universal_newlines=True)
+        # for line in iter(proc.stdout.readline, b""):
+        #     print 'STDOUT:', line.strip()
+        #     if 'TEST FAILED' in line:
+        #         raise RuntimeError("webdriver start test failed, maybe need to unlock the keychain, try\n" +
+        #             '$ security unlock-keychain ~/Library/Keychains/login.keychain')
+        #     elif "Successfully wrote Manifest cache" in line:
+        #         print 'GOOD ^_^, wait 5s'
+        #         time.sleep(5.0)
+        #         break
 
     def start_app(self, bundle_id):
         """Start an application
@@ -70,6 +70,12 @@ class IOSDevice(DeviceMixin):
         self._session = self._wda.session(bundle_id)
         return self._session
 
+    @property
+    def session(self):
+        if self._session is None:
+            self._session = self._wda.session()
+        return self._session
+
     def stop_app(self, *args):
         if self._session is None:
             return
@@ -78,10 +84,7 @@ class IOSDevice(DeviceMixin):
         self._bundle_id = None
 
     def __call__(self, *args, **kwargs):
-        if self._session is None:
-            self._session = self._wda.session()
-            # raise RuntimeError("Need to call start_app before")
-        return self._session(*args, **kwargs)
+        return self.session(*args, **kwargs)
 
     def status(self):
         """ Check if connection is ok """
@@ -102,9 +105,7 @@ class IOSDevice(DeviceMixin):
     def scale(self):
         if self.__scale:
             return self.__scale
-        if self._session is None:
-            raise RuntimeError("Need to call start_app before")
-        wsize = self._session.window_size()
+        wsize = self.session.window_size()
         self.__scale = min(self.display) / min(wsize)
         return self.__scale
 
@@ -115,21 +116,21 @@ class IOSDevice(DeviceMixin):
             int (0-3)
         """
         rs = dict(PORTRAIT=0, LANDSCAPE=1, UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT=3)
-        return rs.get(self._session.orientation, 0)
+        return rs.get(self.session.orientation, 0)
 
     def type(self, text):
         """Type text
         Args:
             text(string): input text
         """
-        self._session.send_keys(text)
+        self.session.send_keys(text)
 
     def click(self, x, y):
         """Simulate click operation
         Args:
             x, y(int): position
         """
-
+        
         rx, ry = x / self.scale, y / self.scale
         self._session.tap(rx, ry)
 
@@ -142,8 +143,8 @@ class IOSDevice(DeviceMixin):
         """
 
         scale = self.scale
-        x1, y1, x2, y2 = x1 / scale, y1 / scale, x2 / scale, y2 / scale
-        self._session.swipe(x1, y1, x2, y2, duration)
+        x1, y1, x2, y2 = x1/scale, y1/scale, x2/scale, y2/scale
+        self.session.swipe(x1, y1, x2, y2, duration)
 
     def home(self):
         """ Return to homescreen """
