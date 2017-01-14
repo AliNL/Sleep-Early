@@ -34,14 +34,6 @@ def is_exploring(d):
     return False
 
 
-@log("是否在副本中")
-@sure
-def is_exploring_g(d):
-    if d.exists('in_exploring.1334x750.png'):
-        return True
-    return False
-
-
 @log("是否在阴阳寮结界突破")
 @sure
 def is_breaking(d):
