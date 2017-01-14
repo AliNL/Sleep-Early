@@ -124,5 +124,6 @@ def click_ok(d):
 @log("接受组队邀请")
 def click_get(d):
     # click_once(d, 'invitation.1334x750.png')
-    click_once(d, 'get.1334x750.png')
+    # click_once(d, 'cancel.1334x750.png',offset=(2, 0))
+    d.click_image('cancel.1334x750.png', offset=(2, 0), timeout=90.0)
     time.sleep(3)
