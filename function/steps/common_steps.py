@@ -52,10 +52,11 @@ def continue_(task, times=4):
 
 @log_refresh("是否在战斗中")
 @sure
-def is_fighting(d):
-    if d.exists('fighting.1334x750.png'):
+def is_fighting(task):
+    if task.d.exists('fighting.1334x750.png'):
+        task.d.click(*task.position.get('mid'))
         return True
-    if d.exists('ready.1334x750.png'):
+    if task.d.exists('ready.1334x750.png'):
         return True
     return False
 
@@ -93,10 +94,10 @@ def get_ready(d):
 
 
 def fighting(task, times=4):
-    while not is_fighting(task.d):
+    while not is_fighting(task):
         if get_ready(task.d):
             break
-    while is_fighting(task.d):
+    while is_fighting(task):
         pass
     get_bonus_task(task.d)
     continue_(task, times)
