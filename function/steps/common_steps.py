@@ -93,7 +93,9 @@ def get_ready(d):
     return False
 
 
-def fighting(task, times=4):
+def fighting(task, times=4, auto_ready=False):
+    if auto_ready:
+        task.d.click_image('ready_icon.1334x750.png', timeout=20.0)
     while not is_fighting(task):
         if get_ready(task.d):
             break

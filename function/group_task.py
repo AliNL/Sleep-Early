@@ -22,7 +22,7 @@ class Group(Task):
 
     @log("完成组队战斗")
     def group_fight(self):
-        fighting(self)
+        fighting(self, auto_ready=True)
         self.times += 1
 
     def ok(self):
