@@ -56,7 +56,7 @@ class Explore(Task):
 
     @log2("打boss")
     def __fight_boss(self):
-        for t in range(2):
+        for t in range(4):
             if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(3)
                 if is_exploring(self.d):
