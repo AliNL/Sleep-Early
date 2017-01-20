@@ -11,7 +11,7 @@ class Position(dict):
         self['screen_bottom'] = (self.l * 0.75, self.w * 0.8)
         self['right'] = (self.l * 0.9, self.w * 0.8)
         self['left'] = (self.l * 0.1, self.w * 0.8)
-        self['mid'] = (self.l * 0.5, self.w * 0.2)
+        self['mid'] = (self.l * 0.5, self.w * 0.3)
 
     def get(self, k, d=None):
         if k not in self:
