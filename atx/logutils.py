@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from __future__ import unicode_literals
 
 import inspect
 import logging
@@ -59,7 +60,7 @@ class Logger(object):
         )
         props['levelname'] = Logger.__alias.get(levelname, levelname)
         output = u'{asctime} {levelname:<5s} [{name}:{lineno:>4}] {message}'.format(**props)
-        self._write(strutils.encode(output, 'utf-8'))
+        self._write(output)
 
     def debug(self, *args, **kwargs):
         self._level_write(logging.DEBUG, *args, **kwargs)
@@ -78,7 +79,7 @@ class Logger(object):
         raise SystemExit(1)
 
 
-def getLogger(name, level=logging.INFO):
+def getLogger(name, level=logging.CRITICAL):
     # logger = logging.getLogger(name)
     # ch = logging.StreamHandler()
     # fmt = "%(asctime)s %(levelname)-8.8s [%(name)s:%(lineno)4s] %(message)s"
