@@ -34,6 +34,8 @@ class Break(Task):
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
+        if self.d.exists('no_target.1334x750.png'):
+            return -1
         x, y = self.position.get('first_target')
         self.target = 1 if self.target == 3 else (self.target + 1)
         self.d.click(x, y * self.target)
@@ -85,7 +87,8 @@ class Break(Task):
         while 0 in self.broken and time.time() - self.start < self.time_:
             self.last = int(time.time())
             self.reopen_breaking()
-            self.__choose_group()
+            if self.__choose_group() < 0:
+                break
             if self.__find_under_level_scroll():
                 self.last = (self.last + int(time.time()) - 15) / 2
                 time.sleep(4.5 + get_delay())
