@@ -39,7 +39,8 @@ def main(argv):
             task.exploring_wait()
             task.get_small_box()
             task.get_big_box()
-            task.get_invitation()
+            if not task.get_invitation():
+                break
         task.analysis()
 
 

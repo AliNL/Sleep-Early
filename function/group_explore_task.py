@@ -100,7 +100,7 @@ class ExploreG(Task):
 
     @log("接受组队邀请")
     def get_invitation(self):
-        click_get(self.d)
+        return click_get(self.d)
 
     def analysis(self):
         super(ExploreG, self).analysis()

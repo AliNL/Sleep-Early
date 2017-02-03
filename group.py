@@ -35,7 +35,8 @@ def main(argv):
             if not task.wait_in_group():
                 break
             task.group_fight()
-            task.get_invitation()
+            if not task.get_invitation():
+                break
         task.analysis()
 
 

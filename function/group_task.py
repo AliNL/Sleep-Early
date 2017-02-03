@@ -29,7 +29,7 @@ class Group(Task):
         click_ok(self.d)
 
     def get_invitation(self):
-        click_get(self.d)
+        return click_get(self.d)
 
     @log("等待战斗开始")
     def wait_in_group(self):
