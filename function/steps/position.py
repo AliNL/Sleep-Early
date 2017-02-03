@@ -24,14 +24,18 @@ class Position(dict):
 
     @log("获取屏幕坐标")
     def set_up(self):
+        self.d.keep_screen()
         if in_explore_map(self.d):
             x, y = self.d.match('chapter_list.1334x750.png', offset=(0, 1))[0]
             self['chapter_top'] = (x, y)
             self['chapter_bottom'] = (x, y + 4 * (self.l - x))
+            self.d.free_screen()
             return True
         elif is_breaking(self.d):
             self['first_target'] = (self.l * 0.25, self.w * 0.25)
             self['break_top'] = (self.l * 0.75, self.w * 0.25)
             self['break_bottom'] = (self.l * 0.75, self.w * 0.75)
+            self.d.free_screen()
             return True
+        self.d.free_screen()
         return False
