@@ -38,7 +38,7 @@ class Explore(Task):
     def __fight_monster(self):
         for i in range(-8, 8):
             if self.d.click_image('monster_icon.1334x750.png', threshold=0.9, timeout=1.0):
-                time.sleep(3)
+                time.sleep(2.5 + get_delay())
                 if is_exploring(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
@@ -51,14 +51,14 @@ class Explore(Task):
             else:
                 direction = 'left' if i > 0 else 'right'
                 self.d.click(*self.position.get(direction))
-                time.sleep(2)
+                time.sleep(1.5 + get_delay())
         return False
 
     @log2("打boss")
     def __fight_boss(self):
-        for t in range(4):
-            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
-                time.sleep(3)
+        for t in range(3):
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=3.0):
+                time.sleep(2.5 + get_delay())
                 if is_exploring(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
@@ -94,6 +94,7 @@ class Explore(Task):
                 return True
             else:
                 time.sleep(get_delay())
+        self.d.keep_screen()
         return False
 
     @log("查找石距")
@@ -113,6 +114,7 @@ class Explore(Task):
         return False
 
     def analysis(self):
+        self.d.free_screen()
         super(Explore, self).analysis()
         print '┃%25s%-25s┃' % ('monster killed: ', self.monster_killed)
         print '┃%25s%-25s┃' % ('small box: ', self.small_box)

@@ -25,9 +25,11 @@ class Group(Task):
         fighting(self, auto_ready=True)
         self.times += 1
 
+    @log("点击确定")
     def ok(self):
         click_ok(self.d)
 
+    @log("接受组队邀请")
     def get_invitation(self):
         return click_get(self.d)
 

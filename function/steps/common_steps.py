@@ -110,13 +110,11 @@ def get_bonus_task(d):
     d.click_image('bonus_task.1334x750.png', timeout=1.0, offset=(1, 6.5))
 
 
-@log("点击确定")
 def click_ok(d):
     click_button(d, 'ok.1334x750.png')
     time.sleep(3)
 
 
-@log("接受组队邀请")
 def click_get(d):
     # click_once(d, 'invitation.1334x750.png')
     # click_once(d, 'cancel.1334x750.png',offset=(2, 0))
