@@ -93,7 +93,3 @@ def click_button(d, *args, **kw):
         pass
 
 
-def click_once(d, *args, **kw):
-    while not d.click_nowait(*args, **kw):
-        pass
-    d.click_nowait(*args, **kw)

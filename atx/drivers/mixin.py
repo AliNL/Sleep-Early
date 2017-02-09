@@ -202,6 +202,50 @@ class DeviceMixin(object):
             return FindPoint(ret['result'], ret['confidence'], consts.IMAGE_MATCH_METHOD_SIFT, matched=True)
         return None
 
+    def match_all(self, pattern, screen=None, rect=None, offset=None, threshold=None):
+        pattern = self.pattern_open(pattern)
+        search_img = pattern.image
+
+        pattern_scale = self._cal_scale(pattern)
+        if pattern_scale != 1.0:
+            search_img = cv2.resize(search_img, (0, 0),
+                                    fx=pattern_scale, fy=pattern_scale,
+                                    interpolation=cv2.INTER_CUBIC)
+
+        screen = screen or self.region_screenshot()
+        threshold = threshold or pattern.threshold or self.image_match_threshold
+
+        # handle offset if percent, ex (0.2, 0.8)
+        dx, dy = offset or pattern.offset or (0, 0)
+        dx = pattern.image.shape[1] * dx  # opencv object width
+        dy = pattern.image.shape[0] * dy  # opencv object height
+        dx, dy = int(dx * pattern_scale), int(dy * pattern_scale)
+
+        # image match
+        screen = imutils.from_pillow(screen)  # convert to opencv image
+        if rect and isinstance(rect, tuple) and len(rect) == 4:
+            (x0, y0, x1, y1) = [v * pattern_scale for v in rect]
+            (dx, dy) = dx + x0, dy + y0
+            screen = imutils.crop(screen, x0, y0, x1, y1)
+            # cv2.imwrite('cc.png', screen)
+
+        ret = None
+        confidence = None
+        position = None
+        position_list = []
+
+        ret_all = ac.find_all_template(screen, search_img, maxcnt=10)
+        if not ret_all:
+            return None
+        for ret in ret_all:
+            confidence = ret['confidence']
+            if confidence > threshold:
+                (x, y) = ret['result']
+                position = (x + dx, y + dy)
+                position_list.append(position)
+
+        return position_list
+
     def match(self, pattern, screen=None, rect=None, offset=None, threshold=None, method=None):
         """Check if image position in screen
 
@@ -425,6 +469,29 @@ class DeviceMixin(object):
         func = getattr(self, action)
         func(*point.pos)
         return point
+
+    def match_images(self, pattern, timeout=20.0, desc=None, **match_kwargs):
+        pattern = self.pattern_open(pattern)
+        start_time = time.time()
+        points = None
+        while time.time() - start_time < timeout:
+            points = self.match_all(pattern, **match_kwargs)
+            if not points:
+                continue
+
+        return points
+
+    def click_images(self, pattern, timeout=20.0, action='click', desc=None, delay=None, **match_kwargs):
+        points = self.match_images(pattern, timeout, desc, **match_kwargs)
+        if delay and delay > 0:
+            self.delay(delay)
+
+        func = getattr(self, action)
+        for point in points:
+            func(*point)
+
+        return points
+
 
     @hook_wrap(consts.EVENT_CLICK_IMAGE)
     def click_image(self, pattern, timeout=20.0, action='click', safe=True, desc=None, delay=None, **match_kwargs):

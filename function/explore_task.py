@@ -57,7 +57,7 @@ class Explore(Task):
     @log2("打boss")
     def __fight_boss(self):
         for t in range(3):
-            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=3.0):
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
                 time.sleep(2.5 + get_delay())
                 if is_exploring(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
@@ -78,11 +78,18 @@ class Explore(Task):
 
     @log2("捡小宝箱")
     def get_small_box(self):
-        while not in_explore_map(self.d):
-            if self.d.click_image('small_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + get_delay())
-                continue_(self, 1)
-                self.small_box += 1
+        while True:
+            self.d.keep_screen()
+            if in_explore_map(self.d):
+                break
+            boxes = self.d.match_images('small_treasure_box.1334x750.png', timeout=1.0)
+            if boxes:
+                for box in boxes:
+                    self.d.click(*box)
+                    time.sleep(0.5 + get_delay())
+                    continue_(self, 1)
+                    self.small_box += 1
+            self.d.free_screen()
 
     @log("捡大宝箱")
     def get_big_box(self):
@@ -94,11 +101,11 @@ class Explore(Task):
                 return True
             else:
                 time.sleep(get_delay())
-        self.d.keep_screen()
         return False
 
     @log("查找石距")
     def found_shi_ju(self):
+        self.d.keep_screen()
         if self.d.exists('shi_ju.1334x750.png'):
             self.stop_reason = 'shi ju found'
             self.analysis()

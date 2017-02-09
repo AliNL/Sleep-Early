@@ -24,16 +24,20 @@ class ExploreG(Explore):
         fighting(self)
         self.times += 1
 
-    @log("捡大宝箱")
-    def get_big_box(self):
-        for i in range(2):
-            if self.d.click_image('big_treasure_box.1334x750.png', timeout=1.0):
-                time.sleep(0.5 + get_delay())
-                continue_(self, 3)
-                self.big_box += 1
+    @log2("打boss")
+    def __fight_boss(self):
+        for t in range(3):
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=3.0):
+                time.sleep(2.5 + get_delay())
+                if is_exploring(self.d):
+                    if self.d.exists('buying_energy.1334x750.png'):
+                        os.system('say -v Ting-Ting "体力不足"')
+                        self.analysis()
+                        raise Exception("体力不足")
+                    continue
+                fighting(self)
+                self.times += 1
                 return True
-            else:
-                time.sleep(get_delay())
         return False
 
     @log("点击确定")
