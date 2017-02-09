@@ -10,9 +10,8 @@ class Task(object):
             driver = atx.connect()
             set_delay(0.5)
         elif device == 'ios':
-            fl = open('session_id_ios')
-            sid = fl.read()
-            fl.close()
+            with open('session_id_ios') as fl:
+                sid = fl.read()
             driver = atx.connect('http://localhost:8100')
             driver._session = wda.Session('http://localhost:8100', sid)
         else:
