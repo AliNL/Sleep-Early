@@ -48,7 +48,7 @@ class Break(Task):
             img = 'level_' + str(i) + '.1334x750.png'
             if self.d.click_image(img, method='color', threshold=0.9, timeout=1.0):
                 time.sleep(0.5 + get_delay())
-                click_once(self.d, 'attack.1334x750.png')
+                self.d.click_image('attack.1334x750.png', timeout=600)
                 return i
         return -1
 
