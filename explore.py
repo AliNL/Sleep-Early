@@ -51,7 +51,8 @@ def main(argv):
                 task.get_big_box()
                 if task.found_shi_ju():
                     os.system('say -v Ting-Ting "找到石距啦"')
-                    break
+                    time.sleep(30)
+                    # break
                 if task.is_pl_not_enough():
                     os.system('say -v Ting-Ting "体力不足"')
                     break
@@ -64,7 +65,8 @@ def main(argv):
         task.get_big_box()
         if task.found_shi_ju():
             os.system('say -v Ting-Ting "找到石距啦"')
-            task.d.delay(5 * 60)
+            time.sleep(30)
+            # task.d.delay(5 * 60)
             # break
         if task.is_pl_not_enough():
             os.system('say -v Ting-Ting "体力不足"')
@@ -74,3 +76,5 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+
+os.system('say "your program is finished"')

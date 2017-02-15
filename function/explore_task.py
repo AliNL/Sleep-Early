@@ -20,7 +20,7 @@ class Explore(Task):
     def choose_chapter(self):
         image_name = 'C' + str(self.chapter) + '.1334x750.png'
         for t in range(-5, 5):
-            if self.d.click_image(image_name, threshold=0.85, timeout=1.0):
+            if self.d.click_image(image_name, threshold=0.9, timeout=1.0):
                 time.sleep(1)
                 if self.d.click_image('explore_icon.1334x750.png'):
                     time.sleep(3)
@@ -56,7 +56,7 @@ class Explore(Task):
 
     @log2("打boss")
     def __fight_boss(self, delay_):
-        if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=5.0, delay=delay_):
+        if self.d.click_image('boss_icon.1334x750.png', threshold=0.85, timeout=5.0, delay=delay_):
             time.sleep(2.5 + get_delay())
             if is_exploring(self.d):
                 if self.d.exists('buying_energy.1334x750.png'):
