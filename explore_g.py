@@ -29,7 +29,7 @@ def main(argv):
         if is_lead == 'y':
             # if not task.start_group_fight():
             #     break
-            task.exploring_fight()
+            task.exploring_fight(3)
             task.get_small_box()
             time.sleep(10)
             task.ok()

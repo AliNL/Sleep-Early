@@ -55,9 +55,9 @@ class Explore(Task):
         return False
 
     @log2("打boss")
-    def __fight_boss(self):
+    def __fight_boss(self, delay_):
         for t in range(3):
-            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0):
+            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=delay_):
                 time.sleep(2.5 + get_delay())
                 if is_exploring(self.d):
                     if self.d.exists('buying_energy.1334x750.png'):
@@ -70,10 +70,10 @@ class Explore(Task):
                 return True
         return False
 
-    def exploring_fight(self):
-        while not self.__fight_boss():
+    def exploring_fight(self, delay=0):
+        while not self.__fight_boss(delay):
             self.__fight_monster()
-        while self.__fight_boss():
+        while self.__fight_boss(delay):
             pass
 
     @log2("捡小宝箱")
@@ -90,6 +90,7 @@ class Explore(Task):
                     continue_(self, 1)
                     self.small_box += 1
             self.d.free_screen()
+        self.d.free_screen()
 
     @log("捡大宝箱")
     def get_big_box(self):
