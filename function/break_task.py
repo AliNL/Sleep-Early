@@ -28,9 +28,9 @@ class Break(Task):
 
     @log("突破券充足")
     def if_tickets_enough(self):
-        if not self.d.exists('no_tickets.1334x750.png'):
-            return True
-        return False
+        if self.d.exists('no_tickets.1334x750.png', threshold=0.9):
+            return False
+        return True
 
     @log("完成个人结界突破")
     def finish_personal_breaking(self):
