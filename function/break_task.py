@@ -4,7 +4,7 @@ from steps import *
 
 
 class Break(Task):
-    def __init__(self, time_, level, target, device):
+    def __init__(self, time_, level=7, target=1, device='android'):
         if not 0 < level < 8:
             raise IOError("Invalid level!!!")
         super(Break, self).__init__(device)
@@ -25,6 +25,20 @@ class Break(Task):
             sys.stdout.write('%s -> wait until %s' % (now(), now(begin)))
             sys.stdout.flush()
         sys.stdout.write('\n')
+
+    @log("突破券充足")
+    def if_tickets_enough(self):
+        if not self.d.exists('no_tickets.1334x750.png'):
+            return True
+        return False
+
+    @log("完成个人结界突破")
+    def finish_personal_breaking(self):
+        for i in range(5):
+            if self.d.exists('get_bonus.1334x750.png', threshold=0.9):
+                continue_(self, 3)
+                return True
+        return False
 
     def reopen_breaking(self):
         self.d.click_image('close.1334x750.png', timeout=5.0)
@@ -68,6 +82,22 @@ class Break(Task):
 
     def breaking(self):
         navigate_to_explore_map(self.d)
+        if self.time_ < 0:
+            self.d.click_image('break_icon.1334x750.png', timeout=5.0)
+            if not self.d.click_image('refresh.1334x750.png', timeout=5.0):
+                return False
+            self.d.click_image('ok.1334x750.png', timeout=5.0)
+            target = self.d.match_images('empty.1334x750.png', timeout=1.0)
+            if len(target) < 3:
+                return False
+            while not self.finish_personal_breaking():
+                if not self.d.click_image('empty.1334x750.png', timeout=1.0):
+                    break
+                time.sleep(0.5 + get_delay())
+                self.d.click_image('attack.1334x750.png', timeout=1.0)
+                time.sleep(3.5 + get_delay())
+                fighting(self)
+            return True
         for i in range(3):
             self.last = int(time.time())
             self.reopen_breaking()
