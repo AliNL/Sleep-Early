@@ -473,7 +473,7 @@ class DeviceMixin(object):
     def match_images(self, pattern, timeout=20.0, desc=None, **match_kwargs):
         pattern = self.pattern_open(pattern)
         start_time = time.time()
-        points = None
+        points = []
         while time.time() - start_time < timeout:
             points = self.match_all(pattern, **match_kwargs)
             if not points:
