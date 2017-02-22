@@ -30,12 +30,12 @@ def main(argv):
             if not task.start_group_fight():
                 break
             task.group_fight()
-            task.ok()
+            click_ok(task.d)
         else:
             if not task.wait_in_group():
                 break
             task.group_fight()
-            if not task.get_invitation():
+            if not click_get(task.d):
                 break
         task.analysis()
 

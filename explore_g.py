@@ -32,14 +32,14 @@ def main(argv):
             task.exploring_fight(3)
             task.get_small_box()
             time.sleep(10)
-            task.ok()
+            click_ok(task.d)
         else:
             # if not task.wait_in_group():
             #     break
             task.exploring_wait()
             task.get_small_box()
             task.get_big_box()
-            if not task.get_invitation():
+            if not click_get(task.d):
                 break
         task.analysis()
 
