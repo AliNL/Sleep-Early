@@ -5,20 +5,26 @@ import getopt
 
 
 def main(argv):
-    time_ = 0
-    level = 0
+    time_ = 24
+    level = 7
     target = 1
-    device = ''
+    device = 'android'
 
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:a:", ["times=", "level=", "device=", "target="])
     except getopt.GetoptError:
-        print 'Please input: python break.py -d <device> -t <hours> -l <level/10> -a <target>'
+        print('-d\tdevice: ios/android\tdefault: android')
+        print('-l\tlevel: 1~7\tdefault: 7')
+        print('-t\ttime: float(hours)\tdefault: 24')
+        print('-a\tfirst target: 1~3\tdefault: 1')
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python break.py -d <device> -t <hours> -l <level/10> -a <target>'
+            print('-d\tdevice: ios/android\tdefault: android')
+            print('-l\tlevel: 1~7\tdefault: 7')
+            print('-t\ttime: float(hours)\tdefault: 24')
+            print('-a\tfirst target: 1~3\tdefault: 1')
             sys.exit()
         elif opt in ("-t", "--time"):
             time_ = float(arg)
