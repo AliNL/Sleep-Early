@@ -83,7 +83,8 @@ class Break(Task):
                 self.broken[self.target - 1] = 1
                 print '第%d个阴阳寮刷完了' % self.target
             self.analysis()
-            self.wait()
+            if self.time_ > 0:
+                self.wait()
         while 0 in self.broken and time.time() - self.start < self.time_:
             self.last = int(time.time())
             self.reopen_breaking()
