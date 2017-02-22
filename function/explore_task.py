@@ -24,7 +24,7 @@ class Explore(Task):
                 time.sleep(1)
                 if self.d.click_image('explore_icon.1334x750.png'):
                     time.sleep(3)
-                    return True
+                    return self.chapter
             else:
                 x1, y1 = self.position.get('chapter_top')
                 x2, y2 = self.position.get('chapter_bottom')

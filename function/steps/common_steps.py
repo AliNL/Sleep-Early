@@ -3,7 +3,6 @@ from support import *
 
 
 @log_refresh("是否在组队中")
-@sure
 def in_group(d):
     if d.exists('in_group.1334x750.png'):
         return True
@@ -11,7 +10,6 @@ def in_group(d):
 
 
 @log("是否在庭院内")
-@sure
 def in_yard(d):
     if d.exists('mail.1334x750.png'):
         return True
@@ -19,7 +17,6 @@ def in_yard(d):
 
 
 @log("是否在探索地图")
-@sure
 def in_explore_map(d):
     if d.exists('JueXing.1334x750.png'):
         return True
@@ -27,7 +24,6 @@ def in_explore_map(d):
 
 
 @log("是否在副本中")
-@sure
 def is_exploring(d):
     if d.exists('exploring.1334x750.png'):
         return True
@@ -35,7 +31,6 @@ def is_exploring(d):
 
 
 @log("是否在阴阳寮结界突破")
-@sure
 def is_breaking(d):
     if d.exists('breaking.1334x750.png'):
         return True
@@ -51,7 +46,6 @@ def continue_(task, times=4):
 
 
 @log_refresh("是否在战斗中")
-@sure
 def is_fighting(task):
     if task.d.exists('fighting.1334x750.png'):
         task.d.click(*task.position.get('mid'))
@@ -59,13 +53,6 @@ def is_fighting(task):
     if task.d.exists('ready.1334x750.png'):
         return True
     return False
-
-# @log_refresh("是否在选择式神")
-# @sure
-# def is_switching(d):
-#     if d.exists('switching.1334x750.png'):
-#         return True
-#     return False
 
 
 def is_not_ready(d):
@@ -76,7 +63,6 @@ def is_not_ready(d):
 
 @log("自动准备")
 def get_ready(d):
-    # time.sleep(2)
     if d.exists('not_ready.1334x750.png'):
         d.click_image('ready_icon.1334x750.png', timeout=1.0)
         time.sleep(1)
