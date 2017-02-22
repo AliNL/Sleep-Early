@@ -13,8 +13,15 @@ class ExploreG(Explore):
         self.big_box = 0
         self.stop_reason = 'task completed'
 
+    @log("发现boss")
+    def find_boss(self):
+        for i in range(5):
+            if self.d.exists('boss_icon.1334x750.png', threshold=0.9):
+                return True
+        return False
+
     def exploring_wait(self):
-        while not find_boss(self.d):
+        while not self.find_boss():
             while is_exploring(self.d):
                 pass
             fighting(self)

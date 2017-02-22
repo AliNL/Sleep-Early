@@ -60,15 +60,6 @@ def is_fighting(task):
         return True
     return False
 
-
-@log("发现boss")
-def find_boss(d):
-    for i in range(5):
-        if d.exists('boss_icon.1334x750.png', threshold=0.9):
-            return True
-    return False
-
-
 # @log_refresh("是否在选择式神")
 # @sure
 # def is_switching(d):
