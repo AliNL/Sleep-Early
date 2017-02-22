@@ -86,10 +86,3 @@ def sure(func):
     return make_sure
 
 
-def click_button(d, *args, **kw):
-    while not d.click_nowait(*args, **kw):
-        pass
-    while d.click_nowait(*args, **kw):
-        pass
-
-

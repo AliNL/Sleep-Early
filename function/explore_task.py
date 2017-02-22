@@ -43,7 +43,7 @@ class Explore(Task):
                     if self.d.exists('buying_energy.1334x750.png'):
                         os.system('say -v Ting-Ting "体力不足"')
                         self.analysis()
-                        raise Exception("体力不足")
+                        return False
                     continue
                 fighting(self)
                 self.monster_killed += 1
@@ -56,18 +56,16 @@ class Explore(Task):
 
     @log2("打boss")
     def __fight_boss(self, delay_):
-        for t in range(3):
-            if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=1.0, delay=delay_):
-                time.sleep(2.5 + get_delay())
-                if is_exploring(self.d):
-                    if self.d.exists('buying_energy.1334x750.png'):
-                        os.system('say -v Ting-Ting "体力不足"')
-                        self.analysis()
-                        raise Exception("体力不足")
-                    continue
-                fighting(self)
-                self.times += 1
-                return True
+        if self.d.click_image('boss_icon.1334x750.png', threshold=0.9, timeout=5.0, delay=delay_):
+            time.sleep(2.5 + get_delay())
+            if is_exploring(self.d):
+                if self.d.exists('buying_energy.1334x750.png'):
+                    os.system('say -v Ting-Ting "体力不足"')
+                    self.analysis()
+                    return False
+            fighting(self)
+            self.times += 1
+            return True
         return False
 
     def exploring_fight(self, delay=0):
