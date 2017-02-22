@@ -2,6 +2,7 @@
 # coding=utf-8
 from function import *
 
+# 试用版功能,请手动修改参数
 
 ex = Explore(16, 'ios')
 br = Break(-1, device='ios')
@@ -16,12 +17,12 @@ for num in range(100):
     ex.get_big_box()
     if ex.found_shi_ju():
         ex.d.delay(5 * 60)
-    if ex.is_pl_not_enough():
-        break
-    ex.analysis()
     if time.time() - t > 600:
         if br.if_tickets_enough():
             br.breaking()
         bp.breaking()
         t = time.time()
+    if ex.is_pl_not_enough():
+        break
+    ex.analysis()
 
