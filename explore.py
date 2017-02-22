@@ -8,18 +8,22 @@ import getopt
 
 def main(argv):
     times = 0
-    chapter = 0
-    device = ''
+    chapter = 16
+    device = 'android'
 
     try:
         opts, args = getopt.getopt(argv, "ht:c:d:", ["times=", "chapter=", "device="])
     except getopt.GetoptError:
-        print 'Please input: python explore.py -d <device>(android or ios) -t <times>(int) -c <chapter>(0<int<19)'
+        print('-d\tdevice: ios/android\tdefault: android')
+        print('-c\tchapter: 1~18\tdefault: 16')
+        print('-t\ttime: times\tdefault: 0')
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python explore.py -d <device>(android or ios) -t <times>(int) -c <chapter>(0<int<19)'
+            print('-d\tdevice: ios/android\tdefault: android')
+            print('-c\tchapter: 1~18\tdefault: 16')
+            print('-t\ttime: times\tdefault: 0')
             sys.exit()
         elif opt in ("-t", "--times"):
             times = int(arg)
