@@ -1,28 +1,70 @@
 #!/usr/local/bin/ python
 # coding=utf-8
+import getopt
 from function import *
+import xml.dom.minidom
 
-# 试用版功能,请手动修改参数
 
-ex = Explore(16, 'ios')
-br = Break(-1, device='ios')
-bp = Break(0, device='ios')
-t = 0
+def main(argv):
+    try:
+        dom = xml.dom.minidom.parse('config.xml')
+        root = dom.documentElement
+        device = root.getElementsByTagName('device')
+        level = int(root.getElementsByTagName('level'))
+        chapter = int(root.getElementsByTagName('chapter'))
+    except Exception:
+        device = 'android'
+        level = 7
+        chapter = 16
+    finally:
+        times = 25
 
-for num in range(100):
-    navigate_to_explore_map(ex.d)
-    ex.choose_chapter()
-    ex.exploring_fight()
-    ex.get_small_box()
-    ex.get_big_box()
-    if ex.found_shi_ju():
-        ex.d.delay(5 * 60)
-    if time.time() - t > 600:
-        t = time.time()
-        if br.if_tickets_enough():
-            br.breaking()
-        bp.breaking()
-    if ex.is_pl_not_enough():
-        break
-    ex.analysis()
+    try:
+        opts, args = getopt.getopt(argv, "ht:l:d:c:", ["times=", "level=", "device=", "chapter="])
+    except getopt.GetoptError:
+        print('-d\tdevice: ios/android\tdefault: android')
+        print('-l\tlevel: 1~7\tdefault: 7')
+        print('-t\ttimes: int\tdefault: 25')
+        print('-c\tchapter: 1~18\tdefault: 16')
+        sys.exit(2)
 
+    for opt, arg in opts:
+        if opt == "-h":
+            print('-d\tdevice: ios/android\tdefault: android')
+            print('-l\tlevel: 1~7\tdefault: 7')
+            print('-t\ttimes: int\tdefault: 25')
+            print('-c\tchapter: 1~18\tdefault: 16')
+            sys.exit()
+        elif opt in ("-t", "--times"):
+            times = int(arg)
+        elif opt in ("-l", "--level"):
+            level = int(arg)
+        elif opt in ("-c", "--chapter"):
+            chapter = int(arg)
+        elif opt in ("-d", "--device"):
+            device = arg
+
+    ex = Explore(chapter, device)
+    br = Break(-1, level, 1, device)
+    bp = Break(0, level, 1, device)
+    t = 0
+
+    for num in range(times):
+        navigate_to_explore_map(ex.d)
+        ex.choose_chapter()
+        ex.exploring_fight()
+        ex.get_small_box()
+        ex.get_big_box()
+        if ex.found_shi_ju():
+            ex.d.delay(5 * 60)
+        if time.time() - t > 600:
+            if br.if_tickets_enough():
+                br.breaking()
+            t = time.time()
+            bp.breaking()
+        if ex.is_pl_not_enough():
+            break
+        ex.analysis()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
