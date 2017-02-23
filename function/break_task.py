@@ -34,16 +34,19 @@ class Break(Task):
 
     @log("完成个人结界突破")
     def finish_personal_breaking(self):
-        if self.d.wait('get_bonus.1334x750.png', threshold=0.9,timeout=5.0):
+        if self.d.wait('get_bonus.1334x750.png', threshold=0.9, timeout=5.0):
             continue_(self, 3)
             return True
         return False
 
     def reopen_breaking(self):
         self.d.click_image('close.1334x750.png', timeout=5.0)
-        self.d.click_image('break_icon.1334x750.png', timeout=5.0)
-        self.d.click_image('public_tab.1334x750.png', timeout=5.0)
+        self.open_breaking_panel()
+        self.select_public_breaking_tab()
         time.sleep(2)
+
+    def select_public_breaking_tab(self):
+        self.d.click_image('public_tab.1334x750.png', timeout=5.0)
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
@@ -85,13 +88,10 @@ class Break(Task):
     def breaking(self):
         navigate_to_explore_map(self.d)
         if self.time_ < 0:
-            self.d.click_image('break_icon.1334x750.png', timeout=5.0)
-            if not self.d.click_image('refresh.1334x750.png', timeout=5.0):
+            self.open_breaking_panel()
+            if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
                 return False
-            self.d.click_image('ok.1334x750.png', timeout=5.0)
-            target = self.d.match_images('empty.1334x750.png', timeout=1.0)
-            if len(target) < 3:
-                return False
+
             while not self.finish_personal_breaking():
                 if not self.d.click_image('empty.1334x750.png', timeout=1.0):
                     break
@@ -99,6 +99,7 @@ class Break(Task):
                 self.d.click_image('attack.1334x750.png', timeout=1.0)
                 time.sleep(3.5 + get_delay())
                 fighting(self)
+                self.navigate_to_breaking_panel()
             return True
         for i in range(3):
             self.last = int(time.time())
@@ -136,8 +137,27 @@ class Break(Task):
             self.analysis()
             self.wait()
 
+    def validate_empty_targets(self):
+        target = self.d.match_images('empty.1334x750.png', timeout=1.0)
+        if len(target) < 3:
+            return False
+        return True
+
+    def refresh_personal_breaking_panel(self):
+        if not self.d.click_image('refresh.1334x750.png', timeout=5.0):
+            return False
+        self.d.click_image('confirm.1334x750.png', timeout=5.0)
+        return True
+
+    def open_breaking_panel(self):
+        self.d.click_image('break_icon.1334x750.png', timeout=5.0)
+
     def analysis(self):
         super(Break, self).analysis()
         print '┃%31s%-19s┃' % ('target level: under ', self.level * 10)
         print '┃%25s%-25s┃' % ('broken: ', self.broken)
         print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+
+    def navigate_to_breaking_panel(self):
+        while not self.d.exists('public_tab.1334x750.png', threshold=0.85):
+            continue_(self, 1)

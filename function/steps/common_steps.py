@@ -91,7 +91,7 @@ def get_bonus_task(d):
 
 @log("点击确定")
 def click_ok(d):
-    if d.click_image('ok.1334x750.png', timeout=90.0):
+    if d.click_image('confirm.1334x750.png', timeout=90.0):
         time.sleep(3)
         return True
     else:
