@@ -2,13 +2,21 @@
 from function import *
 import sys
 import getopt
+import xml.dom.minidom
 
 
 def main(argv):
-    time_ = 24
-    level = 7
-    target = 1
-    device = 'android'
+    try:
+        dom = xml.dom.minidom.parse('config.xml')
+        root = dom.documentElement
+        device = root.getElementsByTagName('device')
+        level = int(root.getElementsByTagName('level'))
+    except Exception:
+        device = 'android'
+        level = 7
+    finally:
+        time_ = 24
+        target = 1
 
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:a:", ["times=", "level=", "device=", "target="])
