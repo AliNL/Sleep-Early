@@ -2,31 +2,42 @@
 from function import *
 import sys
 import getopt
+import xml.dom.minidom
 
 
 def main(argv):
-    is_lead = ''
-    device = ''
+    try:
+        dom = xml.dom.minidom.parse('config.xml')
+        root = dom.documentElement
+        root.getElementsByTagName('device')
+        device = root.getElementsByTagName('device')
+    except Exception:
+        device = 'android'
+    finally:
+        is_lead = False
+
 
     try:
-        opts, args = getopt.getopt(argv, "hl:d:", ["is_lead=", "device="])
+        opts, args = getopt.getopt(argv, "hld:", ["is_lead=", "device="])
     except getopt.GetoptError:
-        print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
+        print('-d\tdevice: ios/android\tdefault: android')
+        print('-l\tis_lead\tno value needed')
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == "-h":
-            print 'Please input: python group.py -d <device>(android or ios) -l <is_lead>(y or n)'
+            print('-d\tdevice: ios/android\tdefault: android')
+            print('-l\tis_lead\tno value needed')
             sys.exit()
         elif opt in ("-l", "--is_lead"):
-            is_lead = arg
+            is_lead = True
         elif opt in ("-d", "--device"):
             device = arg
 
     task = Group(device)
 
     while True:
-        if is_lead == 'y':
+        if is_lead:
             if not task.start_group_fight():
                 break
             task.group_fight()
