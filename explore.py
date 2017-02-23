@@ -4,12 +4,20 @@ from function import *
 import os
 import sys
 import getopt
+import xml.dom.minidom
 
 
 def main(argv):
-    times = 0
-    chapter = 16
-    device = 'android'
+    try:
+        dom = xml.dom.minidom.parse('config.xml')
+        root = dom.documentElement
+        device = root.getElementsByTagName('device')
+        chapter = int(root.getElementsByTagName('chapter'))
+    except Exception:
+        chapter = 16
+        device = 'android'
+    finally:
+        times = 20
 
     try:
         opts, args = getopt.getopt(argv, "ht:c:d:", ["times=", "chapter=", "device="])
