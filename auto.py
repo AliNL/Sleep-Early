@@ -13,7 +13,7 @@ def main(argv):
         level = int(root.getElementsByTagName('level')[0].firstChild.data)
         chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
         print('loading config from xml...')
-    except Exception:
+    except IOError:
         device = 'android'
         level = 7
         chapter = 16

@@ -11,7 +11,7 @@ def main(argv):
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         print('loading config from xml...')
-    except Exception:
+    except IOError:
         device = 'android'
     finally:
         is_lead = False

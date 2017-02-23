@@ -14,7 +14,7 @@ def main(argv):
         device = root.getElementsByTagName('device')[0].firstChild.data
         chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
         print('loading config from xml...')
-    except Exception:
+    except IOError:
         chapter = 16
         device = 'android'
     finally:
