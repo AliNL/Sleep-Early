@@ -9,9 +9,10 @@ def main(argv):
     try:
         dom = xml.dom.minidom.parse('config.xml')
         root = dom.documentElement
-        device = root.getElementsByTagName('device')
-        level = int(root.getElementsByTagName('level'))
-        chapter = int(root.getElementsByTagName('chapter'))
+        device = root.getElementsByTagName('device')[0].firstChild.data
+        level = int(root.getElementsByTagName('level')[0].firstChild.data)
+        chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
+        print('loading config from xml...')
     except Exception:
         device = 'android'
         level = 7

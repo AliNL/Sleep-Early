@@ -11,8 +11,9 @@ def main(argv):
     try:
         dom = xml.dom.minidom.parse('config.xml')
         root = dom.documentElement
-        device = root.getElementsByTagName('device')
-        chapter = int(root.getElementsByTagName('chapter'))
+        device = root.getElementsByTagName('device')[0].firstChild.data
+        chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
+        print('loading config from xml...')
     except Exception:
         chapter = 16
         device = 'android'

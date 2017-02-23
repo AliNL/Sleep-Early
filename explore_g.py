@@ -9,7 +9,8 @@ def main(argv):
     try:
         dom = xml.dom.minidom.parse('config.xml')
         root = dom.documentElement
-        device = root.getElementsByTagName('device')
+        device = root.getElementsByTagName('device')[0].firstChild.data
+        print('loading config from xml...')
     except Exception:
         device = 'android'
     finally:
