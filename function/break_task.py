@@ -34,10 +34,9 @@ class Break(Task):
 
     @log("完成个人结界突破")
     def finish_personal_breaking(self):
-        for i in range(5):
-            if self.d.exists('get_bonus.1334x750.png', threshold=0.9):
-                continue_(self, 3)
-                return True
+        if self.d.wait('get_bonus.1334x750.png', threshold=0.9,timeout=5.0):
+            continue_(self, 3)
+            return True
         return False
 
     def reopen_breaking(self):
@@ -58,12 +57,15 @@ class Break(Task):
 
     @log("找到目标")
     def __find_under_level(self):
+        self.d.keep_screen()
         for i in range(self.level):
             img = 'level_' + str(i) + '.1334x750.png'
-            if self.d.click_image(img, method='color', threshold=0.9, timeout=1.0):
+            if self.d.click_nowait(img, method='color', threshold=0.9):
+                self.d.free_screen()
                 time.sleep(0.5 + get_delay())
                 self.d.click_image('attack.1334x750.png', timeout=600)
                 return i
+        self.d.free_screen()
         return -1
 
     @log2("寻找低等级目标")

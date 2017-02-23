@@ -18,10 +18,10 @@ for num in range(100):
     if ex.found_shi_ju():
         ex.d.delay(5 * 60)
     if time.time() - t > 600:
+        t = time.time()
         if br.if_tickets_enough():
             br.breaking()
         bp.breaking()
-        t = time.time()
     if ex.is_pl_not_enough():
         break
     ex.analysis()
