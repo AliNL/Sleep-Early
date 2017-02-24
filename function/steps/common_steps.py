@@ -4,37 +4,37 @@ from support import *
 
 @log_refresh("是否在组队中")
 def in_group(d):
-    if d.exists('in_group.1334x750.png'):
-        return True
-    return False
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('in_group.1334x750.png')
 
 
 @log("是否在庭院内")
 def in_yard(d):
-    if d.exists('mail.1334x750.png'):
-        return True
-    return False
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('mail.1334x750.png')
 
 
 @log("是否在探索地图")
 def in_explore_map(d):
-    if d.exists('JueXing.1334x750.png'):
-        return True
-    return False
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('JueXing.1334x750.png')
 
 
 @log("是否在副本中")
 def is_exploring(d):
-    if d.exists('exploring.1334x750.png'):
-        return True
-    return False
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('exploring.1334x750.png')
 
 
 @log("是否在阴阳寮结界突破")
 def is_breaking(d):
-    if d.exists('breaking.1334x750.png'):
-        return True
-    return False
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('breaking.1334x750.png')
+
+
+def is_not_ready(d):
+    time.sleep(0.5 + get_delay())
+    return not not d.exists('not_ready.1334x750.png')
 
 
 @log1("继续")
@@ -51,12 +51,6 @@ def is_fighting(task):
         task.d.click(*task.position.get('mid'))
         return True
     if task.d.exists('ready.1334x750.png'):
-        return True
-    return False
-
-
-def is_not_ready(d):
-    if d.exists('not_ready.1334x750.png'):
         return True
     return False
 
