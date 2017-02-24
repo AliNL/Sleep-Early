@@ -7,7 +7,6 @@ from common_steps import *
 @log("前往探索地图")
 def navigate_to_explore_map(d):
     for i in range(5):
-        d.click_image('busy.1334x750.png', timeout=1.0)
         if in_explore_map(d):
             return True
         d.click_image('in_group.1334x750.png', timeout=1.0)
@@ -20,7 +19,6 @@ def navigate_to_explore_map(d):
 @log("前往阴阳寮结界突破")
 def navigate_to_public_breaking(d):
     for i in range(5):
-        d.click_image('busy.1334x750.png', timeout=1.0)
         if is_breaking(d):
             return True
         navigate_to_explore_map(d)
