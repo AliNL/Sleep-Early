@@ -1,8 +1,6 @@
 # coding=utf-8
 import time
-
 import functools
-
 import sys
 
 device_delay = 0
@@ -86,3 +84,12 @@ def sure(func):
     return make_sure
 
 
+def freeze(func):
+    @functools.wraps(func)
+    def keep(d, *args, **kw):
+        d.keep_screen()
+        result = func(d, *args, **kw)
+        d.free_screen()
+        return result
+
+    return keep
