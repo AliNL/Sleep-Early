@@ -56,9 +56,10 @@ def is_fighting(task):
 
 
 @log("自动准备")
+@freeze
 def get_ready(d):
     if d.exists('not_ready.1334x750.png'):
-        d.click_image('ready_icon.1334x750.png', timeout=1.0)
+        d.click_nowait('ready_icon.1334x750.png')
         time.sleep(1)
         return True
     return False
@@ -68,7 +69,7 @@ def fighting(task, times=4, auto_ready=False):
     if auto_ready:
         task.d.click_image('ready_icon.1334x750.png', timeout=20.0)
     else:
-        time.sleep(2)
+        time.sleep(1.5+ get_delay())
     while not is_fighting(task):
         if get_ready(task.d):
             break
