@@ -1,5 +1,4 @@
 # coding=utf-8
-from support import log
 from common_steps import *
 
 

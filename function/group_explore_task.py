@@ -1,5 +1,4 @@
 # coding=utf-8
-import os
 from explore_task import *
 from steps import *
 
