@@ -75,11 +75,13 @@ def log_refresh(text):
 def sure(func):
     @functools.wraps(func)
     def make_sure(*args, **kw):
-        for i in range(0, 5):
+        for i in range(5):
             result = func(*args, **kw)
-            time.sleep(0.5 + get_delay())
-            if func(*args, **kw) == result:
-                return result
+            if result:
+                return True
+            time.sleep(get_delay())
+            if not func(*args, **kw):
+                return False
 
     return make_sure
 
