@@ -25,11 +25,11 @@ class Break(Task):
             sys.stdout.flush()
         sys.stdout.write('\n')
 
-    @log("突破券充足")
+    @log_underline("突破券充足")
     def if_tickets_enough(self):
         return not self.d.exists('no_tickets.1334x750.png', threshold=0.95)
 
-    @log("完成个人结界突破")
+    @log_underline("完成个人结界突破")
     def finish_personal_breaking(self):
         if self.d.wait('get_bonus.1334x750.png', threshold=0.9, timeout=5.0):
             continue_(self, 3)
@@ -37,7 +37,6 @@ class Break(Task):
         return False
 
     def reopen_breaking(self):
-        self.d.click_image('close.1334x750.png', timeout=5.0)
         self.open_breaking_panel()
         self.select_public_breaking_tab()
         time.sleep(2)
@@ -82,56 +81,52 @@ class Break(Task):
                 time.sleep(0.5 + get_delay())
         return False
 
+    def personal_breaking(self):
+        self.open_breaking_panel()
+        if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
+            return False
+        while not self.finish_personal_breaking():
+            if not self.d.click_image('empty.1334x750.png', timeout=1.0):
+                break
+            time.sleep(0.5 + get_delay())
+            self.d.click_image('attack.1334x750.png', timeout=1.0)
+            time.sleep(3.5 + get_delay())
+            fighting(self)
+        return True
+
+    def public_breaking(self, start=False):
+        self.last = int(time.time())
+        self.reopen_breaking()
+        if self.__choose_group() < 0:
+            return False
+        if self.__find_under_level_scroll():
+            if not start:
+                self.last = (self.last + int(time.time()) - 15) / 2
+            time.sleep(4 + get_delay())
+            if not self.d.exists('level_6.1334x750.png', method='color'):
+                fighting(self)
+                self.times += 1
+            else:
+                self.d.click_image('breaking.1334x750.png', timeout=1.0)
+        else:
+            self.broken[self.target - 1] = 1
+            print '第%d个阴阳寮刷完了' % self.target
+        self.d.click_image('close.1334x750.png', timeout=5.0)
+        self.analysis()
+        return True
+
     def breaking(self):
         navigate_to_explore_map(self.d)
         if self.time_ < 0:
-            self.open_breaking_panel()
-            if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
-                return False
-
-            while not self.finish_personal_breaking():
-                if not self.d.click_image('empty.1334x750.png', timeout=1.0):
-                    break
-                time.sleep(0.5 + get_delay())
-                self.d.click_image('attack.1334x750.png', timeout=1.0)
-                time.sleep(3.5 + get_delay())
-                fighting(self)
-                self.navigate_to_breaking_panel()
-            return True
+            return self.personal_breaking()
         for i in range(3):
-            self.last = int(time.time())
-            self.reopen_breaking()
-            self.__choose_group()
-            if self.__find_under_level_scroll():
-                time.sleep(4.5 + get_delay())
-                if not self.d.exists('level_6.1334x750.png', method='color'):
-                    fighting(self)
-                    self.times += 1
-                else:
-                    self.d.click_image('breaking.1334x750.png', timeout=1.0)
-            else:
-                self.broken[self.target - 1] = 1
-                print '第%d个阴阳寮刷完了' % self.target
-            self.analysis()
+            if not self.public_breaking(True):
+                return False
             if self.time_ > 0:
                 self.wait()
         while 0 in self.broken and time.time() - self.start < self.time_:
-            self.last = int(time.time())
-            self.reopen_breaking()
-            if self.__choose_group() < 0:
-                break
-            if self.__find_under_level_scroll():
-                self.last = (self.last + int(time.time()) - 15) / 2
-                time.sleep(4.5 + get_delay())
-                if not self.d.exists('level_6.1334x750.png', method='color'):
-                    fighting(self)
-                    self.times += 1
-                else:
-                    self.d.click_image('breaking.1334x750.png', timeout=1.0)
-            else:
-                self.broken[self.target - 1] = 1
-                print '第%d个阴阳寮刷完了' % self.target
-            self.analysis()
+            if not self.public_breaking():
+                return False
             self.wait()
 
     def validate_empty_targets(self):
@@ -154,7 +149,3 @@ class Break(Task):
         print '┃%31s%-19s┃' % ('target level: under ', self.level * 10)
         print '┃%25s%-25s┃' % ('broken: ', self.broken)
         print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
-
-    def navigate_to_breaking_panel(self):
-        while not self.d.exists('public_tab.1334x750.png', threshold=0.85):
-            continue_(self, 1)
