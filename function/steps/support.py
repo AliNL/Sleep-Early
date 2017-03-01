@@ -56,6 +56,19 @@ def log(text):
     return decorator
 
 
+def log_underline(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            result = func(*args, **kw)
+            print '%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result)
+            print '-------------------------------------------------------------------------------------------------'
+            return result
+
+        return wrapper
+
+    return decorator
+
+
 def log_refresh(text):
     def decorator(func):
         def wrapper(*args, **kw):
