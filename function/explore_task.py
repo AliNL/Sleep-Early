@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
-from task import *
-from steps import *
+
+from .task import *
 
 
 class Explore(Task):
@@ -122,7 +122,7 @@ class Explore(Task):
     def analysis(self):
         self.d.free_screen()
         super(Explore, self).analysis()
-        print '┃%25s%-25s┃' % ('monster killed: ', self.monster_killed)
-        print '┃%25s%-25s┃' % ('small box: ', self.small_box)
-        print '┃%25s%-25s┃' % ('big box: ', self.big_box)
-        print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+        print('┃%25s%-25s┃' % ('monster killed: ', self.monster_killed))
+        print('┃%25s%-25s┃' % ('small box: ', self.small_box))
+        print('┃%25s%-25s┃' % ('big box: ', self.big_box))
+        print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')

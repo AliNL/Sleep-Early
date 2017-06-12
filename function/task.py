@@ -1,7 +1,8 @@
 # coding=utf-8
 import atx
 import wda
-from steps import *
+
+from .steps import *
 
 
 class Task(object):
@@ -28,10 +29,10 @@ class Task(object):
         self.stop_reason = 'task completed'
 
     def analysis(self):
-        print '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'
-        print '┃ %-49s┃' % (self.name + ' finished!!!')
-        print '┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫'
-        print '┃%25s%-25s┃' % ('start time: ', self.start_time)
-        print '┃%25s%-25s┃' % ('finish time: ', now())
-        print '┃%25s%-25s┃' % ('times: ', self.times)
-        print '┃%25s%-25s┃' % ('stop reason: ', self.stop_reason)
+        print('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓')
+        print('┃ %-49s┃' % (self.name + ' finished!!!'))
+        print('┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫')
+        print('┃%25s%-25s┃' % ('start time: ', self.start_time))
+        print('┃%25s%-25s┃' % ('finish time: ', now()))
+        print('┃%25s%-25s┃' % ('times: ', self.times))
+        print('┃%25s%-25s┃' % ('stop reason: ', self.stop_reason))

@@ -1,13 +1,13 @@
-#!/usr/bin/env python
-from function import *
-import sys
+# coding=utf-8
 import getopt
-import xml.dom.minidom
+from xml.dom import minidom
+
+from function import *
 
 
 def main(argv):
     try:
-        dom = xml.dom.minidom.parse('config.xml')
+        dom = minidom.parse('config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)

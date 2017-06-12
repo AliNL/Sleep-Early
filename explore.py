@@ -1,15 +1,14 @@
 #!/usr/local/bin/ python
 # coding=utf-8
-from function import *
-import os
-import sys
 import getopt
-import xml.dom.minidom
+from xml.dom import minidom
+
+from function import *
 
 
 def main(argv):
     try:
-        dom = xml.dom.minidom.parse('config.xml')
+        dom = minidom.parse('config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)

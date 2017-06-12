@@ -1,7 +1,7 @@
 # coding=utf-8
-import time
 import functools
 import sys
+import time
 
 device_delay = 0
 
@@ -22,7 +22,7 @@ def now(seconds=None):
 def log1(text):
     def decorator(func):
         def wrapper(*args, **kw):
-            print '%s -> %s: Call %s()' % (now(), text, func.__name__)
+            print('%s -> %s: Call %s()' % (now(), text, func.__name__))
             return func(*args, **kw)
 
         return wrapper
@@ -33,10 +33,10 @@ def log1(text):
 def log2(text):
     def decorator(func):
         def wrapper(*args, **kw):
-            print '%s -> 开始%s: Call %s()' % (now(), text, func.__name__)
+            print('%s -> 开始%s: Call %s()' % (now(), text, func.__name__))
             result = func(*args, **kw)
-            print '%s -> 完成%s: Call %s() return %s' % (now(), text, func.__name__, result)
-            print '-------------------------------------------------------------------------------------------------'
+            print('%s -> 完成%s: Call %s() return %s' % (now(), text, func.__name__, result))
+            print('-------------------------------------------------------------------------------------------------')
             return result
 
         return wrapper
@@ -48,7 +48,7 @@ def log(text):
     def decorator(func):
         def wrapper(*args, **kw):
             result = func(*args, **kw)
-            print '%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result)
+            print('%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result))
             return result
 
         return wrapper
@@ -60,8 +60,8 @@ def log_underline(text):
     def decorator(func):
         def wrapper(*args, **kw):
             result = func(*args, **kw)
-            print '%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result)
-            print '-------------------------------------------------------------------------------------------------'
+            print('%s -> %s: Call %s() return %s' % (now(), text, func.__name__, result))
+            print('-------------------------------------------------------------------------------------------------')
             return result
 
         return wrapper

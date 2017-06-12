@@ -1,13 +1,13 @@
-#!/usr/local/bin/ python
 # coding=utf-8
 import getopt
+from xml.dom import minidom
+
 from function import *
-import xml.dom.minidom
 
 
 def main(argv):
     try:
-        dom = xml.dom.minidom.parse('config.xml')
+        dom = minidom.parse('config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)
@@ -66,6 +66,7 @@ def main(argv):
         if ex.is_pl_not_enough():
             break
         ex.analysis()
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -1,6 +1,7 @@
 # coding=utf-8
 import os
-from task import *
+
+from .task import *
 
 
 class Group(Task):
@@ -36,4 +37,4 @@ class Group(Task):
 
     def analysis(self):
         super(Group, self).analysis()
-        print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+        print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')

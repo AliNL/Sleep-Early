@@ -1,6 +1,6 @@
 # coding=utf-8
-from explore_task import *
-from steps import *
+from .explore_task import *
+from .steps import *
 
 
 class ExploreG(Explore):

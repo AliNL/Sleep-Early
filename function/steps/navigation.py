@@ -1,7 +1,5 @@
 # coding=utf-8
-import position
-import support
-from common_steps import *
+from .common_steps import *
 
 
 @freeze

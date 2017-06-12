@@ -1,5 +1,5 @@
 # coding=utf-8
-from common_steps import *
+from .common_steps import *
 
 
 class Position(dict):

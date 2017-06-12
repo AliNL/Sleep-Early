@@ -1,6 +1,5 @@
 # coding=utf-8
-from task import *
-from steps import *
+from .task import *
 
 
 class Break(Task):
@@ -101,7 +100,7 @@ class Break(Task):
             return False
         if self.__find_under_level_scroll():
             if not start:
-                self.last = (self.last + int(time.time()) - 15) / 2
+                self.last = (self.last + float(time.time()) - 15) / 2
             time.sleep(4 + get_delay())
             if not self.d.exists('level_6.1334x750.png', method='color'):
                 fighting(self)
@@ -110,7 +109,7 @@ class Break(Task):
                 self.d.click_image('breaking.1334x750.png', timeout=1.0)
         else:
             self.broken[self.target - 1] = 1
-            print '第%d个阴阳寮刷完了' % self.target
+            print('第%d个阴阳寮刷完了' % self.target)
         self.d.click_image('close.1334x750.png', timeout=5.0)
         self.analysis()
         return True
@@ -146,6 +145,6 @@ class Break(Task):
 
     def analysis(self):
         super(Break, self).analysis()
-        print '┃%31s%-19s┃' % ('target level: under ', self.level * 10)
-        print '┃%25s%-25s┃' % ('broken: ', self.broken)
-        print '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+        print('┃%31s%-19s┃' % ('target level: under ', self.level * 10))
+        print('┃%25s%-25s┃' % ('broken: ', self.broken))
+        print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')
