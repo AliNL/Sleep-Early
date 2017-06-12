@@ -1,37 +1,29 @@
 # coding=utf-8
 
-from appJar import gui
+from base_window import Window
+from task import TaskChoose
 
-import task
 
-
-class Config(object):
+class Config(Window):
     TICK = "\u2714"
     CROSS = "\u2716"
-    validation = {"device": "invalid", "chapter": "invalid", "level": "invalid"}
-    level_list = {"全部": "7", "59级以下": "6", "49级以下": "5", "39级以下": "4",
+    VALIDATION = {"device": "invalid", "chapter": "invalid", "level": "invalid"}
+    LEVEL_LIST = {"全部": "7", "59级以下": "6", "49级以下": "5", "39级以下": "4",
                   "29级以下": "3", "19级以下": "2", "9级以下": "1"}
-
-    def __init__(self):
-        self.app = gui("护肝宝", "600x450")
-        self.app.setFont(14)
-        self.app.setGuiPadding(100, 20)
-        self.app.setInPadding(20, 10)
-        self.app.setSticky("ew")
 
     def set_valid(self, name):
         self.app.setMessage(name, self.TICK)
         self.app.setMessageFg(name, "green")
-        self.validation[name] = "valid"
+        self.VALIDATION[name] = "valid"
 
     def set_invalid(self, name, message=""):
         self.app.setMessage(name, self.CROSS + message)
         self.app.setMessageFg(name, "red")
-        self.validation[name] = "invalid"
+        self.VALIDATION[name] = "invalid"
 
     def check_all_data(self):
-        for key in self.validation:
-            if self.validation[key] == "invalid":
+        for key in self.VALIDATION:
+            if self.VALIDATION[key] == "invalid":
                 return
         self.app.enableButton("确定")
 
@@ -52,7 +44,7 @@ class Config(object):
     def save_config(self, btn):
         device = self.app.getOptionBox("device")
         chapter = self.app.getOptionBox("chapter")
-        level = self.level_list[self.app.getOptionBox("level")]
+        level = self.LEVEL_LIST[self.app.getOptionBox("level")]
 
         fl = open('config.xml', 'w')
         fl.write('<root>\n')
@@ -62,26 +54,32 @@ class Config(object):
         fl.write('</root>')
         fl.close()
         self.app.stop()
-        task.main()
+        TaskChoose().choose_task()
 
     def start_config(self):
         self.app.addLabel("title", "请保存默认配置", 0, 0, 3)
         self.app.addLabel("device", "设备类型：", 1, 0)
         self.app.setLabelAlign("device", "right")
         self.app.addOptionBox("device", ["- 空 -", "android", "ios"], 1, 1)
+        self.app.setOptionBoxAlign("device", "left")
         self.app.addEmptyMessage("device", 1, 2)
+        self.app.setMessageAlign("device", "left")
         self.app.addLabel("chapter", "常用章节：", 2, 0)
         self.app.setLabelAlign("chapter", "right")
         self.app.addOptionBox("chapter", ["- 空 -",
                                           "18", "17", "16", "15", "14", "13", "12", "11", "10", "9",
                                           "8", "7", "6", "5", "4", "3", "2", "1"], 2, 1)
+        self.app.setOptionBoxAlign("chapter", "left")
         self.app.addEmptyMessage("chapter", 2, 2)
+        self.app.setMessageAlign("chapter", "left")
         self.app.addLabel("level", "突破等级：", 3, 0)
         self.app.setLabelAlign("level", "right")
         self.app.addOptionBox("level", ["- 空 -", "全部", "59级以下", "49级以下", "39级以下", "29级以下", "19级以下", "9级以下"], 3, 1)
+        self.app.setOptionBoxAlign("level", "left")
         self.app.addEmptyMessage("level", 3, 2)
-
-        self.app.addButton("确定", self.save_config, 4, 1, 1)
+        self.app.setMessageAlign("level", "left")
+        self.app.addButton("确定", self.save_config, 4, 0, 3)
+        self.app.setButtonSticky("确定", "")
         self.app.disableButton("确定")
 
         self.set_invalid("device")
