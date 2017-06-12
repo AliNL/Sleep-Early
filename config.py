@@ -1,6 +1,6 @@
 # coding:utf-8
 
-fl = open('config.xml', 'wb')
+fl = open('config.xml', 'w')
 fl.write('<root>\n')
 print('正在进行配置...\n')
 print('请输入常用设备(ios/android):')
