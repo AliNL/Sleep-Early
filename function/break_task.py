@@ -14,13 +14,16 @@ class Break(Task):
         self.target = target - 1
         self.broken = [0, 0, 0]
         self.last = 0
+        self.next = 0
+
+    def get_next_time(self):
+        self.next = self.last + 195
 
     def wait(self):
-        begin = self.last + 195
-        while time.time() < begin:
+        while time.time() < self.next:
             get_bonus_task(self.d)
             sys.stdout.write('\r')
-            sys.stdout.write('%s -> wait until %s' % (now(), now(begin)))
+            sys.stdout.write('%s -> wait until %s' % (now(), now(self.next)))
             sys.stdout.flush()
         sys.stdout.write('\n')
 
@@ -122,10 +125,12 @@ class Break(Task):
             if not self.public_breaking(True):
                 return False
             if self.time_ > 0:
+                self.get_next_time()
                 self.wait()
         while 0 in self.broken and time.time() - self.start < self.time_:
             if not self.public_breaking():
                 return False
+            self.get_next_time()
             self.wait()
 
     def validate_empty_targets(self):

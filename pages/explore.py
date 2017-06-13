@@ -1,5 +1,4 @@
 # coding=utf-8
-import threading
 from xml.dom import minidom
 
 from function import Explore, navigate_to_explore_map
@@ -25,12 +24,12 @@ class ExploreTask(Pipeline):
             task.choose_chapter()
             self.status = {"选择章节": "pass", "打怪": "going"}
             task.exploring_fight()
+
             self.status = {"打怪": "pass", "捡宝箱": "going"}
             task.get_small_box()
             task.get_big_box()
             self.status = {"捡宝箱": "pass", "打石距": "going"}
             if task.found_shi_ju():
                 task.d.delay(5 * 60)
+            self.times_done = task.times
             task.analysis()
-
-# ExploreTask(100).start()

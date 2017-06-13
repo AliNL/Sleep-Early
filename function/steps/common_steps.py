@@ -82,7 +82,7 @@ def fighting(task, times=4, auto_ready=False):
 
 
 def get_bonus_task(d):
-    d.click_image('images/bonus_task.1334x750.png', timeout=1.0, offset=(1, 6.5))
+    d.click_image('images/bonus_task.1334x750.png', safe=True, timeout=1.0, offset=(1, 6.5))
 
 
 @log("点击确定")

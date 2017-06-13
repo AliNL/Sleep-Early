@@ -1,5 +1,4 @@
 # coding=utf-8
-import threading
 import time
 
 from pages.base_window import Window
@@ -24,14 +23,16 @@ class Pipeline(Window):
         self.status_list = status_list
         self.status = {}
         self.task_running = None
-        self.current = ""
+        self.current = status_list[0]
         # self.set_pipeline()
 
     def run_task(self):
         pass
 
-    def stop_task(self):
-        pass
+    def stop_task(self, btn):
+        self.app.stop()
+        from pages.task import TaskChoose
+        TaskChoose().choose_task()
 
     def set_pipeline(self, task_running):
         self.task_running = task_running
@@ -57,6 +58,7 @@ class Pipeline(Window):
         self.app.go()
 
     def update_pipeline(self):
+        self.app.setLabel("times", "已刷了" + str(self.times_done) + "次")
         if not self.task_running.isAlive():
             self.set_status(self.current, "fail")
             return
@@ -66,13 +68,17 @@ class Pipeline(Window):
 
     def set_status(self, name, value):
         if isinstance(value, int):
-            if time.time() > value:
+            if value == 0:
+                self.app.setImage(name, self.READY)
+                self.app.setLabel(name, "")
+            elif time.time() < value:
                 self.app.setImage(name, self.PENDING)
-                pending = str(int(600 + value - time.time()))
+                pending = str(int(value - time.time()))
                 self.app.setLabel(name, pending + " 秒后")
             else:
+                self.current = name
                 self.app.setImage(name, self.GOING)
-                pending = str(int(time.time() - value))
+                pending = str(int(60 - time.time() + value))
                 self.app.setLabel(name, "剩余 " + pending + " 秒")
         elif value == "going":
             self.current = name
@@ -86,4 +92,7 @@ class Pipeline(Window):
             self.app.setLabel(name, "")
         elif value == "fail":
             self.app.setImage(name, self.FAIL)
-            self.app.setLabel(name, "任务中断")
+            self.app.setLabel(name, "任务出错")
+        else:
+            self.app.setImage(name, self.PENDING)
+            self.app.setLabel(name, "")
