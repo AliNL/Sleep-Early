@@ -1,7 +1,8 @@
 # coding=utf-8
 
-from base_window import Window
-from task import TaskChoose
+from app.task import TaskChoose
+
+from app.base_window import Window
 
 
 class Config(Window):

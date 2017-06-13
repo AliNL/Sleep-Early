@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# coding=utf-8
 import getopt
 from xml.dom import minidom
 

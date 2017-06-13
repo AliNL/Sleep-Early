@@ -1,7 +1,7 @@
 import os
+from app.config import Config
 
-from config import Config
-from task import TaskChoose
+from app.task import TaskChoose
 
 
 def main():

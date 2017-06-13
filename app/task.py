@@ -1,10 +1,10 @@
 # coding=utf-8
 import os
 
-from auto import AutoTask
-from base_window import Window
-import config
-from explore import ExploreTask
+from app import config
+from app.auto import AutoTask
+from app.base_window import Window
+from app.explore import ExploreTask
 
 
 class TaskChoose(Window):

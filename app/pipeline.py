@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from base_window import Window
+from app.base_window import Window
 
 
 class Pipeline(Window):
@@ -51,7 +51,7 @@ class Pipeline(Window):
     def update_pipeline(self):
         for name in self.status:
             self.set_status(name, self.status[name])
-        self.status = []
+        self.status = {}
 
     def set_status(self, name, value):
         if value.isdigit():

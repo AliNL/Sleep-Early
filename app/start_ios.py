@@ -1,4 +1,4 @@
-#!/usr/local/bin/ python
+# coding=utf-8
 import atx
 
 driver = atx.connect('http://localhost:8100')

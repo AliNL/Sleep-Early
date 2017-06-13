@@ -1,4 +1,4 @@
-#!/usr/local/bin/ python
+# coding=utf-8
 import getopt
 from xml.dom import minidom
 
@@ -33,18 +33,18 @@ def main(argv):
         elif opt in ("-d", "--device"):
             device = arg
 
-    task = Group(device)
+    task = ExploreG(device)
 
     while True:
         if is_lead:
-            if not task.start_group_fight():
-                break
-            task.group_fight()
+            task.exploring_fight(3)
+            task.get_small_box()
+            time.sleep(10)
             click_ok(task.d)
         else:
-            if not task.wait_in_group():
-                break
-            task.group_fight()
+            task.exploring_wait()
+            task.get_small_box()
+            task.get_big_box()
             if not click_get(task.d):
                 break
         task.analysis()

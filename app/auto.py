@@ -1,8 +1,8 @@
 # coding=utf-8
 from xml.dom import minidom
 
+from app.pipeline import Pipeline
 from function import *
-from pipeline import Pipeline
 
 
 class AutoTask(Pipeline):
@@ -58,4 +58,3 @@ class AutoTask(Pipeline):
                 self.status = {"个人突破": "pass", "阴阳寮突破": "going"}
                 bp.breaking()
             ex.analysis()
-

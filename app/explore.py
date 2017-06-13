@@ -1,14 +1,15 @@
 # coding=utf-8
+
 from xml.dom import minidom
+
+from app.pipeline import Pipeline
 from function import Explore, navigate_to_explore_map
-from pipeline import Pipeline
 
 
 class ExploreTask(Pipeline):
     def __init__(self, times):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距"])
         self.times = times
-        self.status = {}
 
     def start(self):
         dom = minidom.parse('config.xml')
