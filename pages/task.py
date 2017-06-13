@@ -1,10 +1,9 @@
 # coding=utf-8
+import threading
+
 import os
 
-from app import config
-from app.auto import AutoTask
-from app.base_window import Window
-from app.explore import ExploreTask
+from pages.base_window import Window
 
 
 class TaskChoose(Window):
@@ -18,7 +17,8 @@ class TaskChoose(Window):
         if os.path.exists('config.xml'):
             os.remove('config.xml')
         self.app.stop()
-        config.Config().start_config()
+        from pages.config_page import ConfigPage
+        ConfigPage().start_config()
 
     def set_message(self, name):
         self.app.setMessage("message", self.MESSAGE[name])
@@ -40,15 +40,29 @@ class TaskChoose(Window):
 
         self.set_message(task_type)
 
+    @staticmethod
+    def start(task):
+        task_ruuning = threading.Thread(target=task.run_task)
+        task_ruuning.start()
+        task.set_pipeline(task_ruuning)
+
     def start_task(self, btn):
         task_type = self.app.getOptionBox("task")
         times = int(float(self.app.getEntry("times")))
         is_lead = self.app.getCheckBox("我是队长")
         self.app.stop()
         if task_type == "自动":
-            AutoTask(times).start()
+            from pages.auto import AutoTask
+            task = AutoTask(times)
         elif task_type == "单人探索":
-            ExploreTask(times).start()
+            from pages.explore import ExploreTask
+            task = ExploreTask(times)
+        elif task_type == "组队副本":
+            from pages.group import GroupTask
+            task = GroupTask(times, is_lead)
+        else:
+            task = None
+        self.start(task)
 
     def choose_task(self):
         self.app.addLabel("task", "选择任务：", 0, 0, 1)

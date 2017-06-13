@@ -1,9 +1,9 @@
 # coding=utf-8
-
+import threading
 from xml.dom import minidom
 
-from app.pipeline import Pipeline
 from function import Explore, navigate_to_explore_map
+from pages.pipeline import Pipeline
 
 
 class ExploreTask(Pipeline):
@@ -11,14 +11,12 @@ class ExploreTask(Pipeline):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距"])
         self.times = times
 
-    def start(self):
+    def run_task(self):
         dom = minidom.parse('config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
-
         task = Explore(chapter, device)
-
         for num in range(self.times):
             self.status = {"选择章节": "going", "打怪": "ready", "捡宝箱": "ready", "打石距": "ready"}
             navigate_to_explore_map(task.d)
@@ -34,3 +32,5 @@ class ExploreTask(Pipeline):
             if task.found_shi_ju():
                 task.d.delay(5 * 60)
             task.analysis()
+
+# ExploreTask(100).start()

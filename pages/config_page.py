@@ -1,11 +1,11 @@
 # coding=utf-8
 
-from app.task import TaskChoose
+from pages.task import TaskChoose
 
-from app.base_window import Window
+from pages.base_window import Window
 
 
-class Config(Window):
+class ConfigPage(Window):
     TICK = "\u2714"
     CROSS = "\u2716"
     VALIDATION = {"device": "invalid", "chapter": "invalid", "level": "invalid"}

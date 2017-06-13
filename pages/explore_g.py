@@ -16,23 +16,6 @@ def main(argv):
     finally:
         is_lead = False
 
-    try:
-        opts, args = getopt.getopt(argv, "hld:", ["is_lead=", "device="])
-    except getopt.GetoptError:
-        print('-d\tdevice: ios/android\tdefault: android')
-        print('-l\tis_lead\tno value needed')
-        sys.exit(2)
-
-    for opt, arg in opts:
-        if opt == "-h":
-            print('-d\tdevice: ios/android\tdefault: android')
-            print('-l\tis_lead\tno value needed')
-            sys.exit()
-        elif opt in ("-l", "--is_lead"):
-            is_lead = True
-        elif opt in ("-d", "--device"):
-            device = arg
-
     task = ExploreG(device)
 
     while True:

@@ -1,14 +1,15 @@
 import os
-from app.config import Config
+from pages.config_page import ConfigPage
 
-from app.task import TaskChoose
+from pages.task import TaskChoose
 
 
 def main():
     if not os.path.exists('config.xml'):
-        Config().start_config()
+        ConfigPage().start_config()
     else:
         TaskChoose().choose_task()
 
 
-main()
+if __name__ == "__main__":
+    main()
