@@ -1,9 +1,10 @@
 # coding=utf-8
 import os
 
-from auto import Auto
+from auto import AutoTask
 from base_window import Window
 import config
+from explore import ExploreTask
 
 
 class TaskChoose(Window):
@@ -45,7 +46,9 @@ class TaskChoose(Window):
         is_lead = self.app.getCheckBox("我是队长")
         self.app.stop()
         if task_type == "自动":
-            Auto(times).start()
+            AutoTask(times).start()
+        elif task_type == "单人探索":
+            ExploreTask(times).start()
 
     def choose_task(self):
         self.app.addLabel("task", "选择任务：", 0, 0, 1)

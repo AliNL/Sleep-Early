@@ -13,7 +13,7 @@ class Pipeline(Window):
 
     def __init__(self, status_list):
         super().__init__()
-        self.app.setGeometry(None, None)
+        self.app.setResizable(canResize=False)
         self.app.setPadding([10, 0])
         self.app.setInPadding([1, 1])
         self.app.setSticky("nsew")
@@ -37,19 +37,16 @@ class Pipeline(Window):
                 column = 0
             self.app.addLabel(name + "Label", name, row, column, 1)
             self.app.addImage(name, self.READY, row + 1, column, 1)
-            # # self.app.setImageBg(name, "black")
-            # self.app.setImageRelief(name, "sunken")
             self.app.addLabel(name, "", row + 2, column, 1)
             column += 1
-
         if total == 0:
             total = column
-
         self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", row + 3, total - 2, 2)
         self.app.addButton("停止并返回", self.stop_task, row + 3, 0, 2)
         self.app.setButtonSticky("停止并返回", "")
         self.app.registerEvent(self.update_pipeline)
         self.app.setPollTime(100)
+        self.app.go()
 
     def update_pipeline(self):
         for name in self.status:
