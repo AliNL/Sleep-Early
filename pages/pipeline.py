@@ -24,13 +24,17 @@ class Pipeline(Window):
         self.status = {}
         self.task_running = None
         self.current = status_list[0]
-        # self.set_pipeline()
+        self.task = None
 
     def run_task(self):
         pass
 
+    def kill(self):
+        self.task.d = None
+
     def stop_task(self, btn):
         self.app.stop()
+        self.kill()
         from pages.task import TaskChoose
         TaskChoose().choose_task()
 
