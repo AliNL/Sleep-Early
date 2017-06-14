@@ -24,24 +24,28 @@ class GroupTask(Pipeline):
                 t = time.time() - 1
                 self.status = {"开始战斗": t, "打怪": "ready", "发送邀请": "ready"}
                 if not self.task.start_group_fight():
-                    self.status = {"开始战斗": "fail"}
+                    self.status["开始战斗"] = "fail"
                     break
-                self.status = {"开始战斗": "pass", "打怪": "going"}
+                self.status["开始战斗"] = "pass"
+                self.status["打怪"] = "going"
                 self.task.group_fight()
-                self.status = {"打怪": "pass", "发送邀请": "going"}
+                self.status["打怪"] = "pass"
+                self.status["发送邀请"] = "going"
                 click_ok(self.task.d)
             else:
                 t = time.time() - 1
                 self.status = {"等待开始": t, "打怪": "ready", "等待邀请": "ready"}
                 if not self.task.wait_in_group():
-                    self.status = {"等待开始": "fail"}
+                    self.status["等待开始"] = "fail"
                     break
-                self.status = {"等待开始": "pass", "打怪": "going"}
+                self.status["等待开始"] = "pass"
+                self.status["打怪"] = "going"
                 self.task.group_fight()
                 t = time.time() - 1
-                self.status = {"打怪": "pass", "等待邀请": t}
+                self.status["打怪"] = "pass"
+                self.status["等待邀请"] = t
                 if not click_get(self.task.d):
-                    self.status = {"等待邀请": "fail"}
+                    self.status["等待邀请"] = "fail"
                     break
             self.times_done = self.task.times
             self.task.analysis()
