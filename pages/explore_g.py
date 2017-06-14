@@ -1,21 +1,14 @@
 # coding=utf-8
-import getopt
 from xml.dom import minidom
 
 from function import *
 
 
 def main(argv):
-    try:
-        dom = minidom.parse('config.xml')
-        root = dom.documentElement
-        device = root.getElementsByTagName('device')[0].firstChild.data
-        print('loading config from xml...')
-    except IOError:
-        device = 'android'
-    finally:
-        is_lead = False
-
+    dom = minidom.parse('config.xml')
+    root = dom.documentElement
+    device = root.getElementsByTagName('device')[0].firstChild.data
+    is_lead = False
     task = ExploreG(device)
 
     while True:
@@ -32,6 +25,3 @@ def main(argv):
                 break
         task.analysis()
 
-
-if __name__ == "__main__":
-    main(sys.argv[1:])

@@ -4,6 +4,7 @@
 ## 环境搭建
    1. pip3 install opencv_contrib_python
    1. pip3 install --pre --upgrade atx
+   1. pip3 install appjar
    1. 注意是pip3啊
 
 ## iOS

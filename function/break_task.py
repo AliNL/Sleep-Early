@@ -137,7 +137,7 @@ class Break(Task):
             self.wait()
 
     def validate_empty_targets(self):
-        target = self.d.match_images('images/empty.1334x750.png', timeout=1.0)
+        target = self.d.match_all('images/empty.1334x750.png', timeout=1.0)
         if len(target) < 3:
             return False
         return True

@@ -88,6 +88,7 @@ class Explore(Task):
                     continue_(self, 1)
                     self.small_box += 1
             self.d.free_screen()
+            time.sleep(1)
         self.d.free_screen()
 
     @log("捡大宝箱")
