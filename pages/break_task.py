@@ -19,41 +19,36 @@ class BreakTask(Pipeline):
         self.status = {"突破阴阳寮1": "going", "突破阴阳寮2": "pending", "突破阴阳寮3": "pending"}
         navigate_to_explore_map(self.task.d)
         for i in range(3):
-            if i == 0:
-                self.status = {"突破阴阳寮1": "going", "突破阴阳寮2": "pending", "突破阴阳寮3": "ready"}
-            elif i == 1:
-                self.status = {"突破阴阳寮1": "ready", "突破阴阳寮2": "going", "突破阴阳寮3": "pending"}
-            else:
-                self.status = {"突破阴阳寮1": "pending", "突破阴阳寮2": "ready", "突破阴阳寮3": "going"}
+            self.set_all_status(i + 1, "going", "pending")
             if not self.task.public_breaking(True):
                 raise IOError
             self.times_done = self.task.times
             if self.task.time_ > 0:
                 self.task.get_next_time()
-                pending = self.task.next
-                if i == 0:
-                    self.status = {"突破阴阳寮1": "pass", "突破阴阳寮2": pending}
-                elif i == 1:
-                    self.status = {"突破阴阳寮2": "pass", "突破阴阳寮3": pending}
-                else:
-                    self.status = {"突破阴阳寮3": "pass", "突破阴阳寮1": pending}
+                pending = int(self.task.next)
+                self.set_all_status(i + 1, "pass", pending)
                 self.task.wait()
         while 0 in self.task.broken and time.time() - self.task.start < self.task.time_:
-            if i == 0:
-                self.status = {"突破阴阳寮1": "going", "突破阴阳寮2": "pending", "突破阴阳寮3": "ready"}
-            elif i == 1:
-                self.status = {"突破阴阳寮1": "ready", "突破阴阳寮2": "going", "突破阴阳寮3": "pending"}
+            if self.task.target == 3:
+                i = 0
             else:
-                self.status = {"突破阴阳寮1": "pending", "突破阴阳寮2": "ready", "突破阴阳寮3": "going"}
+                i = self.task.target
+            self.set_all_status(i + 1, "going", "pending")
             if not self.task.public_breaking():
                 raise IOError
             self.times_done = self.task.times
             self.task.get_next_time()
-            pending = self.task.next
-            if i == 0:
-                self.status = {"突破阴阳寮1": "pass", "突破阴阳寮2": pending}
-            elif i == 1:
-                self.status = {"突破阴阳寮2": "pass", "突破阴阳寮3": pending}
-            else:
-                self.status = {"突破阴阳寮3": "pass", "突破阴阳寮1": pending}
+            pending = int(self.task.next)
+            self.set_all_status(self.task.target, "pass", pending)
             self.task.wait()
+
+    def set_all_status(self, i, status1, status2):
+        if i == 1:
+            self.status["突破阴阳寮1"] = status1
+            self.status["突破阴阳寮2"] = status2
+        elif i == 2:
+            self.status["突破阴阳寮2"] = status1
+            self.status["突破阴阳寮3"] = status2
+        else:
+            self.status["突破阴阳寮3"] = status1
+            self.status["突破阴阳寮1"] = status2
