@@ -1,8 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
 .idea
 *.pyc
-/session_id_ios
-/main.py
-*.iml
-
 /config.xml
+/launcher.spec
+/build/
+/dist/
