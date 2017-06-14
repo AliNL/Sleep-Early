@@ -1,6 +1,5 @@
 # coding=utf-8
 import atx
-import wda
 
 from .steps import *
 
@@ -11,13 +10,10 @@ class Task(object):
             driver = atx.connect()
             set_delay(0.8)
         elif device == 'ios':
-            with open('session_id_ios') as fl:
-                sid = fl.read()
             driver = atx.connect('http://localhost:8100')
-            driver._session = wda.Session('http://localhost:8100', sid)
         else:
             raise IOError('Invalid device type!!!')
-        driver.image_path = ['.', 'images']
+        atx.drivers.mixin.log.setLevel(50)
         return driver
 
     def __init__(self, device):

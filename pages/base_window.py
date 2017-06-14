@@ -9,3 +9,4 @@ class Window(object):
         self.app.setGuiPadding(50, 50)
         self.app.setInPadding(5, 5)
         self.app.setSticky("ew")
+        self.app.disableWarnings()
