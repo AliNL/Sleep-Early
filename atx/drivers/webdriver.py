@@ -37,7 +37,8 @@ def urljoin(*urls):
 
     This function fix that.
     """
-    return reduce(urlparse.urljoin, [u.strip('/')+'/' for u in urls if u.strip('/')], '').rstrip('/')
+    from functools import reduce
+    return reduce(urlparse.urljoin, [u.strip('/') + '/' for u in urls if u.strip('/')], '').rstrip('/')
 
 
 class WebDriverError(Exception):
@@ -56,13 +57,13 @@ def httpdo(method, url, data=None):
     if isinstance(data, dict):
         data = json.dumps(data)
     if DEBUG:
-        print "Shell: curl -X {method} -d '{data}' '{url}'".format(method=method, data=data or '', url=url)
+        print("Shell: curl -X {method} -d '{data}' '{url}'".format(method=method, data=data or '', url=url))
 
     fn = dict(GET=requests.get, POST=requests.post, DELETE=requests.delete)[method]
     response = fn(url, data=data)
     retjson = response.json()
     if DEBUG:
-        print 'Return:', json.dumps(retjson, indent=4)
+        print('Return:', json.dumps(retjson, indent=4))
     r = convert(retjson)
     if r.status != 0:
         raise WebDriverError(r.status, r.value)
