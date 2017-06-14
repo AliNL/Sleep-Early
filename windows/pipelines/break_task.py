@@ -2,7 +2,7 @@
 from xml.dom import minidom
 
 from function import *
-from pages.pipeline import Pipeline
+from windows.pipelines.pipeline import Pipeline
 
 
 class BreakTask(Pipeline):

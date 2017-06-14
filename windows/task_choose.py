@@ -3,7 +3,7 @@ import threading
 
 import os
 
-from pages.base_window import Window
+from windows.base_window import Window
 
 
 class TaskChoose(Window):
@@ -17,7 +17,7 @@ class TaskChoose(Window):
         if os.path.exists('./config.xml'):
             os.remove('./config.xml')
         self.app.stop()
-        from pages.config_page import ConfigPage
+        from windows.config_window import ConfigPage
         ConfigPage().start_config()
 
     def set_message(self, name):
@@ -52,16 +52,16 @@ class TaskChoose(Window):
         is_lead = self.app.getCheckBox("我是队长")
         self.app.stop()
         if task_type == "自动":
-            from pages.auto import AutoTask
+            from windows.pipelines.auto import AutoTask
             task = AutoTask(int(times))
         elif task_type == "单人探索":
-            from pages.explore import ExploreTask
+            from windows.pipelines.explore import ExploreTask
             task = ExploreTask(int(times))
         elif task_type == "组队副本":
-            from pages.group import GroupTask
+            from windows.pipelines.group import GroupTask
             task = GroupTask(int(times), is_lead)
         elif task_type == "结界突破":
-            from pages.break_task import BreakTask
+            from windows.pipelines.break_task import BreakTask
             task = BreakTask(times)
         else:
             task = None

@@ -1,8 +1,8 @@
 # coding=utf-8
 from xml.dom import minidom
 
-from pages.pipeline import Pipeline
 from function import *
+from windows.pipelines.pipeline import Pipeline
 
 
 class AutoTask(Pipeline):

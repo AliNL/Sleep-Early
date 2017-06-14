@@ -2,7 +2,7 @@
 from xml.dom import minidom
 
 from function import Explore, navigate_to_explore_map
-from pages.pipeline import Pipeline
+from windows.pipelines.pipeline import Pipeline
 
 
 class ExploreTask(Pipeline):

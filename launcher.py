@@ -1,7 +1,7 @@
 import os
-from pages.config_page import ConfigPage
+from windows.config_window import ConfigPage
 
-from pages.task_choose import TaskChoose
+from windows.task_choose import TaskChoose
 
 
 def main():

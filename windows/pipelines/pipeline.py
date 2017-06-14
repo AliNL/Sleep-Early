@@ -1,7 +1,7 @@
 # coding=utf-8
 import time
 
-from pages.base_window import Window
+from windows.base_window import Window
 
 
 class Pipeline(Window):
@@ -35,7 +35,7 @@ class Pipeline(Window):
     def stop_task(self, btn):
         self.app.stop()
         self.kill()
-        from pages.task_choose import TaskChoose
+        from windows.task_choose import TaskChoose
         TaskChoose().choose_task()
 
     def set_pipeline(self, task_running):

@@ -1,8 +1,8 @@
 # coding=utf-8
 
-from pages.task_choose import TaskChoose
+from windows.task_choose import TaskChoose
 
-from pages.base_window import Window
+from windows.base_window import Window
 
 
 class ConfigPage(Window):
