@@ -9,7 +9,7 @@ class BreakTask(Pipeline):
     def __init__(self, times):
         super().__init__(["突破阴阳寮1", "突破阴阳寮2", "突破阴阳寮3"])
         self.times = times
-        dom = minidom.parse('config.xml')
+        dom = minidom.parse('./config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)
@@ -49,6 +49,7 @@ class BreakTask(Pipeline):
                 raise IOError
             self.times_done = self.task.times
             self.task.get_next_time()
+            pending = self.task.next
             if i == 0:
                 self.status = {"突破阴阳寮1": "pass", "突破阴阳寮2": pending}
             elif i == 1:

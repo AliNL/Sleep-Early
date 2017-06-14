@@ -5,7 +5,7 @@ from function import *
 
 
 def main(argv):
-    dom = minidom.parse('config.xml')
+    dom = minidom.parse('./config.xml')
     root = dom.documentElement
     device = root.getElementsByTagName('device')[0].firstChild.data
     is_lead = False

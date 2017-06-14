@@ -9,7 +9,7 @@ class AutoTask(Pipeline):
     def __init__(self, times):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距", "个人突破", "阴阳寮突破"])
         self.times = times
-        dom = minidom.parse('config.xml')
+        dom = minidom.parse('./config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)
@@ -52,7 +52,7 @@ class AutoTask(Pipeline):
                 if self.br.if_tickets_enough():
                     self.status = {"打石距": "pass", "个人突破": "going", "阴阳寮突破": t + 600}
                     self.br.breaking()
-                t = time.time()
+                t = int(time.time())
                 self.status = {"个人突破": "pass", "阴阳寮突破": "going"}
                 self.bp.breaking()
             self.times_done = self.ex.times

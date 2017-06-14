@@ -5,7 +5,7 @@ from pages.task_choose import TaskChoose
 
 
 def main():
-    if not os.path.exists('config.xml'):
+    if not os.path.exists('./config.xml'):
         ConfigPage().start_config()
     else:
         TaskChoose().choose_task()

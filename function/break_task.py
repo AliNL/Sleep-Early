@@ -33,7 +33,7 @@ class Break(Task):
 
     @log_underline("完成个人结界突破")
     def finish_personal_breaking(self):
-        if self.d.wait('images/get_bonus.1334x750.png', threshold=0.9, timeout=5.0):
+        if self.d.wait('images/get_bonus.1334x750.png', safe=True, threshold=0.9, timeout=5.0):
             continue_(self, 3)
             return True
         return False
@@ -61,9 +61,6 @@ class Break(Task):
         self.d.keep_screen()
         for i in range(self.level):
             img = 'images/level_' + str(i) + '.1334x750.png'
-            # targets = self.d.match_all(img, threshold=0.9)
-            # for target in targets:
-            #     target.rectangle[0]
             if self.d.click_nowait(img, threshold=0.9):
                 self.d.free_screen()
                 time.sleep(0.5 + get_delay())
@@ -137,8 +134,10 @@ class Break(Task):
             self.wait()
 
     def validate_empty_targets(self):
-        target = self.d.match_all('images/empty.1334x750.png', timeout=1.0)
+        target = self.d.match_all('images/empty.1334x750.png')
         if len(target) < 3:
+            return False
+        if target[2]['confidence'] < 0.9:
             return False
         return True
 

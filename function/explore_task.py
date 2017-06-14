@@ -83,6 +83,8 @@ class Explore(Task):
             boxes = self.d.match_all('images/small_treasure_box.1334x750.png')
             if boxes:
                 for box in boxes:
+                    if box['confidence'] < 0.9:
+                        break
                     self.d.click(*box['result'])
                     time.sleep(0.5 + get_delay())
                     continue_(self, 1)

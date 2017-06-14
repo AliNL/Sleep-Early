@@ -9,7 +9,7 @@ class ExploreTask(Pipeline):
     def __init__(self, times):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距"])
         self.times = times
-        dom = minidom.parse('config.xml')
+        dom = minidom.parse('./config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)

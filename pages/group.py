@@ -13,7 +13,7 @@ class GroupTask(Pipeline):
         else:
             super().__init__(["等待开始", "打怪", "等待邀请"])
         self.times = times
-        dom = minidom.parse('config.xml')
+        dom = minidom.parse('./config.xml')
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         self.task = Group(device)

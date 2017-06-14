@@ -47,7 +47,7 @@ class ConfigPage(Window):
         chapter = self.app.getOptionBox("chapter")
         level = self.LEVEL_LIST[self.app.getOptionBox("level")]
 
-        fl = open('config.xml', 'w')
+        fl = open('./config.xml', 'w')
         fl.write('<root>\n')
         fl.write('    <device>' + device + '</device>\n')
         fl.write('    <chapter>' + chapter + '</chapter>\n')
