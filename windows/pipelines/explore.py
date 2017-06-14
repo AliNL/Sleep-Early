@@ -1,7 +1,7 @@
 # coding=utf-8
 from xml.dom import minidom
 
-from function import Explore, navigate_to_explore_map
+from pages import Explore, navigate_to_explore_map
 from windows.pipelines.pipeline import Pipeline
 
 

@@ -1,7 +1,7 @@
 # coding=utf-8
 from xml.dom import minidom
 
-from function import *
+from pages import *
 from windows.pipelines.pipeline import Pipeline
 
 
