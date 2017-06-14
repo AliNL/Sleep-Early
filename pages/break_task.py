@@ -29,7 +29,8 @@ class BreakTask(Pipeline):
                 raise IOError
             self.times_done = self.task.times
             if self.task.time_ > 0:
-                pending = self.task.get_next_time()
+                self.task.get_next_time()
+                pending = self.task.next
                 if i == 0:
                     self.status = {"突破阴阳寮1": "pass", "突破阴阳寮2": pending}
                 elif i == 1:

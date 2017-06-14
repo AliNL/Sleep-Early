@@ -35,7 +35,7 @@ class Pipeline(Window):
     def stop_task(self, btn):
         self.app.stop()
         self.kill()
-        from pages.task import TaskChoose
+        from pages.task_choose import TaskChoose
         TaskChoose().choose_task()
 
     def set_pipeline(self, task_running):
@@ -68,22 +68,24 @@ class Pipeline(Window):
             return
         for name in self.status:
             self.set_status(name, self.status[name])
-        self.status = {}
 
     def set_status(self, name, value):
         if isinstance(value, int):
             if value == 0:
                 self.app.setImage(name, self.READY)
                 self.app.setLabel(name, "")
-            elif time.time() < value:
+            elif time.time() +1 < value:
                 self.app.setImage(name, self.PENDING)
                 pending = str(int(value - time.time()))
                 self.app.setLabel(name, pending + " 秒后")
-            else:
+            elif time.time() -1 > value:
                 self.current = name
                 self.app.setImage(name, self.GOING)
                 pending = str(int(60 - time.time() + value))
                 self.app.setLabel(name, "剩余 " + pending + " 秒")
+            else:
+                self.app.setImage(name, self.READY)
+                self.app.setLabel(name, "")
         elif value == "going":
             self.current = name
             self.app.setImage(name, self.GOING)

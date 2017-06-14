@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from pages.task import TaskChoose
+from pages.task_choose import TaskChoose
 
 from pages.base_window import Window
 

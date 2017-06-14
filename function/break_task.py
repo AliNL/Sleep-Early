@@ -143,7 +143,7 @@ class Break(Task):
         return True
 
     def refresh_personal_breaking_panel(self):
-        if not self.d.click_image('images/refresh.1334x750.png', method='color', threshold=0.9, timeout=5.0):
+        if not self.d.click_image('images/refresh.1334x750.png', threshold=0.9, timeout=5.0):
             return False
         self.d.click_image('images/confirm.1334x750.png', timeout=5.0)
         return True

@@ -80,10 +80,10 @@ class Explore(Task):
             self.d.keep_screen()
             if in_explore_map(self.d):
                 break
-            boxes = self.d.match_images('images/small_treasure_box.1334x750.png', timeout=1.0)
+            boxes = self.d.match_all('images/small_treasure_box.1334x750.png')
             if boxes:
                 for box in boxes:
-                    self.d.click(*box)
+                    self.d.click(*box['result'])
                     time.sleep(0.5 + get_delay())
                     continue_(self, 1)
                     self.small_box += 1
