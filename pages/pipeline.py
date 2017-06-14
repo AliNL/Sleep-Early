@@ -6,11 +6,11 @@ from pages.base_window import Window
 
 class Pipeline(Window):
     MAX_COLUMN = 6
-    READY = "images/Gray_pipeline.png"
-    GOING = "images/Yellow_pipeline.png"
-    PENDING = "images/Blue_pipeline.png"
-    FAIL = "images/Red_pipeline.png"
-    PASS = "images/Green_pipeline.png"
+    READY = "images/Gray_pipeline.gif"
+    GOING = "images/Yellow_pipeline.gif"
+    PENDING = "images/Blue_pipeline.gif"
+    FAIL = "images/Red_pipeline.gif"
+    PASS = "images/Green_pipeline.gif"
 
     def __init__(self, status_list):
         super().__init__()
@@ -74,11 +74,11 @@ class Pipeline(Window):
             if value == 0:
                 self.app.setImage(name, self.READY)
                 self.app.setLabel(name, "")
-            elif time.time() +1 < value:
+            elif time.time() + 1 < value:
                 self.app.setImage(name, self.PENDING)
                 pending = str(int(value - time.time()))
                 self.app.setLabel(name, pending + " 秒后")
-            elif time.time() -1 > value:
+            elif time.time() - 1 > value:
                 self.current = name
                 self.app.setImage(name, self.GOING)
                 pending = str(int(60 - time.time() + value))
