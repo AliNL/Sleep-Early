@@ -77,6 +77,7 @@ class TaskChoose(Window):
         self.app.addLabel("times", "刷多少把：", 0, 2, 1)
         self.app.setLabelAlign("times", "right")
         self.app.addNumericEntry("times", 0, 3, 1)
+        self.app.setEntry("times", 100)
         self.app.setEntryWidth("times", 10)
         self.app.setEntrySticky("times", "w")
         self.app.addEmptyMessage("message", 1, 0, 4)
