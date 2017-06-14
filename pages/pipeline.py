@@ -84,8 +84,7 @@ class Pipeline(Window):
                 pending = str(int(60 - time.time() + value))
                 self.app.setLabel(name, "剩余 " + pending + " 秒")
             else:
-                self.app.setImage(name, self.READY)
-                self.app.setLabel(name, "")
+                self.status[name] = 0
         elif value == "going":
             self.current = name
             self.app.setImage(name, self.GOING)
