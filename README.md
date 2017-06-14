@@ -20,7 +20,7 @@
 ## Android
 1. 要有adb
 
-##如何运行
+## 如何运行
 1. cd到项目地址
 1. python3 launcher.py
 1. 注意是Python 3啊
