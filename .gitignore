@@ -1,6 +1,5 @@
 .idea
 *.pyc
 /config.xml
-/launcher.spec
 /build/
 /dist/
