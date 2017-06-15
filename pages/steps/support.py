@@ -4,10 +4,26 @@ import sys
 import time
 
 device_delay = 0
+CURRENT_PATH = '/'
+TEMP_PATH = '/'
+
+
+def get_current(file=''):
+    return CURRENT_PATH + file
+
+
+def get_temp(file=''):
+    return TEMP_PATH + file
 
 
 def get_delay():
     return device_delay
+
+
+def set_path(current, temp):
+    global CURRENT_PATH, TEMP_PATH
+    CURRENT_PATH = current
+    TEMP_PATH = temp
 
 
 def set_delay(value):
