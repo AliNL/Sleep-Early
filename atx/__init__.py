@@ -7,10 +7,8 @@
 from __future__ import absolute_import
 
 import os
-import sys
-import six
-
 import pkg_resources
+
 try:
     version = pkg_resources.get_distribution("atx").version
 except pkg_resources.DistributionNotFound:
