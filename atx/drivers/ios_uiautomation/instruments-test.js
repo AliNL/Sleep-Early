@@ -1,4 +1,4 @@
-#import "mechanic.js"
+import "mechanic.js";
 
 var $ = $ || mechanic;
 
@@ -17,8 +17,8 @@ var $ = $ || mechanic;
     orientation: function(orientation) {
       if (orientation === undefined || orientation === null) return target.deviceOrientation();
       else target.setDeviceOrientation(orientation);
-    },
-  })
+    }
+  });
 
 
   $.extend($, {
@@ -59,10 +59,10 @@ var target = UIATarget.localTarget();
 var app = target.frontMostApp();
 
 // $.debug("Hello" + JSON.stringify(target.rect()))
-$.message("Instruments is ready")
+$.message("Instruments is ready");
 
 while (true) {
-  $.message("Wait for command")
+    $.message("Wait for command");
   var result = $.cmd('./bootstrap.sh', ['get'], 50);
   if (!result.stdout.trim()) { // == 15) {
     continue;

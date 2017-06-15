@@ -8,7 +8,8 @@ import warnings
 from random import randint, choice
 
 import cv2
-from scene_detector import SceneDetector
+
+from .scene_detector import SceneDetector
 
 
 class Reporter(object):
@@ -171,6 +172,7 @@ class Monkey(object):
         if func is not None:
             func()
         else:
+            pass
 
     # print 'unknown action', a
 

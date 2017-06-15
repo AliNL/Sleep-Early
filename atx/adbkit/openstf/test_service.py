@@ -1,26 +1,28 @@
-#-*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 
 import sys
 import time
 
-import service
+from . import service
 
 
 def on_battery(info):
+    pass
 
 
 # print 'on battery info', info
 
 def on_rotation(rot):
+    pass
 
 
 # print 'on rotation', rot
 
 def test_service():
-    serial = "DU2SSE1467010532"; #hwH60
+    serial = "DU2SSE1467010532"  # hwH60
 
     from random import randint
-    import stfwire_pb2 as wire
+    from . import stfwire_pb2 as wire
 
     reqs = [
         (wire.GET_VERSION, wire.GetVersionRequest()),
@@ -60,13 +62,17 @@ def test_service():
             idx += 1
         time.sleep(1)
 
+
 if sys.platform == 'win32':
     import msvcrt
+
+
     def getchar():
         return msvcrt.getch()
 else:
     import tty
     import termios
+
 
     def getchar():
         fd = sys.stdin.fileno()
@@ -78,13 +84,14 @@ else:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
 
+
 def test_type():
     import locale
     _, encoding = locale.getdefaultlocale()
     buf = ''
     while True:
         ch = getchar()
-        if ch == '\x03': # Ctrl+C
+        if ch == '\x03':  # Ctrl+C
             break
         buf += ch
         try:
@@ -99,19 +106,20 @@ def test_type():
                 service.type(text)
             buf = ''
 
+
 def test_agent():
     service.start_stf_agent(restart=True)
     service.listen_agent()
 
     # print 'KEYCODE_HOME'
     service.keyevent('KEYCODE_HOME')
-    #service.wake()
+    # service.wake()
 
     # print 'test ascii_type Ctrl+C to stop'
     while True:
         ch = getchar()
         # print 'try to input', repr(ch)
-        if ch == '\x03': # Ctrl+C
+        if ch == '\x03':  # Ctrl+C
             break
         continue
         service.ascii_type(ch)
@@ -120,13 +128,14 @@ def test_agent():
     while True:
         ch = getchar()
         # print 'try to input', repr(ch)
-        if ch == '\x03': # Ctrl+C
+        if ch == '\x03':  # Ctrl+C
             break
         continue
         service.keyboard(ch)
 
-    #service.stop()
-    
+        # service.stop()
+
+
 def testall():
     service.start()
 
@@ -163,7 +172,8 @@ def testall():
 
     service.stop()
 
+
 if __name__ == '__main__':
-    #test_service()
-    #test_agent()
+    # test_service()
+    # test_agent()
     testall()

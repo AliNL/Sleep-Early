@@ -31,7 +31,7 @@ class UINode(__UINode):
         return id(self)
 
 # ignore text/description contains punctuation
-txt_pat = re.compile(ur'^[a-zA-Z0-9 \u4e00-\u9fa5]+$')
+txt_pat = re.compile(r'^[a-zA-Z0-9 \u4e00-\u9fa5]+$')
 
 def parse_bounds(text):
     m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', text)
@@ -166,6 +166,7 @@ class AndroidLayout(object):
             match = True
             for k, v in cond.iteritems():
                 attr = getattr(n, k)
+                from numpy import basestring
                 if isinstance(v, re._pattern_type) and \
                     isinstance(attr, basestring) and v.match(attr) is None:
                     match = False
@@ -452,7 +453,7 @@ if __name__ == '__main__':
 
     toc = time.time()
     t = toc - tic
-    if count > 0:
+    # if count > 0:
     # print 'get %d dumps in %f seconds (%f each)' % (count, t, t/count)
-    else:
+    # else:
 # print 'get nothing.'

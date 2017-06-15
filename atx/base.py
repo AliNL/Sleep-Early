@@ -77,6 +77,7 @@ def remove_force(name):
     try:
         os.unlink(name)
     except Exception as e:
+        pass
 
 
 # print("Warning: tempfile {} not deleted, Error {}".format(name, e))

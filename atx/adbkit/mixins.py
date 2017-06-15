@@ -18,8 +18,8 @@ import subprocess
 import threading
 import time
 import traceback
+from queue import Queue
 
-import Queue
 import os
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
@@ -177,6 +177,7 @@ class MinicapStreamMixin(object):
                 if not isinstance(e, struct.error):
                     traceback.print_exc()
                 if p.poll() is not None:
+                    pass
                 # print 'Process died.'
                 # print p.stdout.read()
                 else:
@@ -281,7 +282,7 @@ class MinitouchStreamMixin(object):
         self.__touch_queue.put(cmd)
 
     def swipe(self, sx, sy, ex, ey, steps=20):
-        x1, y1, x2, y2 = map(int, (x1, y1, x2, y2))
+        x1, y1, x2, y2 = map(int, (sx, sy, ex, ey))
         dx = (x2 - x1) / steps
         dy = (y2 - y1) / steps
         send = self.touchqueue.put
