@@ -25,7 +25,7 @@ class Position(dict):
     def set_up(self):
         self.d.keep_screen()
         if in_explore_map(self.d):
-            x, y = self.d.match('chapter_list.1334x750.png', offset=(0, 1))[0]
+            x, y = self.d.match('images/chapter_list.1334x750.png', offset=(0, 1))[0]
             self['chapter_top'] = (x, y)
             self['chapter_bottom'] = (x, y + 4 * (self.l - x))
             self.d.free_screen()
