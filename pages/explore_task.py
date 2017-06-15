@@ -77,7 +77,6 @@ class Explore(Task):
     @log2("捡小宝箱")
     def get_small_box(self):
         while True:
-            self.d.keep_screen()
             if in_explore_map(self.d):
                 break
             boxes = self.d.match_all('images/small_treasure_box.1334x750.png')
@@ -89,9 +88,7 @@ class Explore(Task):
                     time.sleep(0.5 + get_delay())
                     continue_(self, 1)
                     self.small_box += 1
-            self.d.free_screen()
             time.sleep(1)
-        self.d.free_screen()
 
     @log("捡大宝箱")
     def get_big_box(self):
