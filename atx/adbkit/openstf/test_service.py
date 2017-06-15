@@ -2,13 +2,19 @@
 
 import sys
 import time
+
 import service
 
+
 def on_battery(info):
-    print 'on battery info', info
+
+
+# print 'on battery info', info
 
 def on_rotation(rot):
-    print 'on rotation', rot
+
+
+# print 'on rotation', rot
 
 def test_service():
     serial = "DU2SSE1467010532"; #hwH60
@@ -86,7 +92,7 @@ def test_type():
         except:
             pass
         else:
-            print 'try to input', repr(text)
+            # print 'try to input', repr(text)
             if len(buf) == 1:
                 service.keyboard(buf)
             else:
@@ -97,23 +103,23 @@ def test_agent():
     service.start_stf_agent(restart=True)
     service.listen_agent()
 
-    print 'KEYCODE_HOME'
+    # print 'KEYCODE_HOME'
     service.keyevent('KEYCODE_HOME')
     #service.wake()
 
-    print 'test ascii_type Ctrl+C to stop'
+    # print 'test ascii_type Ctrl+C to stop'
     while True:
         ch = getchar()
-        print 'try to input', repr(ch)
+        # print 'try to input', repr(ch)
         if ch == '\x03': # Ctrl+C
             break
         continue
         service.ascii_type(ch)
 
-    print 'test keyboard Ctrl+C to stop'
+    # print 'test keyboard Ctrl+C to stop'
     while True:
         ch = getchar()
-        print 'try to input', repr(ch)
+        # print 'try to input', repr(ch)
         if ch == '\x03': # Ctrl+C
             break
         continue
@@ -132,27 +138,27 @@ def testall():
     service.keyevent('KEYCODE_HOME')
     time.sleep(2)
 
-    print 'wifi is', service.get_wifi_status()
-    print 'disable', service.set_wifi_enabled(False)
-    print 'wifi is', service.get_wifi_status()
-    print 'enable', service.set_wifi_enabled(True)
-    print 'wifi is', service.get_wifi_status()
+    # print 'wifi is', service.get_wifi_status()
+    # print 'disable', service.set_wifi_enabled(False)
+    # print 'wifi is', service.get_wifi_status()
+    # print 'enable', service.set_wifi_enabled(True)
+    # print 'wifi is', service.get_wifi_status()
     time.sleep(1)
 
-    print 'set rotation'
-    print service.set_rotation(1)
+    # print 'set rotation'
+    # print service.set_rotation(1)
     time.sleep(1)
-    print service.set_rotation(2)
+    # print service.set_rotation(2)
     time.sleep(1)
-    print service.set_rotation(3)
+    # print service.set_rotation(3)
     time.sleep(1)
-    print service.set_rotation(0)
-    time.sleep(1)
-
-    print 'display', service.get_display()
+    # print service.set_rotation(0)
     time.sleep(1)
 
-    print 'test type, please input'
+    # print 'display', service.get_display()
+    time.sleep(1)
+
+    # print 'test type, please input'
     test_type()
 
     service.stop()

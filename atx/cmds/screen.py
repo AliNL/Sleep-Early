@@ -3,15 +3,16 @@
 #
 # Usage: python -matx screen [-s 0.8]
 
-import os
 import time
 import traceback
+
 import cv2
-from functools import partial
+import os
 
 from atx.adbkit.client import Client
 from atx.adbkit.device import Device
 from atx.adbkit.mixins import MinicapStreamMixin, RotationWatcherMixin, MinitouchStreamMixin
+
 
 class AdbWrapper(RotationWatcherMixin, MinicapStreamMixin, MinitouchStreamMixin, Device):
     def __init__(self, *args, **kwargs):
@@ -65,14 +66,14 @@ def screen_with_controls(host, port, serial, scale=0.5):
 
             def capture():
                 if self.image is None:
-                    print 'Not initialized, try later.'
+                    # print 'Not initialized, try later.'
                     return
                 d = tkFileDialog.asksaveasfilename(filetypes=(('Images', '*.png;*.jpg;'),), initialfile='screen.png')
                 if not d: # canceled
                     return
                 if not d.endswith('.png') and not d.endswith('.jpg'):
                     d += '.png'
-                print 'Save to', d
+                # print 'Save to', d
                 self.image.save(d)
 
             icon = ImageTk.PhotoImage(file=os.path.join(__dir__, 'static', 'icons', 'save.ico'))
@@ -182,7 +183,7 @@ def screen_simple(host, port, serial, scale=0.5):
         time.sleep(1)
         img = adb.screenshot_cv2()
 
-    print 'Press Ctrl-C or Esc to quit.'
+    # print 'Press Ctrl-C or Esc to quit.'
 
     winname = 'Sync Screen'
     cv2.namedWindow(winname)
@@ -198,7 +199,7 @@ def screen_simple(host, port, serial, scale=0.5):
             if key == 27: # Escape
                 break
         except KeyboardInterrupt:
-            print 'Done'
+            # print 'Done'
             break
         except:
             traceback.print_exc()

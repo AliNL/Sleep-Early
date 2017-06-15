@@ -5,23 +5,20 @@ from __future__ import absolute_import
 from __future__ import division
 
 import atexit
-import argparse
-import os
-import time
-import json
-import warnings
-import inspect
 import codecs
+import inspect
+import json
+import time
+import warnings
 
 import imageio
+import os
+from PIL import Image
 
 from atx import consts
-from atx import errors
 from atx import imutils
 from atx.base import nameddict
 from atx.ext.report import patch as pt
-from PIL import Image
-
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
@@ -262,7 +259,7 @@ class Report(object):
         if not is_success:
             message = kwargs.get('message')
             frame, filename, line_number, function_name, lines, index = inspect.stack()[2]
-            print('Assert [%s: %d] WARN: %s' % (filename, line_number, message))
+            # print('Assert [%s: %d] WARN: %s' % (filename, line_number, message))
             if not kwargs.get('safe', False):
                 raise AssertionError(message)
 

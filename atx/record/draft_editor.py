@@ -1,19 +1,19 @@
 #-*- encoding: utf-8 -*-
 
-import os
-import os.path
 import json
+import os.path
 import socket
+import time
+import traceback
 import webbrowser
+
+import atx
+import os
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
-import traceback
-import time
-
 from tornado.web import StaticFileHandler
 
-import atx
 from atx.record.android import AndroidRecorder
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
@@ -65,7 +65,7 @@ class CaseManager(object):
         for row in self.case:
             if row['frameidx'] == frameidx:
                 code = self.record.process_draft(row)
-                print 'running', row, code
+                # print 'running', row, code
                 try:
                     cobj = compile(code, '<string>', 'exec')
                     ret = eval(cobj, None, self._env)
@@ -96,13 +96,15 @@ class CaseRunnerHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self, *args, **kwargs):
-        print 'Websocket connnected.'
+        pass
+        # print 'Websocket connnected.'
 
     def on_close(self):
-        print 'Websocket closed.'
+        pass
+        # print 'Websocket closed.'
 
     def on_message(self, message):
-        print 'received:', message
+        # print 'received:', message
         try:
             data = json.loads(message)
         except Exception as e:
@@ -141,13 +143,14 @@ def run(basedir, port=8000):
     webbrowser.open('http://127.0.0.1:%s' % port, new=2)
 
     application.listen(port)
-    print 'Listen on', port
-    print 'WorkDir:', basedir
-    print 'Press Ctrl+C to stop...'
+    # print 'Listen on', port
+    # print 'WorkDir:', basedir
+    # print 'Press Ctrl+C to stop...'
     try:
         tornado.ioloop.IOLoop.instance().start()
     except:
-        print 'Done'
+        pass
+        # print 'Done'
 
 if __name__ == '__main__':
     run('testcase')

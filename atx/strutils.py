@@ -2,14 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import
-from __future__ import unicode_literals
 from __future__ import print_function
+from __future__ import unicode_literals
 
 import os
-import sys
 import six
-import platform
-
 
 SYSTEM_ENCODING = 'gbk' if os.name == 'nt' else 'utf-8'
 
@@ -53,8 +50,9 @@ def to_string(s, encoding='utf-8'):
 
 
 if __name__ == '__main__':
-    print('Hello 世界!')
-    print(encode('Hello 世界!'))
-    print(encode(u'Hello 世界!'))
-    print(decode('Hello 世界!'))
-    print(decode(u'Hello 世界!'))
+    pass
+    # print('Hello 世界!')
+    # print(encode('Hello 世界!'))
+    # print(encode(u'Hello 世界!'))
+    # print(decode('Hello 世界!'))
+    # print(decode(u'Hello 世界!'))

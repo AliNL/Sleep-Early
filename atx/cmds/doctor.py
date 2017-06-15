@@ -4,10 +4,11 @@
 # check symbols are from:
 # http://www.i2symbol.com/symbols/check
 
-import os
 import subprocess
 
-from colorama import init, Fore, Back, Style
+import os
+from colorama import init, Fore
+
 init()
 
 
@@ -18,7 +19,7 @@ def print_info(message, success):
         fore_color = Fore.RED
         symbol = '✘' if os.name != 'nt' else '[FAIL]'
 
-    print(fore_color + "{symbol} {message}".format(symbol=symbol, message=message) + Style.RESET_ALL)   
+        # print(fore_color + "{symbol} {message}".format(symbol=symbol, message=message) + Style.RESET_ALL)
 
 
 def main():

@@ -8,14 +8,14 @@
 from __future__ import division
 from __future__ import print_function
 
-import re
-import os
 import base64
+import re
 from io import BytesIO
 
 import cv2
-import six
 import numpy as np
+import os
+import six
 from PIL import Image
 
 try:
@@ -161,8 +161,8 @@ if __name__ == '__main__':
     image = open('baidu.png')
     image = open(image)
     # cv2.imwrite('baidu.png', image)
-    print(image.shape)
+    # print(image.shape)
     image = crop(image, bottom=200, top=100, left=50, right=200)
-    print(image.shape)
+    # print(image.shape)
     cv2.imwrite('tmp.png', image)
     # to_pillow(image).save('b2.png')

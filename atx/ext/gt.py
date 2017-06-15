@@ -39,7 +39,7 @@ class GT(object):
     def stop_and_save(self):
         self._broadcast('com.tencent.wstt.gt.baseCommand.endTest', '--es', 'saveFolderName', self._package_name,
             '--es', 'desc', 'Result_of_GT')
-        print('Run\n$ adb pull /sdcard/GT/GW/{pkgname}/{version}/{pkgname}'.format(pkgname=self._package_name, version='unknow'))
+        # print('Run\n$ adb pull /sdcard/GT/GW/{pkgname}/{version}/{pkgname}'.format(pkgname=self._package_name, version='unknow'))
 
     def quit(self):
         self._broadcast('com.tencent.wstt.gt.baseCommand.exitGT')

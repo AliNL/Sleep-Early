@@ -1,13 +1,14 @@
 #-*- encoding: utf-8 -*-
 
+# import win32process
+import pywintypes
 # import win32api
 # import win32con
 import win32gui
-# import win32process
-import pywintypes
 from pyHook import HookManager, HookConstants
 
 from atx.record.base import BaseRecorder, ScreenAddon
+
 
 class WindowsRecorder(BaseRecorder, ScreenAddon):
 
@@ -30,7 +31,7 @@ class WindowsRecorder(BaseRecorder, ScreenAddon):
 
     def attach(self, device):
         if self.device is not None:
-            print "Warning: already attached to a device."
+            # print "Warning: already attached to a device."
             if device is not self.device:
                 self.detach()
 
@@ -47,10 +48,10 @@ class WindowsRecorder(BaseRecorder, ScreenAddon):
             pass
 
         self.device = device
-        print "attach to device", device
+        # print "attach to device", device
 
     def detach(self):
-        print "detach from device", self.device
+        # print "detach from device", self.device
         self.device = None
         self.watched_hwnds = set()
 
@@ -81,6 +82,6 @@ class WindowsRecorder(BaseRecorder, ScreenAddon):
             return True
         if event.Window not in self.watched_hwnds:
             return True
-        print "on_keyboard", event.MessageName, event.Key, repr(event.Ascii), event.KeyID, event.ScanCode, 
-        print event.flags, event.Extended, event.Injected, event.Alt, event.Transition
+        # print "on_keyboard", event.MessageName, event.Key, repr(event.Ascii), event.KeyID, event.ScanCode,
+        # print event.flags, event.Extended, event.Injected, event.Alt, event.Transition
         return True

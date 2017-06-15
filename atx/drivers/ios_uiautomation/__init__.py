@@ -6,25 +6,17 @@
 
 from __future__ import absolute_import
 
-import os
 import json
-import time
+import subprocess
 
+import os
 import yaml
-import subprocess32 as subprocess
 from PIL import Image
 
-from atx import consts
-from atx import errors
-from atx import patch
-from atx import base
-from atx import imutils
-from atx import strutils
-from atx import logutils
 from atx import ioskit
-from atx.drivers import Bounds, Display
-from atx.drivers.mixin import DeviceMixin, hook_wrap
-
+from atx import logutils
+from atx.drivers import Display
+from atx.drivers.mixin import DeviceMixin
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 log = logutils.getLogger(__name__)
@@ -45,7 +37,8 @@ class IOSDevice(DeviceMixin):
         self.screen_rotation = 1 # TODO: auto judge
 
         if not bundle_id:
-            print 'WARNING [ios.py]: bundle_id is not set' #, use "com.netease.atx.apple" instead.'
+            pass
+            # print 'WARNING [ios.py]: bundle_id is not set' #, use "com.netease.atx.apple" instead.'
             # self._init_instruments('com.netease.atx.apple')
         else:
             self._init_instruments(bundle_id)
@@ -89,18 +82,18 @@ class IOSDevice(DeviceMixin):
         try:
             return json.loads(output)
         except:
-            print 'unknown json output:', output
+            # print 'unknown json output:', output
             return output
 
     def _run_nowait(self, code):
         ''' TODO: change to no wait '''
-        print self._proc.poll()
+        # print self._proc.poll()
         encoded_code = json.dumps({'command': code, 'nowait': True})
         output = subprocess.check_output([self._bootstrap, 'run', '--nowait', encoded_code], env=self._env)
         return output
 
     def _close(self):
-        print 'Terminate instruments'
+        # print 'Terminate instruments'
         if self._proc:
             self._proc.terminate()
         # 1. remove pipe

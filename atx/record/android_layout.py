@@ -7,13 +7,15 @@
 # after each gesture we need to refresh the tree.
 
 
-import re
-import cv2
 import collections
+import re
 import xml.dom.minidom
+
+import cv2
 import numpy as np
 
 from atx.drivers import Bounds
+
 __UINode = collections.namedtuple('UINode', [
     'xml', 'children', 'depth',
     'index', 'text', 'resourceId',
@@ -315,7 +317,7 @@ class AndroidLayout(object):
         if n:
             return n, cond, None
 
-        print 'candidates:', candidates.values()
+        # print('candidates:', candidates.values())
 
         # try combinations
 
@@ -365,7 +367,7 @@ if __name__ == '__main__':
 
         # record downpos
         if event == cv2.EVENT_LBUTTONDOWN:
-            print 'click at', x*2, y*2 # picture is half-sized.
+            # print 'click at', x*2, y*2 # picture is half-sized.
             param[1] = (x, y)
             param[2] = False
             return
@@ -390,27 +392,27 @@ if __name__ == '__main__':
 
         if downpos and ismove: # drag
             node = layout.find_scrollable_node(x*2+l, y*2+t)
-            print 'scroll to', x*2, y*2
+            # print 'scroll to', x*2, y*2
             if node:
                 b = node.bounds
-                print 'scrollable node', b, node.index, node.className,
-                print 'resource_id:', node.resourceId,
-                print 'text:', node.text.encode(encoding, 'ignore'),
-                print 'desc:', node.description.encode(encoding, 'ignore')
+                # print 'scrollable node', b, node.index, node.className,
+                # print 'resource_id:', node.resourceId,
+                # print 'text:', node.text.encode(encoding, 'ignore'),
+                # print 'desc:', node.description.encode(encoding, 'ignore')
                 cv2.rectangle(highlight, (b.left-l, b.top-t), (b.right-l, b.bottom-t), (0,255,255), 4)
         else:
             node = layout.find_clickable_node(x*2+l, y*2+t)
             if node:
                 b = node.bounds
-                print 'clickable node', b, node.index, node.className,
-                print 'resource_id:', node.resourceId,
-                print 'text:', node.text.encode(encoding, 'ignore'),
-                print 'desc:', node.description.encode(encoding, 'ignore')
-                print device(className=node.className, index=node.index).info
+                # print 'clickable node', b, node.index, node.className,
+                # print 'resource_id:', node.resourceId,
+                # print 'text:', node.text.encode(encoding, 'ignore'),
+                # print 'desc:', node.description.encode(encoding, 'ignore')
+                # print device(className=node.className, index=node.index).info
                 cv2.rectangle(highlight, (b.left-l, b.top-t), (b.right-l, b.bottom-t), (0,0,255), 4)
                 cond, order = layout.find_selector(node)
                 if cond:
-                    print 'selector', cond, order
+                    # print 'selector', cond, order
                     subnode = layout._filter_nodes(cond)[order or 0]
                     b = subnode.bounds
                     cv2.rectangle(highlight, (b.left-l, b.top-t), (b.right-l, b.bottom-t), (0,180,255), 4)
@@ -429,7 +431,7 @@ if __name__ == '__main__':
             layout.parse_xmldata(xmldata)
             if layout.tree.packageName != package:
                 package = layout.tree.packageName
-                print "change to", package
+                # print "change to", package
 
             img = layout.display()
             if img.shape == layout.highlight.shape:
@@ -451,6 +453,6 @@ if __name__ == '__main__':
     toc = time.time()
     t = toc - tic
     if count > 0:
-        print 'get %d dumps in %f seconds (%f each)' % (count, t, t/count)
+    # print 'get %d dumps in %f seconds (%f each)' % (count, t, t/count)
     else:
-        print 'get nothing.'
+# print 'get nothing.'

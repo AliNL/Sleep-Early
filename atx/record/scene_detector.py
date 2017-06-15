@@ -1,10 +1,12 @@
 #-*- encoding: utf-8 -*-
 
-import os
-import cv2
-import yaml
-import numpy as np
 from collections import defaultdict
+
+import cv2
+import numpy as np
+import os
+import yaml
+
 
 def find_match(img, tmpl, rect=None, mask=None):
     if rect is not None:
@@ -130,7 +132,7 @@ class SceneDetector(object):
         for scene in node.itervalues():
             if scene.tmpl is None:
                 continue
-            print str(scene), scene.rect, img.shape
+            # print str(scene), scene.rect, img.shape
             confidence, rect = find_match(img, scene.tmpl, scene.rect, scene.mask)
             # print scene.name, confidence, rect
             if confidence > c:
@@ -162,7 +164,7 @@ class SceneDetector(object):
         return c, s, r
 
     def save_config(self):
-        print 'save config', self.conf
+        # print 'save config', self.conf
         with open(self.confile, 'w') as f:
             yaml.dump(self.conf, f)
 

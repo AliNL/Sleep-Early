@@ -11,8 +11,6 @@
 # where `args` is adb command arguments and kwargs are 
 # subprocess keyword arguments.
 
-import os
-import Queue
 import re
 import socket
 import struct
@@ -21,10 +19,13 @@ import threading
 import time
 import traceback
 
+import Queue
+import os
+
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
-class RotationWatcherMixin(object):
 
+class RotationWatcherMixin(object):
     __rotation = 0
     __watcher_process = None
 
@@ -33,9 +34,9 @@ class RotationWatcherMixin(object):
         out = self.raw_cmd('shell', 'pm', 'list', 'packages', stdout=subprocess.PIPE).communicate()[0]
         if package_name not in out:
             apkpath = os.path.join(__dir__, '..', 'vendor', 'RotationWatcher.apk')
-            print 'install rotationwatcher...', apkpath
+            # print 'install rotationwatcher...', apkpath
             if 0 != self.raw_cmd('install', '-r', '-t', apkpath).wait():
-                print 'install rotationwatcher failed.'
+                # print 'install rotationwatcher failed.'
                 return
 
         if self.__watcher_process is not None:
@@ -43,12 +44,12 @@ class RotationWatcherMixin(object):
 
         out = self.raw_cmd('shell', 'pm', 'path', package_name, stdout=subprocess.PIPE).communicate()[0]
         path = out.strip().split(':')[-1]
-        p = self.raw_cmd('shell', 
-            'CLASSPATH="%s"' % path, 
-            'app_process',
-            '/system/bin',
-            'jp.co.cyberagent.stf.rotationwatcher.RotationWatcher', 
-            stdout=subprocess.PIPE)
+        p = self.raw_cmd('shell',
+                         'CLASSPATH="%s"' % path,
+                         'app_process',
+                         '/system/bin',
+                         'jp.co.cyberagent.stf.rotationwatcher.RotationWatcher',
+                         stdout=subprocess.PIPE)
         self.__watcher_process = p
 
         queue = Queue.Queue()
@@ -58,7 +59,7 @@ class RotationWatcherMixin(object):
                 line = p.stdout.readline().strip()
                 if not line:
                     if p.poll() is not None:
-                        print 'rotationwatcher stopped'
+                        # print 'rotationwatcher stopped'
                         break
                     continue
                 queue.put(line)
@@ -69,7 +70,7 @@ class RotationWatcherMixin(object):
 
         def listener(value):
             try:
-                self.__rotation = int(value)/90
+                self.__rotation = int(value) / 90
             except:
                 return
             if callable(on_rotation_change):
@@ -92,16 +93,18 @@ class RotationWatcherMixin(object):
         t.setDaemon(True)
         t.start()
 
+
 def str2img(jpgstr, orientation=None):
     import numpy as np
     import cv2
     arr = np.fromstring(jpgstr, np.uint8)
     img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
     if orientation == 1:
-        return cv2.flip(cv2.transpose(img), 0) # counter-clockwise
+        return cv2.flip(cv2.transpose(img), 0)  # counter-clockwise
     if orientation == 3:
-        return cv2.flip(cv2.transpose(img), 1) # clockwise
+        return cv2.flip(cv2.transpose(img), 1)  # clockwise
     return img
+
 
 class MinicapStreamMixin(object):
     __screen = None
@@ -126,24 +129,24 @@ class MinicapStreamMixin(object):
         if len(out) > 1:
             idx = out[0].split().index('PID')
             pid = out[1].split()[idx]
-            print 'minicap is running, killing', pid
+            # print 'minicap is running, killing', pid
             self.raw_cmd('shell', 'kill', '-9', pid).wait()
 
         # start minicap
-        out = self.raw_cmd('shell', 'LD_LIBRARY_PATH=/data/local/tmp', '/data/local/tmp/minicap', '-i', 
-                    stdout=subprocess.PIPE).communicate()[0]
+        out = self.raw_cmd('shell', 'LD_LIBRARY_PATH=/data/local/tmp', '/data/local/tmp/minicap', '-i',
+                           stdout=subprocess.PIPE).communicate()[0]
         m = re.search('"width": (\d+).*"height": (\d+).*"rotation": (\d+)', out, re.S)
         w, h, r = map(int, m.groups())
         w, h = min(w, h), max(w, h)
         params = '{x}x{y}@{x}x{y}/{r}'.format(x=w, y=h, r=r)
-        print 'starting minicap', params
+        # print 'starting minicap', params
 
-        p = self.raw_cmd('shell', 
-                    'LD_LIBRARY_PATH=/data/local/tmp', 
-                    '/data/local/tmp/minicap', 
-                    '-P %s' % params,
-                    '-S',
-                    stdout=subprocess.PIPE)
+        p = self.raw_cmd('shell',
+                         'LD_LIBRARY_PATH=/data/local/tmp',
+                         '/data/local/tmp/minicap',
+                         '-P %s' % params,
+                         '-S',
+                         stdout=subprocess.PIPE)
         self.__minicap_process = p
         time.sleep(0.5)
         # forward to tcp port 
@@ -159,13 +162,13 @@ class MinicapStreamMixin(object):
                 assert p.poll() is None
                 s.connect(('127.0.0.1', port))
                 t = s.recv(24)
-                print 'minicap connected', struct.unpack('<2B5I2B', t)
+                # print 'minicap connected', struct.unpack('<2B5I2B', t)
                 while True:
                     frame_size = struct.unpack("<I", s.recv(4))[0]
                     trunks = []
                     recvd_size = 0
                     while recvd_size < frame_size:
-                        trunk_size = min(8192, frame_size-recvd_size)
+                        trunk_size = min(8192, frame_size - recvd_size)
                         d = s.recv(trunk_size)
                         trunks.append(d)
                         recvd_size += len(d)
@@ -174,10 +177,10 @@ class MinicapStreamMixin(object):
                 if not isinstance(e, struct.error):
                     traceback.print_exc()
                 if p.poll() is not None:
-                    print 'Process died.'
-                    print p.stdout.read()
+                # print 'Process died.'
+                # print p.stdout.read()
                 else:
-                    print 'stoping minicap ...'
+                    # print 'stoping minicap ...'
                     p.kill()
             finally:
                 s.close()
@@ -189,7 +192,7 @@ class MinicapStreamMixin(object):
 
         out = self.raw_cmd('shell', 'getprop', 'ro.build.version.sdk', stdout=subprocess.PIPE).communicate()[0]
         sdk = int(out.strip())
-        orientation = r/90
+        orientation = r / 90
 
         def _listen():
             while True:
@@ -203,8 +206,8 @@ class MinicapStreamMixin(object):
                     self.__screen = img
                 except Queue.Empty:
                     if p.poll() is not None:
-                        print 'minicap died'
-                        print p.stdout.read()
+                        # print 'minicap died'
+                        # print p.stdout.read()
                         break
                     continue
                 except:
@@ -216,6 +219,7 @@ class MinicapStreamMixin(object):
 
     def screenshot_cv2(self):
         return self.__screen
+
 
 class MinitouchStreamMixin(object):
     __touch_queue = None
@@ -245,9 +249,9 @@ class MinitouchStreamMixin(object):
             p = self.raw_cmd('shell', '/data/local/tmp/minitouch')
             time.sleep(1)
             if p.poll() is not None:
-                print 'start minitouch failed.'
+                # print 'start minitouch failed.'
                 return
-        self.__minitouch_process = p                
+        self.__minitouch_process = p
         self.raw_cmd('forward', 'tcp:%s' % port, 'localabstract:minitouch').wait()
 
         def send():
@@ -256,12 +260,12 @@ class MinitouchStreamMixin(object):
             try:
                 s.connect(('127.0.0.1', port))
                 while True:
-                    cmd = self.__touch_queue.get() # wait here
+                    cmd = self.__touch_queue.get()  # wait here
                     if not cmd:
                         continue
                     elif cmd[-1] != '\n':
                         cmd += '\n'
-                    s.send(cmd)    
+                    s.send(cmd)
             except:
                 traceback.print_exc()
             finally:
@@ -278,12 +282,12 @@ class MinitouchStreamMixin(object):
 
     def swipe(self, sx, sy, ex, ey, steps=20):
         x1, y1, x2, y2 = map(int, (x1, y1, x2, y2))
-        dx = (x2-x1)/steps
-        dy = (y2-y1)/steps
+        dx = (x2 - x1) / steps
+        dy = (y2 - y1) / steps
         send = self.touchqueue.put
         send('d 0 %d %d 30\nc\n' % (x1, y1))
-        for i in range(steps-1):
-            x, y = x1+(i+1)*dx, y1+(i+1)*dy
+        for i in range(steps - 1):
+            x, y = x1 + (i + 1) * dx, y1 + (i + 1) * dy
             send('m 0 %d %d 30\nc\n' % (x, y))
         send('u 0 %d %d 30\nc\nu 0\nc\n' % (x2, y2))
 
@@ -293,17 +297,19 @@ class MinitouchStreamMixin(object):
     def pinchout(self, x1, y1, x2, y2, steps=10):
         pass
 
+
 class OpenSTFServiceMixin(object):
     pass
 
 
-#-------------- examples ----------------#
+# -------------- examples ----------------#
 
 class DummyDevice(object):
     def raw_cmd(self, *args, **kwargs):
         cmds = ['adb'] + list(args)
-        print cmds
+        # print cmds
         return subprocess.Popen(cmds, **kwargs)
+
 
 # Mixins should come in front to override functions in Base
 class TestDevice(MinitouchStreamMixin, MinicapStreamMixin, RotationWatcherMixin, DummyDevice):
@@ -312,12 +318,13 @@ class TestDevice(MinitouchStreamMixin, MinicapStreamMixin, RotationWatcherMixin,
         self.open_rotation_watcher(on_rotation_change=lambda v: self.open_minicap_stream())
         self.open_minitouch_stream()
 
+
 if __name__ == '__main__':
     import cv2
+
     dev = TestDevice()
     while True:
         img = dev.screenshot_cv2()
         if img is not None:
             cv2.imshow('screen', img)
         cv2.waitKey(10)
-

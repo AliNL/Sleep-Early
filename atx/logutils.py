@@ -3,13 +3,12 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
+import datetime
 import inspect
 import logging
-import os
-import sys
-import time
 import threading
-import datetime
+
+import os
 
 from atx import strutils
 
@@ -29,7 +28,7 @@ class Logger(object):
 
     def _write(self, s):
         self._lock.acquire()
-        sys.stdout.write(s.rstrip() + '\n')
+        # sys.stdout.write(s.rstrip() + '\n')
         self._lock.release()
 
     def setLevel(self, level):

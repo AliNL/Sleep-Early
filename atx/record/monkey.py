@@ -2,13 +2,14 @@
 # I'm Shakespeare!
 
 import re
-import cv2
 import time
-import warnings
 import traceback
+import warnings
 from random import randint, choice
 
+import cv2
 from scene_detector import SceneDetector
+
 
 class Reporter(object):
 
@@ -67,12 +68,12 @@ class AdbLineReporter(Reporter):
 
     def dump(self):
         if not self.buffer:
-            print 'nothing to dump'
+            # print 'nothing to dump'
             return
         filename =  '%s_%s.log' % (self.name, time.strftime('%m%d_%H%M%S'))
         if self.package is not None:
             filename = '%s_%s' % (self.package, filename)
-        print 'dump report to', filename
+        # print 'dump report to', filename
         with open(filename, 'w') as f:
             f.write('\n'.join(self.buffer))
 
@@ -170,7 +171,8 @@ class Monkey(object):
         if func is not None:
             func()
         else:
-            print 'unknown action', a
+
+    # print 'unknown action', a
 
     def do_touch(self):
         w, h = self.device.display

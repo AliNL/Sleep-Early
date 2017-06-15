@@ -1,11 +1,13 @@
 #-*- encoding: utf-8 -*-
 
-import os
 import os.path
 import time
 
+import os
+
 from atx.record.android import RecordDevice, AndroidRecorder
 from atx.record.draft_editor import run as run_draft_editor
+
 
 def main(serial=None, host=None, port=None, workdir=".", nonui_activities=None, edit_mode=False):
     workdir = os.path.abspath(workdir)
@@ -28,21 +30,22 @@ def main(serial=None, host=None, port=None, workdir=".", nonui_activities=None, 
 
     try:
         time.sleep(4)
-        print '-'*20 + ' STARTED ' + '-'*20
-        print 'Please operate on the phone. Press Ctrl+C to stop.'
+        # print '-'*20 + ' STARTED ' + '-'*20
+        # print 'Please operate on the phone. Press Ctrl+C to stop.'
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
         pass
         
     rec.stop()
-    print '-'*20 + ' STOPPED ' + '-'*20
+    # print '-'*20 + ' STOPPED ' + '-'*20
 
     if len(rec.frames) > 0:
-        print 'start web service to modify recorded case'
+        # print 'start web service to modify recorded case'
         run_draft_editor(workdir, None)
     else:
-        print 'No action recorded.'
+        pass
+        # print 'No action recorded.'
 
 if __name__ == '__main__':
     main()

@@ -15,12 +15,13 @@
 #
 from __future__ import absolute_import
 
-import os
-import sys
 import json
+import sys
 from argparse import Namespace
 
+import os
 import yaml
+
 try:
     import subprocess32 as subprocess
 except:
@@ -32,7 +33,8 @@ def json2obj(data):
 
 
 def prompt(message):
-    print('>>> ' + message)
+    pass
+    # print('>>> ' + message)
 
 
 def must_exec(*cmds, **kwargs):
@@ -57,9 +59,9 @@ def runtest(scripts):
 
 def notify_popo(users, message):
     prompt("Notify popo users")
-    print('Skip, todo')
-    for user in users:
-        pass
+    # print('Skip, todo')
+    # for user in users:
+    #     pass
     # maybe should not put code here
     # print users, message
 

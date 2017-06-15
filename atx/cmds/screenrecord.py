@@ -3,15 +3,17 @@
 #
 # Usage: python -matx screenrecord -o out.avi
 
-import os
 import time
 import traceback
+
 import cv2
 import numpy as np
+import os
 
 from atx.adbkit.client import Client
 from atx.adbkit.device import Device
 from atx.adbkit.mixins import MinicapStreamMixin, RotationWatcherMixin
+
 
 class AdbWrapper(RotationWatcherMixin, MinicapStreamMixin, Device):
     def __init__(self, *args, **kwargs):
@@ -26,9 +28,9 @@ def get_adb(host, port, serial):
 
 def main(serial=None, host=None, port=None, output='out.avi', scale=0.5, portrait=False, overwrite=True, verbose=True):
     if os.path.exists(output):
-        print 'output file exists!'
+        # print 'output file exists!'
         if overwrite:
-            print 'overwriting', output
+            # print 'overwriting', output
             os.remove(output)
         else:
             return
@@ -82,7 +84,7 @@ def main(serial=None, host=None, port=None, output='out.avi', scale=0.5, portrai
                 cv2.imshow('screen', frame)
             cv2.waitKey(1)
         except KeyboardInterrupt:
-            print 'Done'
+            # print 'Done'
             break
         except:
             traceback.print_exc()

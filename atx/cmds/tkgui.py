@@ -13,18 +13,17 @@
 # > Tutorial canvas tk
 # http://www.tutorialspoint.com/python/tk_canvas.htm
 
-import os
-import time
-import threading
 import logging
+import threading
+
 import Tkinter as tk
-import tkSimpleDialog
+import atx
+import os
 import tkFileDialog
+from PIL import Image, ImageTk
 from Queue import Queue
 
-import atx
-from atx import logutils, ioskit
-from PIL import Image, ImageTk
+from atx import logutils
 
 log = logutils.getLogger('tkgui')
 log.setLevel(logging.DEBUG)
@@ -159,7 +158,8 @@ class CropIDE(object):
             try:
                 func(*args, **kwargs)
             except Exception as e:
-                print(e)
+                pass
+                # print(e)
             finally:
                 que.task_done()
     
@@ -261,7 +261,7 @@ class CropIDE(object):
         self._attachfile_text.set(filename)
         if filename:
             self._btn_runedit.config(state=tk.NORMAL)
-        print(filename)
+            # print(filename)
 
     def _refresh_screen(self):
         def foo():

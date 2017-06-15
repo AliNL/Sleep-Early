@@ -5,23 +5,23 @@ Windows application as a device
 
 from __future__ import absolute_import
 
-import os
-import cv2
 import ctypes
+from collections import namedtuple
+from ctypes import wintypes, windll
+
+import cv2
 import numpy as np
-import time
-import win32con
+import os
 import win32api
+import win32con
 import win32gui
 import win32process
-
 from PIL import Image
-from ctypes import wintypes, windll
-from collections import namedtuple
 
-from atx.drivers import Bounds, Display
+from atx.drivers import Display
 from atx.drivers.mixin import DeviceMixin
 from atx.errors import WindowsAppNotFoundError
+
 
 # https://msdn.microsoft.com/en-us/library/windows/desktop/dd183376(v=vs.85).aspx
 class BITMAPINFOHEADER(ctypes.Structure):
@@ -406,7 +406,7 @@ class WindowsDevice(DeviceMixin):
         Returns:
             None
         """
-        print 'click at', x, y
+        # print 'click at', x, y
         self._input_left_mouse(x, y)
 
     def text(self, text):

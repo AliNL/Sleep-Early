@@ -5,19 +5,15 @@ from __future__ import absolute_import
 
 import base64
 import json
-import os
-import time
-import urlparse
 from collections import namedtuple
 
 import requests
+import urlparse
 from PIL import Image
 from StringIO import StringIO
 
-from atx.drivers.mixin import DeviceMixin, hook_wrap
-from atx.drivers import Display
 from atx import consts
-
+from atx.drivers.mixin import DeviceMixin, hook_wrap
 
 DEBUG = False
 
@@ -57,13 +53,15 @@ def httpdo(method, url, data=None):
     if isinstance(data, dict):
         data = json.dumps(data)
     if DEBUG:
-        print("Shell: curl -X {method} -d '{data}' '{url}'".format(method=method, data=data or '', url=url))
+        pass
+        # print("Shell: curl -X {method} -d '{data}' '{url}'".format(method=method, data=data or '', url=url))
 
     fn = dict(GET=requests.get, POST=requests.post, DELETE=requests.delete)[method]
     response = fn(url, data=data)
     retjson = response.json()
     if DEBUG:
-        print('Return:', json.dumps(retjson, indent=4))
+        pass
+        # print('Return:', json.dumps(retjson, indent=4))
     r = convert(retjson)
     if r.status != 0:
         raise WebDriverError(r.status, r.value)

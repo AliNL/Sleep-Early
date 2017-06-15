@@ -15,14 +15,15 @@
 # where '?' after M means a little movement and '+' means a large one.
 # other guestures are ignored.
 
-import re
 import math
-import time
-import numpy as np
+import re
 import subprocess
 import threading
-import Queue
+import time
 import traceback
+
+import Queue
+import numpy as np
 
 __all__ = ['AndroidInputHookManager', 'HookManager', 'HookConstants']
 
@@ -31,7 +32,7 @@ _MULTI_TAP_NUM = 3
 
 def set_multitap(count):
     if count < 0:
-        print 'Cannot set to negative count.'
+        # print 'Cannot set to negative count.'
         return
     global _MULTI_TAP_NUM
     _MULTI_TAP_NUM = int(count)
@@ -137,7 +138,7 @@ class GestureEvent(Event):
         else:
             es, ee = track[0], track[-1]
             ts, te = track[0].time, track[-1].time
-            print 'Gesture', HCREPR.get(msg, msg), ''.join([HCREPR.get(e.msg, e.msg) for e in track]), (es.x, es.y), (ee.x, ee.y)
+            # print 'Gesture', HCREPR.get(msg, msg), ''.join([HCREPR.get(e.msg, e.msg) for e in track]), (es.x, es.y), (ee.x, ee.y)
             if msg in (HC.GST_SWIPE, HC.GST_DRAG):
                 # TODO: check for corners for complicated trace
                 self.points = [(es.x, es.y), (ee.x, ee.y)]
@@ -244,7 +245,8 @@ class InputParser(object):
                 elif _code == 'ABS_MT_TOUCH_MAJOR':
                     self._temp_status[self._curr_slot,_MJ] = _value
                 else:
-                    print 'Unknown code', _code
+                    pass
+                    # print 'Unknown code', _code
 
         self._temp_status_time = _time
         self._touch_batch = []
@@ -364,7 +366,7 @@ class GestureRecognizer(object):
             except:
                 traceback.print_exc()
 
-        print 'process done.'
+                # print 'process done.'
 
     def handle_event(self, event):
         self.dispatch_event(event.msg, event)
@@ -428,16 +430,16 @@ class SimpleGestureRecognizer(GestureRecognizer):
         elif event.msg == HC.TOUCH_MOVESTOP_TIMEOUT:
             # print ''.join([HCREPR.get(e.msg) for e in self.tracks[i]]), 'drag'
             self.tracks[i] = []
-            if len(self.track_slots) == 2:
-                for s in self.track_slots:
-                    print s, ''.join([HCREPR.get(e.msg) for e in self.tracks[s]])
-                print
+            # if len(self.track_slots) == 2:
+            # for s in self.track_slots:
+            # print s, ''.join([HCREPR.get(e.msg) for e in self.tracks[s]])
+            # print
         elif event.msg == HC.TOUCH_UP:
             self.tracks[i].append(event)
-            if len(self.track_slots) == 2:
-                for s in self.track_slots:
-                    print s, ''.join([HCREPR.get(e.msg) for e in self.tracks[s]])
-                print
+            # if len(self.track_slots) == 2:
+            # for s in self.track_slots:
+            # print s, ''.join([HCREPR.get(e.msg) for e in self.tracks[s]])
+            # print
             self.tracks[i] = None
             self.track_slots.discard(i)
         else: # TOUCH_MOVE
@@ -466,7 +468,7 @@ class SimpleGestureRecognizer(GestureRecognizer):
                             break
                         else:
                             t1.pop()
-                print [dists[j+1]-dists[j] for j in range(len(dists)-1)]
+                # print [dists[j+1]-dists[j] for j in range(len(dists)-1)]
                 # just keep latest position
                 for s in self.track_slots:
                     self.tracks[s] = self.tracks[s][-1:]
@@ -563,7 +565,7 @@ class StateMachineGestureRecognizer(GestureRecognizer):
         self.state = {}
         for k in self.state_map:
             self.state[k] = NOTACTIVE
-        print self.state_map
+            # print self.state_map
 
     def analyze_tracks(self, event):
         for k, v in self.state.iteritems():
@@ -573,7 +575,7 @@ class StateMachineGestureRecognizer(GestureRecognizer):
         triggered = False
         for k, v in self.state.iteritems():
             if v == TRIGGERED:
-                print 'trigger event', k
+                # print 'trigger event', k
                 triggered = True
         if triggered:
             for k in self.state:
@@ -630,9 +632,9 @@ class AndroidInputHookManager(object):
                 break
             state = subprocess.check_output(['adb', '-s', self._serial, 'get-state']).strip()
             if state != 'device':
-                print 'adb status(%s) wrong! stop hook.' % (state,)
+                # print 'adb status(%s) wrong! stop hook.' % (state,)
                 break
-            print 'adb getevent died, reconnecting...'
+            # print 'adb getevent died, reconnecting...'
             time.sleep(1)
 
     def unhook(self):

@@ -4,16 +4,16 @@
 from __future__ import absolute_import
 
 import functools
-import os
-import sys
-import subprocess
-import tempfile
 import inspect
 import plistlib
+import subprocess
+import sys
+import tempfile
 
+import os
 from PIL import Image
-from atx import logutils
 
+from atx import logutils
 
 logger = logutils.getLogger(__name__)
 
@@ -196,7 +196,7 @@ class Device(object):
 if __name__ == '__main__':
     devices()
     dev = Device()
-    print(dev.screenshot('i.png'))
-    print(dev.product_version)
-    print(dev.product_version)
-    print(dev.name)
+    # print(dev.screenshot('i.png'))
+    # print(dev.product_version)
+    # print(dev.product_version)
+    # print(dev.name)

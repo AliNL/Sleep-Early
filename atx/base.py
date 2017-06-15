@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-import subprocess
 import random
 import string
+import subprocess
+import sys
 import time
-import logging
-import threading
+
+import os
 
 from atx import strutils
-
 
 random.seed(time.time())
 
@@ -37,7 +35,8 @@ def exec_cmd(*cmds, **kwargs):
         try:
             envcopy[key] = str(env[key]).encode('utf-8') # fix encoding
         except:
-            print('IGNORE BAD ENV KEY: ' + repr(key))
+            pass
+            # print('IGNORE BAD ENV KEY: ' + repr(key))
     env = envcopy
 
     timeout = kwargs.get('timeout', 120)
@@ -78,7 +77,9 @@ def remove_force(name):
     try:
         os.unlink(name)
     except Exception as e:
-        print("Warning: tempfile {} not deleted, Error {}".format(name, e))
+
+
+# print("Warning: tempfile {} not deleted, Error {}".format(name, e))
 
 
 SYSTEM_ENCODING = 'gbk' if os.name == 'nt' else 'utf-8'
@@ -258,4 +259,4 @@ if __name__ == '__main__':
     # print search_image()
 
     Point = nameddict('Point', ['x', 'y'])
-    print(Point(2, 3, 4))
+    # print(Point(2, 3, 4))

@@ -2,26 +2,26 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import uuid
-import json
 import inspect
+import json
 import sys
-import os
 import time
-from contextlib import contextmanager
+import uuid
 from collections import defaultdict
+from contextlib import contextmanager
 from functools import partial
 
-import tornado.web
-import tornado.escape
-from tornado import gen
-from tornado.ioloop import IOLoop
-from tornado.netutil import bind_unix_socket
-from tornado.httpserver import HTTPServer
-from tornado.queues import Queue, QueueEmpty
-
+import os
 import requests
 import requests_unixsocket
+import tornado.escape
+import tornado.web
+from tornado import gen
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+from tornado.netutil import bind_unix_socket
+from tornado.queues import Queue, QueueEmpty
+
 requests_unixsocket.monkeypatch()
 
 
@@ -47,11 +47,11 @@ class TaskQueueHandler(tornado.web.RequestHandler):
         que = self.ques[udid]
         try:
             item = yield que.get(timeout=time.time()+timeout) # timeout is a timestamp, strange
-            print 'get from queue:', item
+            # print 'get from queue:', item
             self.write(item)
             que.task_done()
         except gen.TimeoutError:
-            print 'timeout'
+            # print 'timeout'
             self.write('')
         finally:
             self.finish()
@@ -66,7 +66,7 @@ class TaskQueueHandler(tornado.web.RequestHandler):
         data = tornado.escape.json_decode(self.request.body)
         data = {'id': str(uuid.uuid1()), 'data': data}
         yield que.put(data, timeout=time.time()+timeout)
-        print 'post, queue size:', que.qsize()
+        # print 'post, queue size:', que.qsize()
         self.write({'id': data['id']})
         self.finish()
 
@@ -91,7 +91,7 @@ class TaskQueueHandler(tornado.web.RequestHandler):
         data = tornado.escape.json_decode(self.request.body)
         id = data['id']
         timeout = float(data.get('timeout', 20.0))
-        print 'Timeout:', timeout
+        # print 'Timeout:', timeout
         result = self.results.get(id)
         if result is None:
             self.results[id] = self
@@ -118,7 +118,7 @@ class TaskQueueHandler(tornado.web.RequestHandler):
 
 
 def make_app(**settings):
-    print settings
+    # print settings
     return tornado.web.Application([
         (r"/", IndexHandler),
         (r"/rooms/([^/]*)", TaskQueueHandler),
@@ -131,10 +131,10 @@ def cmd_web(unix_socket, debug):
         try:
             r = requests.get('http+unix://{0}'.format(unix_socket.replace('/', '%2F')))
             if r.text.strip() == 'atx.taskqueue':
-                print 'Already listening'
+                # print 'Already listening'
                 return
         except:
-            print 'Unlink unix socket'
+            # print 'Unlink unix socket'
             os.unlink(unix_socket)
 
     socket = bind_unix_socket(unix_socket)
@@ -148,32 +148,32 @@ def cmd_put(requrl, task_id, data):
     data = json.loads(data)
     jsondata = {'id': task_id, 'result': data}
     r = requests.put(requrl, data=json.dumps(jsondata))
-    print r.text
+    # print r.text
 
 def cmd_get(requrl, timeout):
     r = requests.get(requrl, params={'timeout': timeout})
-    print r.text
+    # print r.text
 
 def cmd_post(requrl, data):
     jsondata = json.loads(data)
     if not isinstance(jsondata, dict):
         sys.exit('data must be dict, for example: {"name": "kitty"}')
     r = requests.post(requrl, data=json.dumps(jsondata))
-    print r.json()['id']
+    # print r.json()['id']
 
 def cmd_patch(requrl, task_id):
     jsondata = {'id': task_id}
     r = requests.patch(requrl, data=json.dumps(jsondata))
-    print r.text
+    # print r.text
 
 def cmd_clean(requrl):
     r = requests.delete(requrl)
-    print r.text
+    # print r.text
 
 def cmd_quit(unix_socket):
     requrl = 'http+unix://{0}'.format(unix_socket.replace('/', '%2F'))
     r = requests.delete(requrl)
-    print r.text
+    # print r.text
 
 def _inject(func, kwargs):
     args = []

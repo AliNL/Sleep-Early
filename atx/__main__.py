@@ -5,19 +5,13 @@
 # python -matx -s ESLKJXX gui
 
 from __future__ import absolute_import
-from __future__ import unicode_literals
 from __future__ import print_function
+from __future__ import unicode_literals
 
 import argparse
-import functools
-import json
-import sys
 import inspect
+import sys
 from contextlib import contextmanager
-
-from atx.cmds import run
-from atx.cmds import iosdeveloper
-from atx.cmds import install
 
 
 def inject(func, kwargs):
@@ -52,23 +46,24 @@ def load_main(module_name):
 def _apk_parse(args):
     import atx.androaxml as apkparse
     manifest = apkparse.parse_apk(args.filename)
-    print(json.dumps({
-        'package_name': manifest.package_name,
-        'main_activity': manifest.main_activity,
-        'version': {
-            'code': manifest.version_code,
-            'name': manifest.version_name,
-        }
-    }, indent=4))
+    # print(json.dumps({
+    #     'package_name': manifest.package_name,
+    #     'main_activity': manifest.main_activity,
+    #     'version': {
+    #         'code': manifest.version_code,
+    #         'name': manifest.version_name,
+    #     }
+    # }, indent=4))
 
 
 def _version(args):
-    import atx
-    print(atx.version)
+    pass
+    # print(atx.version)
 
 
 def _deprecated(args):
-    print('Deprecated')
+    pass
+    # print('Deprecated')
 
 def main():
     ap = argparse.ArgumentParser(
@@ -163,7 +158,7 @@ def main():
 
     args = ap.parse_args()
     if not hasattr(args, 'func'):
-        print(' '.join(sys.argv) + ' -h for more help')
+        # print(' '.join(sys.argv) + ' -h for more help')
         return
     args.func(args)
 

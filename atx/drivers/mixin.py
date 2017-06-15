@@ -9,16 +9,14 @@ import collections
 import copy
 import functools
 import inspect
-import os
-import sys
 import time
 import traceback
 import warnings
 
-import six
-import cv2
 import aircv as ac
-from uiautomator import AutomatorDeviceObject
+import cv2
+import os
+import six
 
 from atx import base
 from atx import consts
@@ -27,7 +25,6 @@ from atx import imutils
 from atx import logutils
 from atx.base import nameddict
 from atx.drivers import Pattern, Bounds, FindPoint
-
 
 warnings.simplefilter('default')
 
@@ -133,11 +130,11 @@ class DeviceMixin(object):
         """
         secs = int(secs)
         for i in reversed(range(secs)):
-            sys.stdout.write('\r')
-            sys.stdout.write("sleep %ds, left %2ds" % (secs, i+1))
-            sys.stdout.flush()
+            # sys.stdout.write('\r')
+            # sys.stdout.write("sleep %ds, left %2ds" % (secs, i+1))
+            # sys.stdout.flush()
             time.sleep(1)
-        sys.stdout.write("\n")
+        # sys.stdout.write("\n")
         return self
 
     def exists(self, pattern, **match_kwargs):
@@ -508,8 +505,8 @@ class DeviceMixin(object):
         while time.time() - start_time < timeout:
             point = self.match(pattern, **match_kwargs)
             if point is None:
-                sys.stdout.write('.')
-                sys.stdout.flush()
+                # sys.stdout.write('.')
+                # sys.stdout.flush()
                 continue
 
             log.debug('confidence: %s', point.confidence)
@@ -526,7 +523,7 @@ class DeviceMixin(object):
 
             found = True
             break
-        sys.stdout.write('\n')
+        # sys.stdout.write('\n')
 
         if not found:
             if safe:
@@ -540,5 +537,5 @@ class DeviceMixin(object):
 
 if __name__ == '__main__':
     b = Bounds(1, 2, 3, 4)
-    print(b)
-    print(b * 1.0)
+    # print(b)
+    # print(b * 1.0)

@@ -5,6 +5,7 @@ import random
 
 import atx
 import cv2
+
 from atx import imutils
 
 
@@ -16,7 +17,7 @@ def choose_point(frame):
     h, w = frame.shape[:2]
     framesize = h*w
     minarea = framesize/1000
-    print 'minarea:', minarea
+    # print 'minarea:', minarea
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     cv2.imshow('hsv', hsv)
@@ -38,7 +39,7 @@ def choose_point(frame):
     for c in cnts:
         # if the contour is too small, ignore it
         area = cv2.contourArea(c)
-        print area
+        # print area
         if area < minarea:
             continue
         if area > framesize/2:
@@ -74,7 +75,7 @@ def main(serial=None, host=None, port=None):
         # cv2.imwrite('tmp.png', cv2img)
         cv2img = cv2.resize(cv2img, fx=0.5, fy=0.5, dsize=(0, 0))
         pt = choose_point(cv2img)
-        print 'click:', pt
+        # print 'click:', pt
         if pt:
             x, y = pt
             d.click(2*x, 2*y)

@@ -7,8 +7,8 @@
 
 from __future__ import absolute_import
 
-
 import atexit
+
 import six
 from selenium import webdriver
 
@@ -26,7 +26,7 @@ class ChromeDriver(object):
         self._port = port
 
     def _launch_webdriver(self):
-        print("start chromedriver instance")
+        # print("start chromedriver instance")
         p = subprocess.Popen(['chromedriver', '--port='+str(self._port)])
         try:
             p.wait(timeout=2.0)

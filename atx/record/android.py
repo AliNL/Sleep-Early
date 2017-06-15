@@ -1,18 +1,19 @@
 #-*- encoding: utf-8 -*-
 
 import bisect
-import cv2
-import os
 import threading
 import time
 
+import cv2
+import os
+
+from atx.adbkit.mixins import RotationWatcherMixin, MinicapStreamMixin
 from atx.drivers import Bounds
 from atx.drivers.android import AndroidDevice
-from atx.adbkit.mixins import RotationWatcherMixin, MinicapStreamMixin
-
-from atx.record.base import BaseRecorder, ScreenAddon, UixmlAddon
 from atx.record.android_hooks import HookManager, HookConstants as HC, set_multitap
 from atx.record.android_layout import AndroidLayout
+from atx.record.base import BaseRecorder, ScreenAddon, UixmlAddon
+
 
 class RotationAddon(object):
     __addon_name = 'rotation'
@@ -142,7 +143,7 @@ class AdbStatusAddon(object):
         return data
 
     def __start(self):
-        print 'start', self.__addon_name
+        # print 'start', self.__addon_name
         if self.__cmd_lock is None:
             self.__cmd_lock = threading.Lock()
         if self.__cmd_thread is not None:
@@ -214,7 +215,7 @@ class AndroidRecorder(BaseRecorder, ScreenAddon, UixmlAddon, AdbStatusAddon, Rot
 
     def on_key(self, event):
         if not event.msg & 0x01: # key_up
-            print 'KeyEvent', event.key
+            # print 'KeyEvent', event.key
             self.input_event(event)
 
     def serialize_event(self, event):
@@ -336,7 +337,7 @@ class AndroidRecorder(BaseRecorder, ScreenAddon, UixmlAddon, AdbStatusAddon, Rot
                 return 'd.swipe(%s, %s, %s, %s, 10)' % (sx, sy, ex, ey)
             return 'time.sleep(%.2f)\nd.swipe(%s, %s, %s, %s, 10)' % (waittime, sx, sy, ex, ey)
         else:
-            print 'unsupported action', d['action']
+            # print 'unsupported action', d['action']
             return ''
 
 def touch2screen(w, h, o, x, y):

@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import sys
 import inspect
+import sys
 from contextlib import contextmanager
 
 from PIL import Image
+
 from atx import ioskit
 
 
@@ -23,7 +24,7 @@ def load_main(module_name):
         __import__(module_name)
         mod = sys.modules[module_name]
         pargs = vars(parser_args)
-        print pargs
+        # print pargs
         return inject(mod.main, pargs)
     return _inner
 
@@ -35,7 +36,7 @@ def _screencap(args):
         method = getattr(Image, 'ROTATE_{}'.format(args.rotate))
         image = image.transpose(method)
     image.save(args.output)
-    print 'Screenshot saved to "%s"' % args.output
+    # print 'Screenshot saved to "%s"' % args.output
 
 
 def main():

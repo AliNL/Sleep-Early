@@ -1,10 +1,10 @@
 #-*- encoding: utf-8 -*-
 
 import sys
-import Tkinter as tk
 
-import service
+import Tkinter as tk
 import keycode
+import service
 
 if sys.platform == 'win32':
     from ctypes import wintypes, byref, windll
@@ -15,7 +15,7 @@ if sys.platform == 'win32':
         if windll.user32.GetMessageA(byref(msg), None, 0, 0) != 0:
             if msg.message == win32con.WM_HOTKEY:
                 if msg.wParam == 1:
-                    print 'Hotkey triggered!'
+                    # print 'Hotkey triggered!'
                     callback()
         windll.user32.TranslateMessage(byref(msg))
         windll.user32.DispatchMessageA(byref(msg))
@@ -35,12 +35,13 @@ if sys.platform == 'win32':
         key = key[-1].upper()
         assert key in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         if windll.user32.RegisterHotKey(None, 1, mod, ord(key)) != 0:
-            print("Hotkey registered!")
+            # print("Hotkey registered!")
             handle_hotkey(root, callback)
 
 else:
     def register_hotkey(root, key, callback):
-        print 'Register hotkey failed.'
+        pass
+        # print 'Register hotkey failed.'
 
 def main():
     service.start()

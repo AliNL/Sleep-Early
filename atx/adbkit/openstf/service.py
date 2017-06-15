@@ -22,23 +22,21 @@
 #   on_rotation_event(callback)     # callback accept a int argument
 #   on_connectivity_event(callback) # callback accept a dict argument
 
-import time
-import subprocess
 import select
 import socket
-import traceback
-import Queue
+import subprocess
 import threading
+import time
+import traceback
 import warnings
 
-#from google.protobuf.descriptor import FieldDescriptor
+import Queue
+import keycode
+import stfwire_pb2 as wire
+# from google.protobuf.descriptor import FieldDescriptor
 from google.protobuf.internal import encoder, decoder
 
-import stfwire_pb2 as wire
-import keycode
-
-
-__all__ = ['start', 'stop', 'isalive', 'identify', 'type', 'keyevent', 'get_wifi_status', 'set_wifi_enabled', 
+__all__ = ['start', 'stop', 'isalive', 'identify', 'type', 'keyevent', 'get_wifi_status', 'set_wifi_enabled',
     'set_rotation', 'get_display', 'get_properties', 'on_battery_event', 'on_rotation_event']
 
 messages = {
@@ -164,7 +162,7 @@ def start_stf_service(adbprefix=None, port=1100):
     
     command = adbprefix + cmds[0] + cmds[1] + cmds[2]
 
-    print subprocess.check_output(command)
+    # print subprocess.check_output(command)
     # if falied, using:
     # command = cmds[0] + cmds[2]
     command = adbprefix + ['forward', 'tcp:%s' % port, 'tcp:1100'] # remote port use default 1100, although it can be changed
@@ -193,11 +191,11 @@ def check_stf_agent(adbprefix=None, kill=False):
         for line in out:
             if 'stf.agent' in line:
                 pid = line.split()[idx]
-                print 'stf.agent is running, pid is', pid
+                # print 'stf.agent is running, pid is', pid
                 break
         if pid is not None:
             if kill:
-                print 'killing', pid
+                # print 'killing', pid
                 command = adbprefix + ['shell', 'kill', '-9', pid]
                 subprocess.call(command)
                 return False
@@ -213,7 +211,7 @@ def start_stf_agent(adbprefix=None, restart=False, port=1090):
     command = adbprefix + ['shell', 'pm', 'path', 'jp.co.cyberagent.stf']
     out = subprocess.check_output(command).strip()
     path = out.split(':')[-1]
-    print 'stf agent path', repr(path)
+    # print 'stf agent path', repr(path)
     
     command = adbprefix + ['shell', 'CLASSPATH="%s"' % path, 
             'app_process', '/system/bin', 'jp.co.cyberagent.stf.Agent']
@@ -255,7 +253,7 @@ def listen_service(service_port=1100):
                         envelope = unpack(data)
                         route(envelope)
                     except:
-                        print 'error while handle response'
+                        # print 'error while handle response'
                         traceback.print_exc()
                 if s in w:
                     try:
@@ -268,7 +266,7 @@ def listen_service(service_port=1100):
             traceback.print_exc()
         finally:
             s.close()
-            print 'Service socket closed'
+            # print 'Service socket closed'
             stop_event.set()
 
     t = threading.Thread(target=_service)
@@ -288,7 +286,7 @@ def listen_agent(agent_port=1090):
             traceback.print_exc()
         finally:
             s.close()
-            print 'Agent socket closed.'
+            # print 'Agent socket closed.'
             stop_event.set()
 
     t = threading.Thread(target=_agent)
@@ -345,7 +343,7 @@ def keyboard(char, holdtime=None):
             char = 'KEYCODE_%s' % char
         code = getattr(keycode, char, None)
         if code is None:
-            print 'invalid keycode', char
+            # print 'invalid keycode', char
             return
     elif char in 'abcdefghijklmnopqrstuvwxyz1234567890':
         code = getattr(keycode, 'KEYCODE_%s' % char.upper())
@@ -361,7 +359,7 @@ def keyboard(char, holdtime=None):
         code = keycode.CTRLED_KEYS[char]
         ctrl = True
     else:
-        print 'invalid char', repr(char)
+        # print 'invalid char', repr(char)
         return
 
     if holdtime is None:
