@@ -1,5 +1,4 @@
 # coding=utf-8
-import os
 
 from .task import *
 
@@ -59,7 +58,7 @@ class Explore(Task):
             time.sleep(2.5 + get_delay())
             if is_exploring(self.d):
                 if self.d.exists(img('buying_energy')):
-                    os.system('say -v Ting-Ting "体力不足"')
+                    # os.system('say -v Ting-Ting "体力不足"')
                     self.analysis()
                     return False
             fighting(self)
@@ -121,7 +120,7 @@ class Explore(Task):
     def analysis(self):
         self.d.free_screen()
         super(Explore, self).analysis()
-        print('┃%25s%-25s┃' % ('monster killed: ', self.monster_killed))
-        print('┃%25s%-25s┃' % ('small box: ', self.small_box))
-        print('┃%25s%-25s┃' % ('big box: ', self.big_box))
-        print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')
+        # print('┃%25s%-25s┃' % ('monster killed: ', self.monster_killed))
+        # print('┃%25s%-25s┃' % ('small box: ', self.small_box))
+        # print('┃%25s%-25s┃' % ('big box: ', self.big_box))
+        # print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')

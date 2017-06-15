@@ -26,10 +26,12 @@ class Task(object):
         self.stop_reason = 'task completed'
 
     def analysis(self):
-        print('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓')
-        print('┃ %-49s┃' % (self.name + ' finished!!!'))
-        print('┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫')
-        print('┃%25s%-25s┃' % ('start time: ', self.start_time))
-        print('┃%25s%-25s┃' % ('finish time: ', now()))
-        print('┃%25s%-25s┃' % ('times: ', self.times))
-        print('┃%25s%-25s┃' % ('stop reason: ', self.stop_reason))
+        pass
+
+# print('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓')
+# print('┃ %-49s┃' % (self.name + ' finished!!!'))
+# print('┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫')
+# print('┃%25s%-25s┃' % ('start time: ', self.start_time))
+# print('┃%25s%-25s┃' % ('finish time: ', now()))
+# print('┃%25s%-25s┃' % ('times: ', self.times))
+# print('┃%25s%-25s┃' % ('stop reason: ', self.stop_reason))

@@ -22,10 +22,10 @@ class Break(Task):
     def wait(self):
         while time.time() < self.next:
             get_bonus_task(self.d)
-            sys.stdout.write('\r')
-            sys.stdout.write('%s -> wait until %s' % (now(), now(self.next)))
-            sys.stdout.flush()
-        sys.stdout.write('\n')
+            #     sys.stdout.write('\r')
+            #     sys.stdout.write('%s -> wait until %s' % (now(), now(self.next)))
+            #     sys.stdout.flush()
+            # sys.stdout.write('\n')
 
     @log_underline("突破券充足")
     def if_tickets_enough(self):
@@ -112,7 +112,7 @@ class Break(Task):
                 self.d.click_image(img('breaking'), timeout=1.0)
         else:
             self.broken[self.target - 1] = 1
-            print('第%d个阴阳寮刷完了' % self.target)
+            # print('第%d个阴阳寮刷完了' % self.target)
         self.d.click_image(img('close'), timeout=5.0)
         self.analysis()
         return True
@@ -152,6 +152,6 @@ class Break(Task):
 
     def analysis(self):
         super(Break, self).analysis()
-        print('┃%31s%-19s┃' % ('target level: under ', self.level * 10))
-        print('┃%25s%-25s┃' % ('broken: ', self.broken))
-        print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')
+        # print('┃%31s%-19s┃' % ('target level: under ', self.level * 10))
+        # print('┃%25s%-25s┃' % ('broken: ', self.broken))
+        # print('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛')

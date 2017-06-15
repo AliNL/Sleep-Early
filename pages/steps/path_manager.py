@@ -9,8 +9,8 @@ def set_path(current, temp):
     config = temp + '/config.xml'
 
 
-def img(file=''):
-    if file != '':
+def img(file=None):
+    if file is not None:
         return image + file + '.1334x750.png'
     else:
         return image

@@ -1,18 +1,22 @@
+import sys
+
 import os
+from appdirs import user_data_dir
 
 from pages.steps.path_manager import set_path, cfg
 from windows.config_window import ConfigPage
 from windows.task_choose import TaskChoose
 
-current = os.path.dirname(__file__)
-
 
 def main():
-    from appdirs import user_data_dir
+    if getattr(sys, 'frozen', False):
+        bundle_dir = sys._MEIPASS
+    else:
+        bundle_dir = os.path.dirname(os.path.abspath(__file__))
+
+    current = bundle_dir
     temp = user_data_dir('Sleep Early', 'SanGe')
 
-    print(os.path.dirname(__file__))
-    print(current)
     if not os.path.exists(temp):
         os.makedirs(temp)
     set_path(current, temp)
