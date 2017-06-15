@@ -18,11 +18,11 @@ class Explore(Task):
 
     @log2("选择探索章节")
     def choose_chapter(self):
-        image_name = 'images/C' + str(self.chapter) + '.1334x750.png'
+        image_name = img('C' + str(self.chapter))
         for t in range(-5, 5):
             if self.d.click_image(image_name, safe=True, threshold=0.9, timeout=1.0):
                 time.sleep(1)
-                if self.d.click_image('images/explore_icon.1334x750.png'):
+                if self.d.click_image(img('explore_icon')):
                     time.sleep(3)
                     return self.chapter
             else:
@@ -37,11 +37,10 @@ class Explore(Task):
     @log2("打小怪")
     def __fight_monster(self):
         for i in range(-8, 8):
-            if self.d.click_image('images/monster_icon.1334x750.png', safe=True, threshold=0.9, timeout=1.0):
+            if self.d.click_image(img('monster_icon'), safe=True, threshold=0.9, timeout=1.0):
                 time.sleep(2.5 + get_delay())
                 if is_exploring(self.d):
-                    if self.d.exists('images/buying_energy.1334x750.png'):
-                        os.system('say -v Ting-Ting "体力不足"')
+                    if self.d.exists(img('buying_energy')):
                         self.analysis()
                         return False
                     continue
@@ -56,10 +55,10 @@ class Explore(Task):
 
     @log2("打boss")
     def __fight_boss(self, delay_):
-        if self.d.click_image('images/boss_icon.1334x750.png', safe=True, threshold=0.85, timeout=5.0, delay=delay_):
+        if self.d.click_image(img('boss_icon'), safe=True, threshold=0.85, timeout=5.0, delay=delay_):
             time.sleep(2.5 + get_delay())
             if is_exploring(self.d):
-                if self.d.exists('images/buying_energy.1334x750.png'):
+                if self.d.exists(img('buying_energy')):
                     os.system('say -v Ting-Ting "体力不足"')
                     self.analysis()
                     return False
@@ -79,7 +78,7 @@ class Explore(Task):
         while True:
             if in_explore_map(self.d):
                 break
-            boxes = self.d.match_all('images/small_treasure_box.1334x750.png')
+            boxes = self.d.match_all(img('small_treasure_box'))
             if boxes:
                 for box in boxes:
                     if box['confidence'] < 0.9:
@@ -93,7 +92,7 @@ class Explore(Task):
     @log("捡大宝箱")
     def get_big_box(self):
         for i in range(2):
-            if self.d.click_image('images/big_treasure_box.1334x750.png', safe=True, timeout=1.0):
+            if self.d.click_image(img('big_treasure_box'), safe=True, timeout=1.0):
                 time.sleep(0.5 + get_delay())
                 continue_(self, 3)
                 self.big_box += 1
@@ -105,7 +104,7 @@ class Explore(Task):
     @log("查找石距")
     def found_shi_ju(self):
         self.d.keep_screen()
-        if self.d.exists('images/shi_ju.1334x750.png'):
+        if self.d.exists(img('shi_ju')):
             self.stop_reason = 'shi ju found'
             self.analysis()
             return True
@@ -113,7 +112,7 @@ class Explore(Task):
 
     @log("是否体力不足")
     def is_pl_not_enough(self):
-        if self.d.exists('images/no_enough_pl.1334x750.png', threshold=0.95):
+        if self.d.exists(img('no_enough_pl'), threshold=0.95):
             self.stop_reason = 'energy not enough'
             self.analysis()
             return True

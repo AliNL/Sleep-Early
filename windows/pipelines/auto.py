@@ -9,7 +9,8 @@ class AutoTask(Pipeline):
     def __init__(self, times):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距", "个人突破", "阴阳寮突破"])
         self.times = times
-        dom = minidom.parse('./config.xml')
+        from pages.steps.path_manager import cfg
+        dom = minidom.parse(cfg())
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)

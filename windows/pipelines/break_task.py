@@ -9,7 +9,8 @@ class BreakTask(Pipeline):
     def __init__(self, times):
         super().__init__(["突破阴阳寮1", "突破阴阳寮2", "突破阴阳寮3"])
         self.times = times
-        dom = minidom.parse('./config.xml')
+        from pages.steps.path_manager import cfg
+        dom = minidom.parse(cfg())
         root = dom.documentElement
         device = root.getElementsByTagName('device')[0].firstChild.data
         level = int(root.getElementsByTagName('level')[0].firstChild.data)

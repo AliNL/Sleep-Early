@@ -29,11 +29,11 @@ class Break(Task):
 
     @log_underline("突破券充足")
     def if_tickets_enough(self):
-        return not self.d.exists('images/no_tickets.1334x750.png', threshold=0.95)
+        return not self.d.exists(img('no_tickets'), threshold=0.95)
 
     @log_underline("完成个人结界突破")
     def finish_personal_breaking(self):
-        if self.d.wait('images/get_bonus.1334x750.png', safe=True, threshold=0.9, timeout=5.0):
+        if self.d.wait(img('get_bonus'), safe=True, threshold=0.9, timeout=5.0):
             continue_(self, 3)
             return True
         return False
@@ -44,11 +44,11 @@ class Break(Task):
         time.sleep(2)
 
     def select_public_breaking_tab(self):
-        self.d.click_image('images/public_tab.1334x750.png', timeout=5.0)
+        self.d.click_image(img('public_tab'), timeout=5.0)
 
     @log("切换目标阴阳寮")
     def __choose_group(self):
-        if self.d.exists('images/no_target.1334x750.png'):
+        if self.d.exists(img('no_target')):
             return -1
         x, y = self.position.get('first_target')
         self.target = 1 if self.target == 3 else (self.target + 1)
@@ -60,11 +60,11 @@ class Break(Task):
     def __find_under_level(self):
         self.d.keep_screen()
         for i in range(self.level):
-            img = 'images/level_' + str(i) + '.1334x750.png'
-            if self.d.click_nowait(img, threshold=0.9):
+            level_img = img('level_' + str(i))
+            if self.d.click_nowait(level_img, threshold=0.9):
                 self.d.free_screen()
                 time.sleep(0.5 + get_delay())
-                self.d.click_image('images/attack.1334x750.png', timeout=600)
+                self.d.click_image(img('attack'), timeout=600)
                 return i
         self.d.free_screen()
         return -1
@@ -75,7 +75,7 @@ class Break(Task):
             if self.__find_under_level() > -1:
                 return True
             else:
-                if self.d.exists('images/broken.1334x750.png'):
+                if self.d.exists(img('broken')):
                     break
                 x1, y1 = self.position.get('break_top')
                 x2, y2 = self.position.get('break_bottom')
@@ -88,10 +88,10 @@ class Break(Task):
         if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
             return False
         while not self.finish_personal_breaking():
-            if not self.d.click_image('images/empty.1334x750.png', timeout=1.0):
+            if not self.d.click_image(img('empty'), timeout=1.0):
                 break
             time.sleep(0.5 + get_delay())
-            self.d.click_image('images/attack.1334x750.png', timeout=1.0)
+            self.d.click_image(img('attack'), timeout=1.0)
             time.sleep(3.5 + get_delay())
             fighting(self)
         return True
@@ -105,15 +105,15 @@ class Break(Task):
             if not start:
                 self.last = (self.last + float(time.time()) - 15) / 2
             time.sleep(4 + get_delay())
-            if not self.d.exists('images/level_6.1334x750.png'):
+            if not self.d.exists(img('level_6')):
                 fighting(self)
                 self.times += 1
             else:
-                self.d.click_image('images/breaking.1334x750.png', timeout=1.0)
+                self.d.click_image(img('breaking'), timeout=1.0)
         else:
             self.broken[self.target - 1] = 1
             print('第%d个阴阳寮刷完了' % self.target)
-        self.d.click_image('images/close.1334x750.png', timeout=5.0)
+        self.d.click_image(img('close'), timeout=5.0)
         self.analysis()
         return True
 
@@ -134,7 +134,7 @@ class Break(Task):
             self.wait()
 
     def validate_empty_targets(self):
-        target = self.d.match_all('images/empty.1334x750.png')
+        target = self.d.match_all(img('empty'))
         if len(target) < 3:
             return False
         if target[2]['confidence'] < 0.9:
@@ -142,13 +142,13 @@ class Break(Task):
         return True
 
     def refresh_personal_breaking_panel(self):
-        if not self.d.click_image('images/refresh.1334x750.png', threshold=0.9, timeout=5.0):
+        if not self.d.click_image(img('refresh'), threshold=0.9, timeout=5.0):
             return False
-        self.d.click_image('images/confirm.1334x750.png', timeout=5.0)
+        self.d.click_image(img('confirm'), timeout=5.0)
         return True
 
     def open_breaking_panel(self):
-        self.d.click_image('images/break_icon.1334x750.png', timeout=5.0)
+        self.d.click_image(img('break_icon'), timeout=5.0)
 
     def analysis(self):
         super(Break, self).analysis()

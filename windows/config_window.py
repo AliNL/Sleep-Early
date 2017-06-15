@@ -1,8 +1,7 @@
 # coding=utf-8
 
-from windows.task_choose import TaskChoose
-
 from windows.base_window import Window
+from windows.task_choose import TaskChoose
 
 
 class ConfigPage(Window):
@@ -47,7 +46,8 @@ class ConfigPage(Window):
         chapter = self.app.getOptionBox("chapter")
         level = self.LEVEL_LIST[self.app.getOptionBox("level")]
 
-        fl = open('./config.xml', 'w')
+        from pages.steps.path_manager import cfg
+        fl = open(cfg(), 'w')
         fl.write('<root>\n')
         fl.write('    <device>' + device + '</device>\n')
         fl.write('    <chapter>' + chapter + '</chapter>\n')

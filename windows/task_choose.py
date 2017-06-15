@@ -14,8 +14,9 @@ class TaskChoose(Window):
                "组队副本": "任务详情：一直刷组队御魂或觉醒，直到达到次数或体力用尽，对方1分钟未响应时停止"}
 
     def go_back(self, btn):
-        if os.path.exists('./config.xml'):
-            os.remove('./config.xml')
+        from pages.steps.path_manager import cfg
+        if os.path.exists(cfg()):
+            os.remove(cfg())
         self.app.stop()
         from windows.config_window import ConfigPage
         ConfigPage().start_config()

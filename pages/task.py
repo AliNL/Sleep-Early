@@ -5,7 +5,8 @@ from .steps import *
 
 
 class Task(object):
-    def launch(self, device):
+    @staticmethod
+    def launch(device):
         if device == 'android':
             driver = atx.connect()
             set_delay(0.8)

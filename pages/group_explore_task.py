@@ -14,7 +14,7 @@ class ExploreG(Explore):
 
     @log("发现boss")
     def find_boss(self):
-        return self.d.wait('boss_icon.1334x750.png', threshold=0.9, timeout=4)
+        return self.d.wait(img('boss_icon'), timeout=4)
 
     def exploring_wait(self):
         while not self.find_boss():

@@ -1,16 +1,17 @@
 # coding=utf-8
 import time
 
+from pages.steps.path_manager import img
 from windows.base_window import Window
 
 
 class Pipeline(Window):
     MAX_COLUMN = 6
-    READY = "images/Gray_pipeline.gif"
-    GOING = "images/Yellow_pipeline.gif"
-    PENDING = "images/Blue_pipeline.gif"
-    FAIL = "images/Red_pipeline.gif"
-    PASS = "images/Green_pipeline.gif"
+    READY = img() + "Gray_pipeline.gif"
+    GOING = img() + "Yellow_pipeline.gif"
+    PENDING = img() + "Blue_pipeline.gif"
+    FAIL = img() + "Red_pipeline.gif"
+    PASS = img() + "Green_pipeline.gif"
 
     def __init__(self, status_list):
         super().__init__()
