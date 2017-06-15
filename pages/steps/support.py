@@ -4,11 +4,11 @@ import sys
 import time
 
 device_delay = 0
-CURRENT_PATH = '/'
+CURRENT_PATH = '/images/'
 TEMP_PATH = '/'
 
 
-def get_current(file=''):
+def get_image(file=''):
     return CURRENT_PATH + file
 
 
@@ -22,7 +22,7 @@ def get_delay():
 
 def set_path(current, temp):
     global CURRENT_PATH, TEMP_PATH
-    CURRENT_PATH = current
+    CURRENT_PATH = current + '/images/'
     TEMP_PATH = temp
 
 
