@@ -31,53 +31,34 @@ def _detect_platform(connect_url):
     if os.getenv('ATX_PLATFORM'):
         return os.getenv('ATX_PLATFORM')
 
-    if not connect_url: # None or ""
+    if not connect_url:  # None or ""
         return 'android'
-    elif connect_url.startswith('http://'): # WDA use http url as connect str
+    elif connect_url.startswith('http://'):  # WDA use http url as connect str
         return 'ios'
     else:
         return 'android'
 
 
 def connect(*args, **kwargs):
-    """Connect to a device, and return its object
-    Args:
-        platform: string one of <android|ios|windows>
-        
-    Returns:
-        None
-
-    Raises:
-        SyntaxError, EnvironmentError
-    """
     connect_url = _connect_url(*args)
     platform = kwargs.pop('platform', _detect_platform(connect_url))
 
-    cls = None
-    if platform == 'android':
-        os.environ['JSONRPC_TIMEOUT'] = "60" # default is 90s which is too long.
-        devcls = __import__('atx.drivers.android')
-        cls = devcls.drivers.android.AndroidDevice
-    elif platform == 'windows':
-        devcls = __import__('atx.drivers.windows')
-        cls = devcls.drivers.windows.WindowsDevice
+    if platform == 'windows':
+        from atx.drivers.windows import WindowsDevice
+        return WindowsDevice(connect_url, **kwargs)
     elif platform == 'ios':
-        devcls = __import__('atx.drivers.ios_webdriveragent')
-        cls = devcls.drivers.ios_webdriveragent.IOSDevice
+        from atx.drivers.ios_webdriveragent import IOSDevice
+        return IOSDevice(connect_url, **kwargs)
     elif platform == 'webdriver':
-        devcls = __import__('atx.drivers.webdriver')
-        cls = devcls.drivers.webdriver.WebDriver
-    elif platform == 'dummy': # for py.test use
-        devcls = __import__('atx.drivers.dummy')
-        cls = devcls.drivers.dummy.DummyDevice
-    
-    if cls is None:
-        raise SyntaxError('Platform: %s not exists' % platform)
-
-    c = cls(connect_url, **kwargs)
-    c.platform = platform
-    return c
-
+        from atx.drivers.webdriver import WebDriver
+        return WebDriver(connect_url)
+    elif platform == 'dummy':
+        from atx.drivers.dummy import DummyDevice
+        return DummyDevice(connect_url, **kwargs)
+    else:
+        os.environ['JSONRPC_TIMEOUT'] = "60"  # default is 90s which is too long.
+        from atx.drivers.android import AndroidDevice
+        return AndroidDevice(connect_url, **kwargs)
 
 # def _sig_handler(signum, frame):
 #     print >>sys.stderr, 'Signal INT catched !!!'
