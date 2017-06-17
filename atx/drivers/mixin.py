@@ -227,6 +227,7 @@ class DeviceMixin(object):
 
         threshold = threshold or pattern.threshold or self.image_match_threshold
 
+        screen = self.region_screenshot()
         screen = imutils.from_pillow(screen)
         points = ac.find_all_template(screen, search_img, threshold=threshold, maxcnt=10)
         return points
