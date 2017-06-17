@@ -77,16 +77,11 @@ class Explore(Task):
         while True:
             if in_explore_map(self.d):
                 break
-            boxes = self.d.match_all(img('small_treasure_box'))
-            if boxes:
-                for box in boxes:
-                    if box['confidence'] < 0.9:
-                        break
-                    self.d.click(*box['result'])
-                    time.sleep(0.5 + get_delay())
-                    continue_(self, 1)
-                    self.small_box += 1
-            time.sleep(1)
+            if self.d.click_image(img('small_treasure_box'), safe=True, timeout=1.0):
+                time.sleep(0.5 + get_delay())
+                continue_(self, 1)
+                self.small_box += 1
+            time.sleep(0.5)
 
     @log("捡大宝箱")
     def get_big_box(self):
