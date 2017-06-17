@@ -134,10 +134,8 @@ class Break(Task):
             self.wait()
 
     def validate_empty_targets(self):
-        target = self.d.match_all(img('empty'))
+        target = self.d.match_all(img('empty'), threshold=0.9)
         if len(target) < 3:
-            return False
-        if target[2]['confidence'] < 0.9:
             return False
         return True
 

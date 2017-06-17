@@ -74,14 +74,18 @@ class Explore(Task):
 
     @log2("捡小宝箱")
     def get_small_box(self):
-        while True:
+        for i in range(3):
             if in_explore_map(self.d):
-                break
-            if self.d.click_image(img('small_treasure_box'), safe=True, timeout=1.0):
-                time.sleep(0.5 + get_delay())
-                continue_(self, 1)
-                self.small_box += 1
-            time.sleep(0.5)
+                return
+            boxes = self.d.match_all(img('small_treasure_box'), threshold=0.9)
+            if boxes:
+                for box in boxes:
+                    self.d.click(*box['result'])
+                    time.sleep(0.5 + get_delay())
+                    continue_(self, 1)
+                    self.small_box += 1
+            time.sleep(1)
+        raise AssertionError
 
     @log("捡大宝箱")
     def get_big_box(self):
