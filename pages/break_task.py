@@ -33,6 +33,7 @@ class Break(Task):
 
     @log_underline("完成个人结界突破")
     def finish_personal_breaking(self):
+        time.sleep(2)
         if self.d.wait(img('get_bonus'), safe=True, threshold=0.9, timeout=5.0):
             continue_(self, 3)
             return True
