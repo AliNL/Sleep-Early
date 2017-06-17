@@ -13,8 +13,8 @@ class Pipeline(Window):
     FAIL = img() + "Red_pipeline.gif"
     PASS = img() + "Green_pipeline.gif"
 
-    def __init__(self, status_list):
-        super().__init__()
+    def __init__(self, status_list, app):
+        super().__init__(app)
         self.app.setResizable(canResize=False)
         self.app.setPadding([10, 0])
         self.app.setInPadding([1, 1])
@@ -34,10 +34,12 @@ class Pipeline(Window):
         self.task.d = None
 
     def stop_task(self, btn):
-        self.app.stop()
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         self.kill()
         from windows.task_choose import TaskChoose
-        TaskChoose().choose_task()
+        TaskChoose(self.app).choose_task()
 
     def set_pipeline(self, task_running):
         self.task_running = task_running

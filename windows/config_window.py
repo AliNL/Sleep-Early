@@ -16,8 +16,8 @@ class ConfigPage(Window):
         self.app.setMessageFg(name, "green")
         self.VALIDATION[name] = "valid"
 
-    def set_invalid(self, name, message=""):
-        self.app.setMessage(name, self.CROSS + message)
+    def set_invalid(self, name):
+        self.app.setMessage(name, self.CROSS)
         self.app.setMessageFg(name, "red")
         self.VALIDATION[name] = "invalid"
 
@@ -30,11 +30,14 @@ class ConfigPage(Window):
     def check_device(self, name):
         if self.app.getOptionBox(name) == "android":
             self.set_valid(name)
+            self.app.hideLabel("device_error")
         elif self.app.getOptionBox(name) == "ios":
-            if self.app.GET_PLATFORM() == self.app.MAC:
+            if self.app.platform == self.app.MAC:
                 self.set_valid(name)
+                self.app.hideLabel("device_error")
             else:
-                self.set_invalid(name, " Windows 无法连接 ios")
+                self.set_invalid(name)
+                self.app.showLabel("device_error")
         self.check_all_data()
 
     def check_target(self, name):
@@ -54,8 +57,10 @@ class ConfigPage(Window):
         fl.write('    <level>' + level + '</level>\n')
         fl.write('</root>')
         fl.close()
-        self.app.stop()
-        TaskChoose().choose_task()
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
+        TaskChoose(self.app).choose_task()
 
     def start_config(self):
         self.app.addLabel("title", "请保存默认配置", 0, 0, 3)
@@ -65,21 +70,23 @@ class ConfigPage(Window):
         self.app.setOptionBoxAlign("device", "left")
         self.app.addEmptyMessage("device", 1, 2)
         self.app.setMessageAlign("device", "left")
-        self.app.addLabel("chapter", "常用章节：", 2, 0)
+        self.app.addLabel("device_error", "Windows 无法连接 ios", 2, 0, 3)
+        self.app.hideLabel("device_error")
+        self.app.addLabel("chapter", "常用章节：", 3, 0)
         self.app.setLabelAlign("chapter", "right")
         self.app.addOptionBox("chapter", ["- 空 -",
                                           "18", "17", "16", "15", "14", "13", "12", "11", "10", "9",
-                                          "8", "7", "6", "5", "4", "3", "2", "1"], 2, 1)
+                                          "8", "7", "6", "5", "4", "3", "2", "1"], 3, 1)
         self.app.setOptionBoxAlign("chapter", "left")
-        self.app.addEmptyMessage("chapter", 2, 2)
+        self.app.addEmptyMessage("chapter", 3, 2)
         self.app.setMessageAlign("chapter", "left")
-        self.app.addLabel("level", "突破等级：", 3, 0)
+        self.app.addLabel("level", "突破等级：", 4, 0)
         self.app.setLabelAlign("level", "right")
-        self.app.addOptionBox("level", ["- 空 -", "全部", "59级以下", "49级以下", "39级以下", "29级以下", "19级以下", "9级以下"], 3, 1)
+        self.app.addOptionBox("level", ["- 空 -", "全部", "59级以下", "49级以下", "39级以下", "29级以下", "19级以下", "9级以下"], 4, 1)
         self.app.setOptionBoxAlign("level", "left")
-        self.app.addEmptyMessage("level", 3, 2)
+        self.app.addEmptyMessage("level", 4, 2)
         self.app.setMessageAlign("level", "left")
-        self.app.addButton("确定", self.save_config, 4, 0, 3)
+        self.app.addButton("确定", self.save_config, 5, 0, 3)
         self.app.setButtonSticky("确定", "")
         self.app.disableButton("确定")
 
@@ -89,5 +96,4 @@ class ConfigPage(Window):
         self.app.setOptionBoxChangeFunction("device", self.check_device)
         self.app.setOptionBoxChangeFunction("chapter", self.check_target)
         self.app.setOptionBoxChangeFunction("level", self.check_target)
-
         self.app.go()

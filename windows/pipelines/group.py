@@ -6,12 +6,12 @@ from windows.pipelines.pipeline import Pipeline
 
 
 class GroupTask(Pipeline):
-    def __init__(self, times, is_lead):
+    def __init__(self, times, is_lead, app):
         self.is_lead = is_lead
         if self.is_lead:
-            super().__init__(["开始战斗", "打怪", "发送邀请"])
+            super().__init__(["开始战斗", "打怪", "发送邀请"], app)
         else:
-            super().__init__(["等待开始", "打怪", "等待邀请"])
+            super().__init__(["等待开始", "打怪", "等待邀请"], app)
         self.times = times
         from pages.steps.path_manager import cfg
         dom = minidom.parse(cfg())

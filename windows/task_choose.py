@@ -17,9 +17,11 @@ class TaskChoose(Window):
         from pages.steps.path_manager import cfg
         if os.path.exists(cfg()):
             os.remove(cfg())
-        self.app.stop()
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         from windows.config_window import ConfigPage
-        ConfigPage().start_config()
+        ConfigPage(self.app).start_config()
 
     def set_message(self, name):
         self.app.setMessage("message", self.MESSAGE[name])
@@ -51,19 +53,21 @@ class TaskChoose(Window):
         task_type = self.app.getOptionBox("task")
         times = float(self.app.getEntry("times"))
         is_lead = self.app.getCheckBox("我是队长")
-        self.app.stop()
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         if task_type == "自动":
             from windows.pipelines.auto import AutoTask
-            task = AutoTask(int(times))
+            task = AutoTask(int(times), self.app)
         elif task_type == "单人探索":
             from windows.pipelines.explore import ExploreTask
-            task = ExploreTask(int(times))
+            task = ExploreTask(int(times), self.app)
         elif task_type == "组队副本":
             from windows.pipelines.group import GroupTask
-            task = GroupTask(int(times), is_lead)
+            task = GroupTask(int(times), is_lead, self.app)
         elif task_type == "结界突破":
             from windows.pipelines.break_task import BreakTask
-            task = BreakTask(times)
+            task = BreakTask(times, self.app)
         else:
             task = None
         self.start(task)
