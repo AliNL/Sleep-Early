@@ -51,7 +51,7 @@ def hook_wrap(event_type):
                         event.flag = event_type
                         event.depth = self._depth
                         f(event)
-            
+
             _traceback = None
             _retval = None
             try:
@@ -110,14 +110,14 @@ class DeviceMixin(object):
             if image._image is None:
                 image._image = self._open_image_file(image._name)
             return image
-        
+
         if isinstance(image, six.string_types):
             path = image
             return Pattern(path, image=self._open_image_file(path))
-        
+
         if 'numpy' in str(type(image)):
             return Pattern('unknown', image=image)
-        
+
         raise TypeError("Not supported image type: {}".format(type(image)))
 
     def delay(self, secs):
@@ -212,15 +212,24 @@ class DeviceMixin(object):
             return FindPoint(ret['result'], ret['confidence'], consts.IMAGE_MATCH_METHOD_SIFT, matched=True)
         return None
 
-    def match_all(self, pattern):
+    def match_all(self, pattern, screen=None, threshold=None):
         """
         Test method, not suggested to use
         """
         pattern = self.pattern_open(pattern)
         search_img = pattern.image
+
+        pattern_scale = self._cal_scale(pattern)
+        if pattern_scale != 1.0:
+            search_img = cv2.resize(search_img, (0, 0),
+                                    fx=pattern_scale, fy=pattern_scale,
+                                    interpolation=cv2.INTER_CUBIC)
+
+        threshold = threshold or pattern.threshold or self.image_match_threshold
+
         screen = self.region_screenshot()
         screen = imutils.from_pillow(screen)
-        points = ac.find_all_template(screen, search_img, maxcnt=10)
+        points = ac.find_all_template(screen, search_img, threshold=threshold, maxcnt=10)
         return points
 
     def match(self, pattern, screen=None, rect=None, offset=None, threshold=None, method=None):
@@ -283,6 +292,21 @@ class DeviceMixin(object):
                 matched = True
             (x, y) = ret['result']
             position = (x+dx, y+dy) # fix by offset
+        elif match_method == 'color':  # IMG_METHOD_TMPL_COLOR
+            ret_all = ac.find_all_template(screen, search_img, maxcnt=10)
+            if not ret_all:
+                return None
+            for ret in ret_all:
+                confidence = ret['confidence']
+                if confidence > threshold:
+                    (x, y) = ret['rectangle'][0]
+                    color_screen = screen[y, x, 2]
+                    color_img = search_img[0, 0, 2]
+                    if -10 < int(color_img) - int(color_screen) < 10:
+                        matched = True
+                        break
+            (x, y) = ret['result']
+            position = (x + dx, y + dy)  # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_SIFT:
             ret = ac.find_sift(screen, search_img, min_match_count=10)
             if ret is None:
@@ -344,7 +368,7 @@ class DeviceMixin(object):
                 inner_self.free_screen()
 
         return _C()
-        
+
     def free_screen(self):
         """
         Unlock keep_screen()
@@ -446,7 +470,7 @@ class DeviceMixin(object):
     #     else:
     #         sys.stdout.write('\n')
     #         raise errors.AssertExistsError('image not found %s' %(pattern,))
-            
+
     @hook_wrap(consts.EVENT_CLICK_IMAGE)
     def click_nowait(self, pattern, action='click', desc=None, **match_kwargs):
         """ Return immediately if no image found
@@ -513,7 +537,7 @@ class DeviceMixin(object):
             if not point.matched:
                 log.info('Ignore confidence: %s', point.confidence)
                 continue
-            
+
             # wait for program ready
             if delay and delay > 0:
                 self.delay(delay)

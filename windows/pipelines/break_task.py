@@ -6,8 +6,8 @@ from windows.pipelines.pipeline import Pipeline
 
 
 class BreakTask(Pipeline):
-    def __init__(self, times):
-        super().__init__(["突破阴阳寮1", "突破阴阳寮2", "突破阴阳寮3"])
+    def __init__(self, times, app):
+        super().__init__(["突破阴阳寮1", "突破阴阳寮2", "突破阴阳寮3"], app)
         self.times = times
         from pages.steps.path_manager import cfg
         dom = minidom.parse(cfg())

@@ -17,9 +17,11 @@ class TaskChoose(Window):
         from pages.steps.path_manager import cfg
         if os.path.exists(cfg()):
             os.remove(cfg())
-        self.app.stop()
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         from windows.config_window import ConfigPage
-        ConfigPage().start_config()
+        ConfigPage(self.app).start_config()
 
     def set_message(self, name):
         self.app.setMessage("message", self.MESSAGE[name])
@@ -41,8 +43,10 @@ class TaskChoose(Window):
 
         self.set_message(task_type)
 
-    @staticmethod
-    def start(task):
+    def start(self, task):
+        self.app.hide()
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         task_running = threading.Thread(target=task.run_task)
         task_running.start()
         task.set_pipeline(task_running)
@@ -51,22 +55,25 @@ class TaskChoose(Window):
         task_type = self.app.getOptionBox("task")
         times = float(self.app.getEntry("times"))
         is_lead = self.app.getCheckBox("我是队长")
-        self.app.stop()
-        if task_type == "自动":
-            from windows.pipelines.auto import AutoTask
-            task = AutoTask(int(times))
-        elif task_type == "单人探索":
-            from windows.pipelines.explore import ExploreTask
-            task = ExploreTask(int(times))
-        elif task_type == "组队副本":
-            from windows.pipelines.group import GroupTask
-            task = GroupTask(int(times), is_lead)
-        elif task_type == "结界突破":
-            from windows.pipelines.break_task import BreakTask
-            task = BreakTask(times)
-        else:
-            task = None
-        self.start(task)
+
+        try:
+            if task_type == "自动":
+                from windows.pipelines.auto import AutoTask
+                task = AutoTask(int(times), self.app)
+            elif task_type == "单人探索":
+                from windows.pipelines.explore import ExploreTask
+                task = ExploreTask(int(times), self.app)
+            elif task_type == "组队副本":
+                from windows.pipelines.group import GroupTask
+                task = GroupTask(int(times), is_lead, self.app)
+            elif task_type == "结界突破":
+                from windows.pipelines.break_task import BreakTask
+                task = BreakTask(times, self.app)
+            else:
+                raise Exception
+            self.start(task)
+        except Exception:
+            self.app.errorBox("错误", "设备无法连接")
 
     def choose_task(self):
         self.app.addLabel("task", "选择任务：", 0, 0, 1)

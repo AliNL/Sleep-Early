@@ -6,8 +6,8 @@ from windows.pipelines.pipeline import Pipeline
 
 
 class AutoTask(Pipeline):
-    def __init__(self, times):
-        super().__init__(["选择章节", "打怪", "捡宝箱", "打石距", "个人突破", "阴阳寮突破"])
+    def __init__(self, times, app):
+        super().__init__(["选择章节", "打怪", "捡宝箱", "打石距", "个人突破", "阴阳寮突破"], app)
         self.times = times
         from pages.steps.path_manager import cfg
         dom = minidom.parse(cfg())

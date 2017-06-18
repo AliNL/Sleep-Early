@@ -13,13 +13,11 @@ class Pipeline(Window):
     FAIL = img() + "Red_pipeline.gif"
     PASS = img() + "Green_pipeline.gif"
 
-    def __init__(self, status_list):
-        super().__init__()
-        self.app.setResizable(canResize=False)
+    def __init__(self, status_list, app):
+        super().__init__(app)
         self.app.setPadding([10, 0])
         self.app.setInPadding([1, 1])
-        self.app.setSticky("nsew")
-        self.app.setStretch("none")
+        # self.app.setSticky("nsew")
         self.times_done = 0
         self.status_list = status_list
         self.status = {}
@@ -34,41 +32,36 @@ class Pipeline(Window):
         self.task.d = None
 
     def stop_task(self, btn):
-        self.app.stop()
+        self.app.hide()
+        self.app.events = []
+        self.app.removeAllWidgets()
+        self.app.setGuiPadding(0, 0)
         self.kill()
         from windows.task_choose import TaskChoose
-        TaskChoose().choose_task()
+        TaskChoose(self.app).choose_task()
 
     def set_pipeline(self, task_running):
         self.task_running = task_running
-        row = 0
         column = 0
-        total = 0
         for name in self.status_list:
-            if column >= self.MAX_COLUMN:
-                total = self.MAX_COLUMN
-                row += 3
-                column = 0
-            self.app.addLabel(name + "Label", name, row, column, 1)
-            self.app.addImage(name, self.READY, row + 1, column, 1)
-            self.app.addLabel(name, "", row + 2, column, 1)
+            self.app.addLabel(name + "Label", name, 0, column, 1)
+            self.app.addImage(name, self.READY, 1, column, 1)
+            self.app.addLabel(name, "", 2, column, 1)
             column += 1
-        if total == 0:
-            total = column
-        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", row + 3, total - 2, 2)
-        self.app.addButton("停止并返回", self.stop_task, row + 3, 0, 2)
+        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 2, 2)
+        self.app.addButton("停止并返回", self.stop_task, 3, 0, 2)
         self.app.setButtonSticky("停止并返回", "")
         self.app.registerEvent(self.update_pipeline)
-        self.app.setPollTime(500)
         self.app.go()
 
     def update_pipeline(self):
         self.app.setLabel("times", "已刷了" + str(self.times_done) + "次")
-        if not self.task_running.isAlive():
-            self.set_status(self.current, "fail")
-            return
         for name in self.status:
             self.set_status(name, self.status[name])
+        if not self.task_running.isAlive():
+            self.set_status(self.current, "fail")
+            self.app.events = []
+            return
 
     def set_status(self, name, value):
         if isinstance(value, int):
@@ -82,7 +75,7 @@ class Pipeline(Window):
             elif time.time() - 1 > value:
                 self.current = name
                 self.app.setImage(name, self.GOING)
-                pending = str(int(60 - time.time() + value))
+                pending = str(int(62 - time.time() + value))
                 self.app.setLabel(name, "剩余 " + pending + " 秒")
             else:
                 self.status[name] = 0

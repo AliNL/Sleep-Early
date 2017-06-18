@@ -11,7 +11,7 @@ class Group(Task):
     def start_group_fight(self):
         if self.d.exists(img('buying_energy')):
             return False
-        if self.d.click_image(img('start_fighting')):
+        if self.d.click_image(img('start_fighting'), timeout=60, method='color'):
             time.sleep(2.5 + get_delay())
             if not self.d.exists(img('in_group')):
                 return True
