@@ -94,6 +94,7 @@ class Break(Task):
             self.d.click_image(img('attack'), timeout=1.0)
             time.sleep(3.5 + get_delay())
             fighting(self)
+            time.sleep(2 + get_delay())
         return True
 
     def public_breaking(self, start=False):
@@ -136,8 +137,6 @@ class Break(Task):
     def validate_empty_targets(self):
         target = self.d.match_all(img('empty'))
         if len(target) < 3:
-            return False
-        if target[2]['confidence'] < 0.9:
             return False
         return True
 
