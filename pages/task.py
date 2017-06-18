@@ -11,6 +11,9 @@ class Task(object):
             driver = atx.connect()
             set_delay(0.8)
         elif device == 'ios':
+            import subprocess
+            from pages.steps.path_manager import ipr
+            subprocess.Popen([ipr(), '8100', '8100'])
             driver = atx.connect('http://localhost:8100')
         else:
             raise IOError('Invalid device type!!!')
