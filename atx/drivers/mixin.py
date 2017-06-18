@@ -292,6 +292,21 @@ class DeviceMixin(object):
                 matched = True
             (x, y) = ret['result']
             position = (x+dx, y+dy) # fix by offset
+        elif match_method == 'color':  # IMG_METHOD_TMPL_COLOR
+            ret_all = ac.find_all_template(screen, search_img, maxcnt=10)
+            if not ret_all:
+                return None
+            for ret in ret_all:
+                confidence = ret['confidence']
+                if confidence > threshold:
+                    (x, y) = ret['rectangle'][0]
+                    color_screen = screen[y, x, 2]
+                    color_img = search_img[0, 0, 2]
+                    if -10 < int(color_img) - int(color_screen) < 10:
+                        matched = True
+                        break
+            (x, y) = ret['result']
+            position = (x + dx, y + dy)  # fix by offset
         elif match_method == consts.IMAGE_MATCH_METHOD_SIFT:
             ret = ac.find_sift(screen, search_img, min_match_count=10)
             if ret is None:

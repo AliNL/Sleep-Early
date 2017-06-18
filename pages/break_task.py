@@ -62,7 +62,7 @@ class Break(Task):
         self.d.keep_screen()
         for i in range(self.level):
             level_img = img('level_' + str(i))
-            if self.d.click_nowait(level_img, threshold=0.9):
+            if self.d.click_nowait(level_img, threshold=0.9, method='color'):
                 self.d.free_screen()
                 time.sleep(0.5 + get_delay())
                 self.d.click_image(img('attack'), timeout=600)
@@ -89,7 +89,7 @@ class Break(Task):
         if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
             return False
         while not self.finish_personal_breaking():
-            if not self.d.click_image(img('empty'), timeout=1.0):
+            if not self.d.click_image(img('empty'), timeout=1.0, method='color'):
                 break
             time.sleep(0.5 + get_delay())
             self.d.click_image(img('attack'), timeout=1.0)
@@ -106,7 +106,7 @@ class Break(Task):
             if not start:
                 self.last = (self.last + float(time.time()) - 15) / 2
             time.sleep(4 + get_delay())
-            if not self.d.exists(img('level_6')):
+            if not self.d.exists(img('level_6'), method='color'):
                 fighting(self)
                 self.times += 1
             else:
@@ -141,7 +141,7 @@ class Break(Task):
         return True
 
     def refresh_personal_breaking_panel(self):
-        if not self.d.click_image(img('refresh'), threshold=0.9, timeout=5.0):
+        if not self.d.click_image(img('refresh'), threshold=0.9, timeout=5.0, method='color'):
             return False
         self.d.click_image(img('confirm'), timeout=5.0)
         return True

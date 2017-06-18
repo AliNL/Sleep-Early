@@ -33,6 +33,7 @@ class Pipeline(Window):
 
     def stop_task(self, btn):
         self.app.hide()
+        self.app.events = []
         self.app.removeAllWidgets()
         self.app.setGuiPadding(0, 0)
         self.kill()
@@ -41,16 +42,14 @@ class Pipeline(Window):
 
     def set_pipeline(self, task_running):
         self.task_running = task_running
-        row = 0
         column = 0
-        total = 0
         for name in self.status_list:
             self.app.addLabel(name + "Label", name, 0, column, 1)
             self.app.addImage(name, self.READY, 1, column, 1)
             self.app.addLabel(name, "", 2, column, 1)
             column += 1
-        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", row + 3, column - 2, 2)
-        self.app.addButton("停止并返回", self.stop_task, row + 3, 0, 2)
+        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 2, 2)
+        self.app.addButton("停止并返回", self.stop_task, 3, 0, 2)
         self.app.setButtonSticky("停止并返回", "")
         self.app.registerEvent(self.update_pipeline)
         self.app.go()
@@ -61,6 +60,7 @@ class Pipeline(Window):
             self.set_status(name, self.status[name])
         if not self.task_running.isAlive():
             self.set_status(self.current, "fail")
+            self.app.events = []
             return
 
     def set_status(self, name, value):
@@ -75,7 +75,7 @@ class Pipeline(Window):
             elif time.time() - 1 > value:
                 self.current = name
                 self.app.setImage(name, self.GOING)
-                pending = str(int(60 - time.time() + value))
+                pending = str(int(62 - time.time() + value))
                 self.app.setLabel(name, "剩余 " + pending + " 秒")
             else:
                 self.status[name] = 0
