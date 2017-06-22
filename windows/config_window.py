@@ -74,8 +74,9 @@ class ConfigPage(Window):
         self.app.hideLabel("device_error")
         self.app.addLabel("chapter", "常用章节：", 3, 0)
         self.app.setLabelAlign("chapter", "right")
-        self.app.addOptionBox("chapter", ["- 空 -",
-                                          "18", "17", "16", "15", "14", "13", "12", "11", "10", "9",
+        self.app.addOptionBox("chapter", ["- 空 -", "23", "22", "21", "20", "19",
+                                          "18", "17", "16", "15", "14", "13", "12",
+                                          "11", "10", "9",
                                           "8", "7", "6", "5", "4", "3", "2", "1"], 3, 1)
         self.app.setOptionBoxAlign("chapter", "left")
         self.app.addEmptyMessage("chapter", 3, 2)
