@@ -86,7 +86,7 @@ class Break(Task):
 
     def personal_breaking(self):
         self.open_breaking_panel()
-        if not self.refresh_personal_breaking_panel() or not self.validate_empty_targets():
+        if not self.refresh_personal_breaking_panel():
             return False
         while not self.finish_personal_breaking():
             if not self.d.click_image(img('empty'), timeout=1.0, method='color'):
@@ -134,12 +134,6 @@ class Break(Task):
                 return False
             self.get_next_time()
             self.wait()
-
-    def validate_empty_targets(self):
-        target = self.d.match_all(img('empty'), threshold=0.9)
-        if len(target) < 3:
-            return False
-        return True
 
     def refresh_personal_breaking_panel(self):
         if not self.d.click_image(img('refresh'), threshold=0.9, timeout=5.0, method='color'):
