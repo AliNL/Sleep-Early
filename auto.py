@@ -18,7 +18,7 @@ def main(argv):
         level = 7
         chapter = 16
     finally:
-        times = 25
+        times = 50
 
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:c:", ["times=", "level=", "device=", "chapter="])
