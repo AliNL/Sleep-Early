@@ -56,8 +56,8 @@ def main(argv):
         ex.exploring_fight()
         ex.get_small_box()
         ex.get_big_box()
-        if ex.found_shi_ju():
-            ex.d.delay(5 * 60)
+        # if ex.found_shi_ju():
+        #     ex.d.delay(5 * 60)
         if time.time() - t > 600:
             if br.if_tickets_enough():
                 br.breaking()
