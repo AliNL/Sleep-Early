@@ -92,6 +92,7 @@ class Break(Task):
             self.d.click_image('attack.1334x750.png', timeout=1.0)
             time.sleep(3.5 + get_delay())
             fighting(self)
+            time.sleep(3)
         return True
 
     def public_breaking(self, start=False):
