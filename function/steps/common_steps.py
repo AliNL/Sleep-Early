@@ -49,7 +49,7 @@ def continue_(task, times=4):
 @sure
 def is_fighting(task):
     if task.d.exists('fighting.1334x750.png'):
-        task.d.click(*task.position.get('mid'))
+        # task.d.click(*task.position.get('mid'))
         return True
     if task.d.exists('ready.1334x750.png'):
         return True
