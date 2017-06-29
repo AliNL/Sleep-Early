@@ -48,8 +48,8 @@ class Pipeline(Window):
             self.app.addImage(name, self.READY, 1, column, 1)
             self.app.addLabel(name, "", 2, column, 1)
             column += 1
-        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 2, 2)
-        self.app.addButton("停止并返回", self.stop_task, 3, 0, 2)
+        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 1, 1)
+        self.app.addButton("停止并返回", self.stop_task, 3, 0, 1)
         self.app.setButtonSticky("停止并返回", "")
         self.app.registerEvent(self.update_pipeline)
         self.app.go()
