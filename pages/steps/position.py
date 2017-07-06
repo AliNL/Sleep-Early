@@ -7,7 +7,7 @@ class Position(dict):
         super(Position, self).__init__(**kwargs)
         self.d = driver
         self.w, self.l = sorted(driver.display)
-        self['screen_bottom'] = (self.l * 0.25, self.w * 0.8)
+        self['screen_bottom'] = (self.l * 0.3, self.w * 0.8)
         self['right'] = (self.l * 0.9, self.w * 0.8)
         self['left'] = (self.l * 0.1, self.w * 0.8)
         self['mid'] = (self.l * 0.5, self.w * 0.3)
