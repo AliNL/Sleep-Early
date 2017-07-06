@@ -9,6 +9,7 @@ from windows.base_window import Window
 class TaskChoose(Window):
     MESSAGE = {"自动": "任务详情：一直刷单人探索，每10分钟刷个人结界突破（直到胜利3次或打完）和阴阳寮结界突破（3个）",
                "单人探索": "任务详情：一直刷单人探索，直到达到次数或体力用尽",
+               "单人挑战": "任务详情：适用于御灵和业原火",
                "组队探索": "任务详情：一直刷组队探索，直到达到次数或体力用尽，对方1分钟未响应时停止",
                "结界突破": "任务详情：每10分钟刷阴阳寮结界突破（3个），直到达到时间或刷完",
                "组队副本": "任务详情：一直刷组队御魂或觉醒，直到达到次数或体力用尽，对方1分钟未响应时停止"}
@@ -63,6 +64,9 @@ class TaskChoose(Window):
             elif task_type == "单人探索":
                 from windows.pipelines.explore import ExploreTask
                 task = ExploreTask(int(times), self.app)
+            elif task_type == "单人挑战":
+                from windows.pipelines.challenge import ChallengeTask
+                task = ChallengeTask(int(times), self.app)
             elif task_type == "组队副本":
                 from windows.pipelines.group import GroupTask
                 task = GroupTask(int(times), is_lead, self.app)
@@ -79,7 +83,7 @@ class TaskChoose(Window):
         self.app.addLabel("task", "选择任务：", 0, 0, 1)
         self.app.setLabelAlign("task", "right")
         # self.app.addOptionBox("task", ["自动", "单人探索", "组队探索", "结界突破", "组队副本"], 0, 1, 1)
-        self.app.addOptionBox("task", ["自动", "单人探索", "结界突破", "组队副本"], 0, 1, 1)
+        self.app.addOptionBox("task", ["自动", "单人探索", "单人挑战", "结界突破", "组队副本"], 0, 1, 1)
         self.app.setOptionBoxWidth("task", 10)
         self.app.setOptionBoxSticky("task", "w")
         self.app.addLabel("times", "刷多少把：", 0, 2, 1)

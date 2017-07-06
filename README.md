@@ -12,11 +12,7 @@
 1. 注册iOS Developer账号
 1. git clone https://github.com/facebook/WebDriverAgent.git
 1. 在Xcode中打开项目并重做签名
-1. 安装iproxy
-    * brew install usbmuxd
-    * brew install ios-webkit-debug-proxy
 1. 在Xcode中运行test，WebDriverAgentRunner->你的iPhone
-1. iproxy 8100 8100
 
 ## Android
 1. 要有adb

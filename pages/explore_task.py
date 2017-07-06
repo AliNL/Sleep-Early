@@ -5,7 +5,7 @@ from .task import *
 
 class Explore(Task):
     def __init__(self, chapter=16, device='android'):
-        if not 0 < chapter < 19:
+        if not 0 < chapter < 24:
             raise IOError("Invalid chapter number!!!")
         super(Explore, self).__init__(device)
         self.name = 'Explore'

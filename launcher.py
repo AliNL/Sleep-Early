@@ -1,7 +1,6 @@
 import sys
 
 import os
-from appdirs import user_data_dir
 
 from pages.steps.path_manager import set_path, cfg
 from windows.config_window import ConfigPage
@@ -14,12 +13,7 @@ def main():
     else:
         bundle_dir = os.path.dirname(os.path.abspath(__file__))
 
-    current = bundle_dir
-    temp = user_data_dir('Sleep Early', 'SanGe')
-
-    if not os.path.exists(temp):
-        os.makedirs(temp)
-    set_path(current, temp)
+    set_path(bundle_dir)
     if not os.path.exists(cfg()):
         ConfigPage().start_config()
     else:

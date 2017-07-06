@@ -48,8 +48,8 @@ class Pipeline(Window):
             self.app.addImage(name, self.READY, 1, column, 1)
             self.app.addLabel(name, "", 2, column, 1)
             column += 1
-        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 2, 2)
-        self.app.addButton("停止并返回", self.stop_task, 3, 0, 2)
+        self.app.addLabel("times", "已刷了" + str(self.times_done) + "次", 3, column - 1, 1)
+        self.app.addButton("停止并返回", self.stop_task, 3, 0, 1)
         self.app.setButtonSticky("停止并返回", "")
         self.app.registerEvent(self.update_pipeline)
         self.app.go()
@@ -60,7 +60,6 @@ class Pipeline(Window):
             self.set_status(name, self.status[name])
         if not self.task_running.isAlive():
             self.set_status(self.current, "fail")
-            self.app.events = []
             return
 
     def set_status(self, name, value):
@@ -92,6 +91,7 @@ class Pipeline(Window):
         elif value == "fail":
             self.app.setImage(name, self.FAIL)
             self.app.setLabel(name, "任务出错")
+            self.app.events = []
         else:
             self.app.setImage(name, self.PENDING)
             self.app.setLabel(name, "")

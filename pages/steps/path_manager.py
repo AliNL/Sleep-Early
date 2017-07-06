@@ -1,12 +1,15 @@
 image = ''
 config = ''
+iproxy = ''
 
 
-def set_path(current, temp):
+def set_path(current):
     global image
     global config
+    global iproxy
+    iproxy = current + "/iproxy"
     image = current + "/images/"
-    config = temp + '/config.xml'
+    config = current + '/config.xml'
 
 
 def img(file=None):
@@ -18,3 +21,7 @@ def img(file=None):
 
 def cfg():
     return config
+
+
+def ipr():
+    return iproxy
