@@ -60,7 +60,6 @@ class Pipeline(Window):
             self.set_status(name, self.status[name])
         if not self.task_running.isAlive():
             self.set_status(self.current, "fail")
-            self.app.events = []
             return
 
     def set_status(self, name, value):
@@ -92,6 +91,7 @@ class Pipeline(Window):
         elif value == "fail":
             self.app.setImage(name, self.FAIL)
             self.app.setLabel(name, "任务出错")
+            self.app.events = []
         else:
             self.app.setImage(name, self.PENDING)
             self.app.setLabel(name, "")
