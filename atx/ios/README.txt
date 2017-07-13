@@ -1,1 +1,0 @@
-Commands of iOS
