@@ -1,20 +1,14 @@
 # coding=utf-8
-from xml.dom import minidom
 
 from pages import *
 from windows.pipelines.pipeline import Pipeline
 
 
 class BreakTask(Pipeline):
-    def __init__(self, times, app):
+    def __init__(self, times, app, config):
         super().__init__(["突破阴阳寮1", "突破阴阳寮2", "突破阴阳寮3"], app)
         self.times = times
-        from pages.steps.path_manager import cfg
-        dom = minidom.parse(cfg())
-        root = dom.documentElement
-        device = root.getElementsByTagName('device')[0].firstChild.data
-        level = int(root.getElementsByTagName('level')[0].firstChild.data)
-        self.task = Break(self.times, level, 1, device)
+        self.task = Break(self.times, config["l"], 1, config["d"])
 
     def run_task(self):
         self.status = {"突破阴阳寮1": "going", "突破阴阳寮2": "pending", "突破阴阳寮3": "pending"}

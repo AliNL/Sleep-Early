@@ -9,7 +9,9 @@ class ConfigPage(Window):
     CROSS = "\u2716"
     VALIDATION = {"device": "invalid", "chapter": "invalid", "level": "invalid"}
     LEVEL_LIST = {"全部": "7", "59级以下": "6", "49级以下": "5", "39级以下": "4",
-                  "29级以下": "3", "19级以下": "2", "9级以下": "1"}
+                  "29级以下": "3", "19级以下": "2", "9级以下": "1",
+                  7: "全部", 6: "59级以下", 5: "49级以下", 4: "39级以下",
+                  3: "29级以下", 2: "19级以下", 1: "9级以下"}
 
     def set_valid(self, name):
         self.app.setMessage(name, self.TICK)
@@ -62,7 +64,7 @@ class ConfigPage(Window):
         self.app.setGuiPadding(0, 0)
         TaskChoose(self.app).choose_task()
 
-    def start_config(self):
+    def start_config(self, default=None):
         self.app.addLabel("title", "请保存默认配置", 0, 0, 3)
         self.app.addLabel("device", "设备类型：", 1, 0)
         self.app.setLabelAlign("device", "right")
@@ -97,4 +99,10 @@ class ConfigPage(Window):
         self.app.setOptionBoxChangeFunction("device", self.check_device)
         self.app.setOptionBoxChangeFunction("chapter", self.check_target)
         self.app.setOptionBoxChangeFunction("level", self.check_target)
+
+        if default:
+            self.app.setOptionBox("device", default["d"])
+            self.app.setOptionBox("chapter", str(default["c"]))
+            self.app.setOptionBox("level", self.LEVEL_LIST[default["l"]])
+
         self.app.go()

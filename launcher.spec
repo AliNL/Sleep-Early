@@ -36,5 +36,5 @@ app = BUNDLE(coll,
              name='Sleep Early.app',
              icon='icon.icns',
              bundle_identifier=None,
-             info_plist={'CFBundleShortVersionString': '1.0.1',
+             info_plist={'CFBundleShortVersionString': '1.1.0',
              'NSHighResolutionCapable': 'True'})

@@ -4,11 +4,11 @@ from .common_steps import *
 
 @freeze
 def exit_group_or_exploring(d):
-    if d.click_image(img('close'), timeout=1.0):
+    if d.click_image(img('close'), safe=True, timeout=1.0):
         return False
-    if d.click_image(img('in_group'), timeout=1.0):
+    if d.click_image(img('in_group'), safe=True, timeout=1.0):
         return True
-    if d.click_image(img('back'), timeout=1.0):
+    if d.click_image(img('back'), safe=True, timeout=1.0):
         return True
 
 

@@ -1,23 +1,16 @@
 # coding=utf-8
-from xml.dom import minidom
 
 from pages import *
 from windows.pipelines.pipeline import Pipeline
 
 
 class AutoTask(Pipeline):
-    def __init__(self, times, app):
+    def __init__(self, times, app, config):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距", "个人突破", "阴阳寮突破"], app)
         self.times = times
-        from pages.steps.path_manager import cfg
-        dom = minidom.parse(cfg())
-        root = dom.documentElement
-        device = root.getElementsByTagName('device')[0].firstChild.data
-        level = int(root.getElementsByTagName('level')[0].firstChild.data)
-        chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
-        self.ex = Explore(chapter, device)
-        self.br = Break(-1, level, 1, device)
-        self.bp = Break(0, level, 1, device)
+        self.ex = Explore(config["c"], config["d"])
+        self.br = Break(-1, config["l"], 1, config["d"])
+        self.bp = Break(0, config["l"], 1, config["d"])
 
     def kill(self):
         self.ex.d = None
