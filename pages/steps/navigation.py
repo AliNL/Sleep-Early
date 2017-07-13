@@ -5,11 +5,11 @@ from .common_steps import *
 @freeze
 def exit_group_or_exploring(d):
     if d.click_image(img('close'), safe=True, timeout=1.0):
-        return False
+        return None
     if d.click_image(img('in_group'), safe=True, timeout=1.0):
-        return True
+        return 'confirm'
     if d.click_image(img('back'), safe=True, timeout=1.0):
-        return True
+        return 'yes'
 
 
 @log("前往探索地图")
@@ -17,8 +17,9 @@ def navigate_to_explore_map(d):
     for i in range(5):
         if in_explore_map(d):
             return True
-        if exit_group_or_exploring(d):
-            d.click_image(img('confirm'), timeout=1.0)
+        image = exit_group_or_exploring(d)
+        if image:
+            d.click_image(img(image), timeout=1.0)
     raise IOError("Unable to navigate!!!")
 
 
