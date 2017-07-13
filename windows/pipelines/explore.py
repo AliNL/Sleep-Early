@@ -1,20 +1,14 @@
 # coding=utf-8
-from xml.dom import minidom
 
 from pages import Explore, navigate_to_explore_map
 from windows.pipelines.pipeline import Pipeline
 
 
 class ExploreTask(Pipeline):
-    def __init__(self, times, app):
+    def __init__(self, times, app, config):
         super().__init__(["选择章节", "打怪", "捡宝箱", "打石距"], app)
         self.times = times
-        from pages.steps.path_manager import cfg
-        dom = minidom.parse(cfg())
-        root = dom.documentElement
-        device = root.getElementsByTagName('device')[0].firstChild.data
-        chapter = int(root.getElementsByTagName('chapter')[0].firstChild.data)
-        self.task = Explore(chapter, device)
+        self.task = Explore(config["c"], config["d"])
 
     def run_task(self):
         for self.times_done in range(self.times):
