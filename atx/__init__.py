@@ -41,18 +41,9 @@ def connect(*args, **kwargs):
     connect_url = _connect_url(*args)
     platform = kwargs.pop('platform', _detect_platform(connect_url))
 
-    if platform == 'windows':
-        from atx.drivers.windows import WindowsDevice
-        return WindowsDevice(connect_url, **kwargs)
-    elif platform == 'ios':
+    if platform == 'ios':
         from atx.drivers.ios_webdriveragent import IOSDevice
         return IOSDevice(connect_url, **kwargs)
-    elif platform == 'webdriver':
-        from atx.drivers.webdriver import WebDriver
-        return WebDriver(connect_url)
-    elif platform == 'dummy':
-        from atx.drivers.dummy import DummyDevice
-        return DummyDevice(connect_url, **kwargs)
     else:
         os.environ['JSONRPC_TIMEOUT'] = "60"  # default is 90s which is too long.
         from atx.drivers.android import AndroidDevice
