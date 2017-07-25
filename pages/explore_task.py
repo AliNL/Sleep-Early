@@ -20,9 +20,9 @@ class Explore(Task):
         image_name = img('C' + str(self.chapter))
         for t in range(-5, 5):
             if self.d.click_image(image_name, safe=True, threshold=0.9, timeout=1.0):
-                time.sleep(1)
+                time.sleep(1 + get_delay())
                 if self.d.click_image(img('explore_icon')):
-                    time.sleep(3)
+                    time.sleep(3 + get_delay())
                     return self.chapter
             else:
                 x1, y1 = self.position.get('chapter_top')
@@ -31,7 +31,7 @@ class Explore(Task):
                     self.d.swipe(x2, y2, x1, y1)
                 else:
                     self.d.swipe(x1, y1, x2, y2)
-            time.sleep(1)
+            time.sleep(1 + get_delay())
 
     @log2("打小怪")
     def __fight_monster(self):
@@ -84,7 +84,7 @@ class Explore(Task):
                     time.sleep(0.5 + get_delay())
                     continue_(self, 1)
                     self.small_box += 1
-            time.sleep(1)
+            time.sleep(1 + get_delay())
         raise AssertionError
 
     @log("捡大宝箱")

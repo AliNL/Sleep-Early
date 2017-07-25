@@ -9,12 +9,13 @@ class Task(object):
     def launch(device):
         if device == 'android':
             driver = atx.connect()
-            set_delay(0.8)
+            set_delay(1)
         elif device == 'ios':
             import subprocess
             from pages.steps.path_manager import ipr
             subprocess.Popen([ipr(), '8100', '8100'])
             driver = atx.connect('http://localhost:8100')
+            set_delay(-0.5)
         else:
             raise IOError('Invalid device type!!!')
         atx.drivers.mixin.log.setLevel(50)

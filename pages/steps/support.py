@@ -92,7 +92,7 @@ def sure(func):
             result = func(*args, **kw)
             if result:
                 return True
-            time.sleep(get_delay())
+            time.sleep(0.5 + get_delay())
             if not func(*args, **kw):
                 return False
 

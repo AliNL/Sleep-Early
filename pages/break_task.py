@@ -34,7 +34,7 @@ class Break(Task):
 
     @log_underline("完成个人结界突破")
     def finish_personal_breaking(self):
-        time.sleep(2)
+        time.sleep(2 + get_delay())
         if self.d.wait(img('get_bonus'), safe=True, threshold=0.9, timeout=5.0):
             continue_(self, 3)
             return True
@@ -43,7 +43,7 @@ class Break(Task):
     def reopen_breaking(self):
         self.open_breaking_panel()
         self.select_public_breaking_tab()
-        time.sleep(2)
+        time.sleep(2 + get_delay())
 
     def select_public_breaking_tab(self):
         self.d.click_image(img('public_tab'), timeout=5.0)
@@ -55,7 +55,7 @@ class Break(Task):
         x, y = self.position.get('first_target')
         self.target = 1 if self.target == 3 else (self.target + 1)
         self.d.click(x, y * self.target)
-        time.sleep(1)
+        time.sleep(1 + get_delay())
         return self.target
 
     @log("找到目标")

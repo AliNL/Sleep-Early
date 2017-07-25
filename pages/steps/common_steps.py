@@ -41,8 +41,9 @@ def is_not_ready(d):
 @log1("继续")
 def continue_(task, times=4):
     for t in range(times):
-        task.d.click(*task.position.get('screen_bottom'))
-        time.sleep(1 + get_delay())
+        x, y = task.position.get('screen_bottom')
+        task.d.click(x + t, y + t)
+        time.sleep(0.7 + get_delay())
     return True
 
 
@@ -62,7 +63,7 @@ def is_fighting(task):
 def get_ready(d):
     if d.exists(img('not_ready')):
         d.click_nowait(img('ready_icon'))
-        time.sleep(1)
+        time.sleep(1 + get_delay())
         return True
     return False
 
@@ -89,7 +90,7 @@ def get_bonus_task(d):
 @log("点击确定")
 def click_ok(d):
     if d.click_image(img('confirm'), timeout=90.0):
-        time.sleep(3)
+        time.sleep(3 + get_delay())
         return True
     else:
         return False
@@ -98,7 +99,7 @@ def click_ok(d):
 @log("接受组队邀请")
 def click_get(d):
     if d.click_image(img('cancel'), offset=(2, 0), timeout=60.0):
-        time.sleep(3)
+        time.sleep(3 + get_delay())
         return True
     else:
         return False
