@@ -14,7 +14,7 @@ class ChallengeTask(Pipeline):
         for num in range(self.times):
             self.status = {"开始挑战": "going", "打怪": "ready"}
             if not self.task.start_challenge():
-                self.status["等待开始"] = "fail"
+                self.status["开始挑战"] = "fail"
                 break
             self.status["开始挑战"] = "pass"
             self.status["打怪"] = "going"
